@@ -3,34 +3,61 @@ import ResourceDisplay from '../../components/ResourceDisplay/ResourceDisplay';
 
 interface GameUIProps {
   gameState: {
-    dataShards: number;
-    showIntegrationUpgradeBtn: boolean;
-    autoIntegrationLevel: number;
+    totalData: number;
+    processingCores: number;
+    integrationSpeed: number;
+    integrationEfficiency: number;
+    algorithms: number;
+    executables: number;
+    algorithmCost: number;
   };
-  handleGatherDataShards: () => void;
-  handleAutoIntegrationUpgrade: () => void;
+  synthesizeAlgorithm: () => void;
+  upgradeEfficiency: () => void;
+  addMultiplierTimesTwo: () => void;
+  addMultiplierTimesFour: () => void;
+  addMultiplierTimesEight: () => void;
+  addMultiplierTimesSixteen: () => void;
+  addMultiplierTimesThirtyTwo: () => void;
+  addMultiplierTimesSixtyFour: () => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
   gameState,
-  handleGatherDataShards,
-  handleAutoIntegrationUpgrade,
+  synthesizeAlgorithm,
+  upgradeEfficiency,
+  addMultiplierTimesTwo,
+  addMultiplierTimesFour,
+  addMultiplierTimesEight,
+  addMultiplierTimesSixteen,
+  addMultiplierTimesThirtyTwo,
+  addMultiplierTimesSixtyFour,
 }) => {
   return (
     <div>
       <ResourceDisplay gameState={gameState} />
-      {gameState.autoIntegrationLevel === 0 && (
-        <Button
-          onClick={handleGatherDataShards}
-          label="Integrate Data Shard"
-        ></Button>
-      )}
-      {gameState.showIntegrationUpgradeBtn && (
-        <Button
-          onClick={handleAutoIntegrationUpgrade}
-          label="Upgrade Data Integration"
-        />
-      )}
+      <Button
+        onClick={synthesizeAlgorithm}
+        label={`Synthesize Algorithm (${gameState.algorithmCost} Processing Cores)`}
+      ></Button>
+      <Button
+        onClick={upgradeEfficiency}
+        label={`Replenish Stamina (20 Processing Cores)`}
+      ></Button>
+      <Button onClick={addMultiplierTimesTwo} label="Multiplier x2"></Button>
+      <Button onClick={addMultiplierTimesFour} label="Multiplier x4"></Button>
+      <Button onClick={addMultiplierTimesEight} label="Multiplier x8"></Button>
+      <Button
+        onClick={addMultiplierTimesSixteen}
+        label="Multiplier x16"
+      ></Button>
+      <Button
+        onClick={addMultiplierTimesThirtyTwo}
+        label="Multiplier x32"
+      ></Button>
+      <Button
+        onClick={addMultiplierTimesSixtyFour}
+        label="Multiplier x64"
+      ></Button>
     </div>
   );
 };

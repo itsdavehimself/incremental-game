@@ -1,34 +1,60 @@
 interface ResourceDisplayProps {
   gameState: {
-    dataShards: number;
-    autoIntegrationLevel: number;
+    totalData: number;
+    processingCores: number;
+    integrationSpeed: number;
+    integrationEfficiency: number;
+    algorithms: number;
+    executables: number;
   };
 }
 
 const ResourceDisplay: React.FC<ResourceDisplayProps> = ({ gameState }) => {
   const formatData = (bytes: number): string => {
     if (bytes < 1024) {
-      return bytes + 'B';
+      return bytes.toFixed(0) + 'B';
     } else if (bytes < 1024 * 1024) {
-      return (bytes / 1024).toFixed(1) + 'KB';
+      return (bytes / 1024).toFixed(2) + 'KB';
     } else if (bytes < 1024 * 1024 * 1024) {
-      return (bytes / (1024 * 1024)).toFixed(1) + 'MB';
+      return (bytes / (1024 * 1024)).toFixed(2) + 'MB';
     } else if (bytes < 1024 * 1024 * 1024 * 1024) {
-      return (bytes / (1024 * 1024 * 1024)).toFixed(1) + 'GB';
+      return (bytes / (1024 * 1024 * 1024)).toFixed(2) + 'GB';
     } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024) {
-      return (bytes / (1024 * 1024 * 1024 * 1024)).toFixed(1) + 'TB';
+      return (bytes / (1024 * 1024 * 1024 * 1024)).toFixed(2) + 'TB';
+    } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
+      return (bytes / (1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'PB';
+    } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
+      return (
+        (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'EB'
+      );
+    } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
+      return (
+        (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) +
+        'ZB'
+      );
     } else {
-      return (bytes / (1024 * 1024 * 1024 * 1024 * 1024)).toFixed(1) + 'PB';
+      return (
+        (
+          bytes /
+          (1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)
+        ).toFixed(2) + 'YB'
+      );
     }
   };
 
   return (
-    <>
-      <div className="resource-display">
-        Data Shards: {formatData(gameState.dataShards)}
+    <div className="resource-display">
+      <div>Integrated Data: {formatData(gameState.totalData)}</div>
+      <div>
+        Integration Speed: {formatData(gameState.integrationSpeed * 100)}/s
       </div>
-      <div>Automated Integration Level: {gameState.autoIntegrationLevel}</div>
-    </>
+      <div>Processing Cores: {Math.floor(gameState.processingCores)}</div>
+      <div>
+        Integration Stamina: {Math.floor(gameState.integrationEfficiency)}
+      </div>
+      <div>Integration Algorithms: {Math.floor(gameState.algorithms)}</div>
+      <div>.exe Binaries: {Math.floor(gameState.executables)}</div>
+    </div>
   );
 };
 
