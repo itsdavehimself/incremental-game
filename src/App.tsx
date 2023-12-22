@@ -1,70 +1,179 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import GameUI from './containers/GameUI/GameUI';
 import './app.scss';
 
 interface GameState {
-  dataShards: number;
-  showIntegrationUpgradeBtn: boolean;
-  autoIntegrationLevel: number;
+  totalData: number;
+  processingCores: number;
+  integrationSpeed: number;
+  integrationEfficiency: number;
+  algorithms: number;
+  executables: number;
+  algorithmCost: number;
+  multiplier: number;
 }
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
-    dataShards: 0,
-    showIntegrationUpgradeBtn: false,
-    autoIntegrationLevel: 0,
+    totalData: 0,
+    processingCores: 0,
+    integrationSpeed: 0,
+    integrationEfficiency: 1000,
+    algorithms: 1,
+    executables: 0,
+    algorithmCost: 6,
+    multiplier: 1,
   });
 
-  const intervalRef = useRef<number | null>(null);
+  const algorithmCostBase = 6;
+  const rateGrowth = 1.07; // original is 1.07
+  const processingCoreProductionBase = 1.2 / 750;
+  const dataProductionBase = 1038 / 100;
+  const newAlgorithmCost = (currentNumberAlgorithms: number) => {
+    const newCost = algorithmCostBase * rateGrowth ** currentNumberAlgorithms;
+    return Math.ceil(newCost);
+  };
 
-  const handleGatherDataShards = () => {
+  const synthesizeAlgorithm = () => {
     setGameState((prevGameState) => {
-      const totalDataShards = prevGameState.dataShards + 1;
-      const showIntegrationUpgradeBtn = totalDataShards >= 10;
+      const incrementAlgorithm = prevGameState.algorithms + 1;
+      const subtractProcessingCores =
+        prevGameState.processingCores - prevGameState.algorithmCost;
+      if (prevGameState.processingCores >= prevGameState.algorithmCost) {
+        const updatedAlgorithmCost = newAlgorithmCost(prevGameState.algorithms);
+        return {
+          ...prevGameState,
+          algorithms: incrementAlgorithm,
+          processingCores: subtractProcessingCores,
+          algorithmCost: updatedAlgorithmCost,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
+  const addMultiplierTimesTwo = () => {
+    setGameState((prevGameState) => {
       return {
         ...prevGameState,
-        dataShards: totalDataShards,
-        showIntegrationUpgradeBtn,
+        multiplier: 2,
+      };
+    });
+  };
+  const addMultiplierTimesFour = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        multiplier: 4,
+      };
+    });
+  };
+  const addMultiplierTimesEight = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        multiplier: 8,
+      };
+    });
+  };
+  const addMultiplierTimesSixteen = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        multiplier: 16,
+      };
+    });
+  };
+  const addMultiplierTimesThirtyTwo = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        multiplier: 32,
+      };
+    });
+  };
+  const addMultiplierTimesSixtyFour = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        multiplier: 64,
       };
     });
   };
 
-  const handleAutoIntegrationUpgrade = () => {
+  const upgradeEfficiency = () => {
     setGameState((prevGameState) => {
-      if (gameState.autoIntegrationLevel >= 0 && intervalRef.current === null) {
-        intervalRef.current = setInterval(() => {
-          setGameState((innerPrevGameState) => {
-            const totalDataShards = innerPrevGameState.dataShards + 1;
-            return {
-              ...innerPrevGameState,
-              dataShards: totalDataShards,
-              showIntegrationUpgradeBtn: false,
-            };
-          });
-        }, 10);
+      const addEfficiency = prevGameState.integrationEfficiency + 1000;
+      const subtractProcessingCores = prevGameState.processingCores - 20;
+      if (prevGameState.processingCores >= 20) {
+        return {
+          ...prevGameState,
+          integrationEfficiency: addEfficiency,
+          processingCores: subtractProcessingCores,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
       }
-
-      return {
-        ...prevGameState,
-        autoIntegrationLevel: prevGameState.autoIntegrationLevel + 1,
-      };
     });
   };
 
   useEffect(() => {
-    return () => {
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-      }
-    };
+    const intervalID = setInterval(() => {
+      setGameState((prevGameState) => {
+        if (prevGameState.integrationEfficiency > 0) {
+          const processingCoreProductionTotal =
+            processingCoreProductionBase *
+            prevGameState.algorithms *
+            prevGameState.multiplier;
+
+          const newProcessingCoresTotal =
+            prevGameState.processingCores + processingCoreProductionTotal;
+
+          const dataProductionTotal =
+            dataProductionBase *
+            prevGameState.algorithms *
+            prevGameState.multiplier;
+
+          const newDataTotal = prevGameState.totalData + dataProductionTotal;
+
+          const integrationEfficiencyTotal =
+            prevGameState.integrationEfficiency - dataProductionTotal / 2000;
+
+          return {
+            ...prevGameState,
+            totalData: newDataTotal,
+            processingCores: newProcessingCoresTotal,
+            integrationSpeed: dataProductionTotal,
+            integrationEfficiency: integrationEfficiencyTotal,
+          };
+        } else {
+          return {
+            ...prevGameState,
+          };
+        }
+      });
+    }, 10);
+
+    return () => clearInterval(intervalID);
   }, []);
 
   return (
     <div className="app">
       <GameUI
         gameState={gameState}
-        handleGatherDataShards={handleGatherDataShards}
-        handleAutoIntegrationUpgrade={handleAutoIntegrationUpgrade}
+        synthesizeAlgorithm={synthesizeAlgorithm}
+        upgradeEfficiency={upgradeEfficiency}
+        addMultiplierTimesTwo={addMultiplierTimesTwo}
+        addMultiplierTimesFour={addMultiplierTimesFour}
+        addMultiplierTimesEight={addMultiplierTimesEight}
+        addMultiplierTimesSixteen={addMultiplierTimesSixteen}
+        addMultiplierTimesThirtyTwo={addMultiplierTimesThirtyTwo}
+        addMultiplierTimesSixtyFour={addMultiplierTimesSixtyFour}
       />
     </div>
   );
