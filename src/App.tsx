@@ -55,51 +55,12 @@ const App: React.FC = () => {
     });
   };
 
-  const addMultiplierTimesTwo = () => {
+  const activateMultiplier = () => {
     setGameState((prevGameState) => {
+      const updatedMultiplier = prevGameState.multiplier * 2;
       return {
         ...prevGameState,
-        multiplier: 2,
-      };
-    });
-  };
-  const addMultiplierTimesFour = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        multiplier: 4,
-      };
-    });
-  };
-  const addMultiplierTimesEight = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        multiplier: 8,
-      };
-    });
-  };
-  const addMultiplierTimesSixteen = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        multiplier: 16,
-      };
-    });
-  };
-  const addMultiplierTimesThirtyTwo = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        multiplier: 32,
-      };
-    });
-  };
-  const addMultiplierTimesSixtyFour = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        multiplier: 64,
+        multiplier: updatedMultiplier,
       };
     });
   };
@@ -107,8 +68,8 @@ const App: React.FC = () => {
   const upgradeEfficiency = () => {
     setGameState((prevGameState) => {
       const addEfficiency = prevGameState.integrationEfficiency + 1000;
-      const subtractProcessingCores = prevGameState.processingCores - 20;
-      if (prevGameState.processingCores >= 20) {
+      const subtractProcessingCores = prevGameState.processingCores - 50;
+      if (prevGameState.processingCores >= 50) {
         return {
           ...prevGameState,
           integrationEfficiency: addEfficiency,
@@ -168,12 +129,7 @@ const App: React.FC = () => {
         gameState={gameState}
         synthesizeAlgorithm={synthesizeAlgorithm}
         upgradeEfficiency={upgradeEfficiency}
-        addMultiplierTimesTwo={addMultiplierTimesTwo}
-        addMultiplierTimesFour={addMultiplierTimesFour}
-        addMultiplierTimesEight={addMultiplierTimesEight}
-        addMultiplierTimesSixteen={addMultiplierTimesSixteen}
-        addMultiplierTimesThirtyTwo={addMultiplierTimesThirtyTwo}
-        addMultiplierTimesSixtyFour={addMultiplierTimesSixtyFour}
+        activateMultiplier={activateMultiplier}
       />
     </div>
   );
