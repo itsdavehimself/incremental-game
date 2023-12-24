@@ -13,51 +13,27 @@ interface GameUIProps {
   };
   synthesizeAlgorithm: () => void;
   upgradeEfficiency: () => void;
-  addMultiplierTimesTwo: () => void;
-  addMultiplierTimesFour: () => void;
-  addMultiplierTimesEight: () => void;
-  addMultiplierTimesSixteen: () => void;
-  addMultiplierTimesThirtyTwo: () => void;
-  addMultiplierTimesSixtyFour: () => void;
+  activateMultiplier: () => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
   gameState,
   synthesizeAlgorithm,
   upgradeEfficiency,
-  addMultiplierTimesTwo,
-  addMultiplierTimesFour,
-  addMultiplierTimesEight,
-  addMultiplierTimesSixteen,
-  addMultiplierTimesThirtyTwo,
-  addMultiplierTimesSixtyFour,
+  activateMultiplier,
 }) => {
   return (
     <div>
       <ResourceDisplay gameState={gameState} />
       <Button
         onClick={synthesizeAlgorithm}
-        label={`Synthesize Algorithm (${gameState.algorithmCost} Processing Cores)`}
+        label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
       ></Button>
       <Button
         onClick={upgradeEfficiency}
-        label={`Replenish Stamina (20 Processing Cores)`}
+        label={`Replenish Stamina (50 Processing Cores)`}
       ></Button>
-      <Button onClick={addMultiplierTimesTwo} label="Multiplier x2"></Button>
-      <Button onClick={addMultiplierTimesFour} label="Multiplier x4"></Button>
-      <Button onClick={addMultiplierTimesEight} label="Multiplier x8"></Button>
-      <Button
-        onClick={addMultiplierTimesSixteen}
-        label="Multiplier x16"
-      ></Button>
-      <Button
-        onClick={addMultiplierTimesThirtyTwo}
-        label="Multiplier x32"
-      ></Button>
-      <Button
-        onClick={addMultiplierTimesSixtyFour}
-        label="Multiplier x64"
-      ></Button>
+      <Button onClick={activateMultiplier} label="Multiplier"></Button>
     </div>
   );
 };

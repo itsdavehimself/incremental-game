@@ -48,12 +48,21 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({ gameState }) => {
       <div>
         Integration Speed: {formatData(gameState.integrationSpeed * 100)}/s
       </div>
-      <div>Processing Cores: {Math.floor(gameState.processingCores)}</div>
       <div>
-        Integration Stamina: {Math.floor(gameState.integrationEfficiency)}
+        Processing Cores:{' '}
+        {Math.floor(gameState.processingCores).toLocaleString()}
       </div>
-      <div>Integration Algorithms: {Math.floor(gameState.algorithms)}</div>
-      <div>.exe Binaries: {Math.floor(gameState.executables)}</div>
+      <div>
+        Integration Stamina:{' '}
+        {Math.floor(gameState.integrationEfficiency).toLocaleString()}
+      </div>
+      <div>
+        Integration Algorithms:{' '}
+        {Math.floor(gameState.algorithms).toLocaleString()}
+      </div>
+      <div>
+        .exe Binaries: {Math.floor(gameState.executables).toLocaleString()}
+      </div>
     </div>
   );
 };
