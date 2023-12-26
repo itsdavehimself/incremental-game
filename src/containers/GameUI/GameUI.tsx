@@ -6,21 +6,27 @@ interface GameUIProps {
     totalData: number;
     processingCores: number;
     integrationSpeed: number;
-    integrationEfficiency: number;
+    integrationStamina: number;
     algorithms: number;
     executables: number;
     algorithmCost: number;
+    algorithmMultiplierIndex: number;
+    algorithMultiplierPercentage: Array<number>;
+    staminaMultiplierIndex: number;
+    staminaMultiplierPercentage: Array<number>;
   };
   synthesizeAlgorithm: () => void;
-  upgradeEfficiency: () => void;
+  replenishStamina: () => void;
   activateMultiplier: () => void;
+  upgradeStaminaReplenishment: () => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
   gameState,
   synthesizeAlgorithm,
-  upgradeEfficiency,
+  replenishStamina,
   activateMultiplier,
+  upgradeStaminaReplenishment,
 }) => {
   return (
     <div>
@@ -30,8 +36,16 @@ const GameUI: React.FC<GameUIProps> = ({
         label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
       ></Button>
       <Button
-        onClick={upgradeEfficiency}
+        onClick={replenishStamina}
         label={`Replenish Stamina (50 Processing Cores)`}
+      ></Button>
+      <Button
+        onClick={upgradeStaminaReplenishment}
+        label={`Increase Stamina Replishment by ${
+          gameState.staminaMultiplierPercentage[
+            gameState.staminaMultiplierIndex
+          ] * 100
+        }%`}
       ></Button>
       <Button onClick={activateMultiplier} label="Multiplier"></Button>
     </div>
