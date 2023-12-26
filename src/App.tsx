@@ -6,11 +6,17 @@ interface GameState {
   totalData: number;
   processingCores: number;
   integrationSpeed: number;
-  integrationEfficiency: number;
+  integrationStamina: number;
   algorithms: number;
   executables: number;
   algorithmCost: number;
-  multiplier: number;
+  algorithmMultiplier: number;
+  algorithmMultiplierIndex: number;
+  algorithMultiplierPercentage: Array<number>;
+  staminaMultiplier: number;
+  staminaMultiplierIndex: number;
+  staminaMultiplierPercentage: Array<number>;
+  autoStaminaReplenishment: boolean;
 }
 
 const App: React.FC = () => {
@@ -18,19 +24,26 @@ const App: React.FC = () => {
     totalData: 0,
     processingCores: 0,
     integrationSpeed: 0,
-    integrationEfficiency: 1000,
+    integrationStamina: 1000,
     algorithms: 1,
     executables: 0,
     algorithmCost: 6,
-    multiplier: 1,
+    algorithmMultiplier: 1,
+    algorithmMultiplierIndex: 0,
+    algorithMultiplierPercentage: [0.25, 0.5, 0.75, 1, 2, 4, 8, 16],
+    staminaMultiplier: 1,
+    staminaMultiplierIndex: 0,
+    staminaMultiplierPercentage: [0.5, 1, 1.5, 2],
+    autoStaminaReplenishment: false,
   });
 
   const algorithmCostBase = 6;
-  const rateGrowth = 1.07; // original is 1.07
+  const algorithmCostRateGrowth = 1.07;
   const processingCoreProductionBase = 1.2 / 750;
   const dataProductionBase = 1038 / 100;
   const newAlgorithmCost = (currentNumberAlgorithms: number) => {
-    const newCost = algorithmCostBase * rateGrowth ** currentNumberAlgorithms;
+    const newCost =
+      algorithmCostBase * algorithmCostRateGrowth ** currentNumberAlgorithms;
     return Math.ceil(newCost);
   };
 
@@ -57,22 +70,31 @@ const App: React.FC = () => {
 
   const activateMultiplier = () => {
     setGameState((prevGameState) => {
-      const updatedMultiplier = prevGameState.multiplier * 2;
+      const updatedMultiplier =
+        prevGameState.algorithmMultiplier *
+        (1 +
+          prevGameState.algorithMultiplierPercentage[
+            prevGameState.algorithmMultiplierIndex
+          ]);
+      const updatedIndex = prevGameState.algorithmMultiplierIndex + 1;
       return {
         ...prevGameState,
-        multiplier: updatedMultiplier,
+        algorithmMultiplier: updatedMultiplier,
+        algorithmMultiplierIndex: updatedIndex,
       };
     });
   };
 
-  const upgradeEfficiency = () => {
+  const replenishStamina = () => {
     setGameState((prevGameState) => {
-      const addEfficiency = prevGameState.integrationEfficiency + 1000;
+      const addStamina =
+        prevGameState.integrationStamina +
+        1000 * prevGameState.staminaMultiplier;
       const subtractProcessingCores = prevGameState.processingCores - 50;
       if (prevGameState.processingCores >= 50) {
         return {
           ...prevGameState,
-          integrationEfficiency: addEfficiency,
+          integrationStamina: addStamina,
           processingCores: subtractProcessingCores,
         };
       } else {
@@ -83,14 +105,31 @@ const App: React.FC = () => {
     });
   };
 
+  const upgradeStaminaReplenishment = () => {
+    setGameState((prevGameState) => {
+      const updatedStaminamMultiplier =
+        prevGameState.staminaMultiplier *
+        (1 +
+          prevGameState.staminaMultiplierPercentage[
+            prevGameState.staminaMultiplierIndex
+          ]);
+      const updatedIndex = prevGameState.staminaMultiplierIndex + 1;
+      return {
+        ...prevGameState,
+        staminaMultiplier: updatedStaminamMultiplier,
+        staminaMultiplierIndex: updatedIndex,
+      };
+    });
+  };
+
   useEffect(() => {
     const intervalID = setInterval(() => {
       setGameState((prevGameState) => {
-        if (prevGameState.integrationEfficiency > 0) {
+        if (prevGameState.integrationStamina > 0) {
           const processingCoreProductionTotal =
             processingCoreProductionBase *
             prevGameState.algorithms *
-            prevGameState.multiplier;
+            prevGameState.algorithmMultiplier;
 
           const newProcessingCoresTotal =
             prevGameState.processingCores + processingCoreProductionTotal;
@@ -98,25 +137,40 @@ const App: React.FC = () => {
           const dataProductionTotal =
             dataProductionBase *
             prevGameState.algorithms *
-            prevGameState.multiplier;
+            prevGameState.algorithmMultiplier;
 
           const newDataTotal = prevGameState.totalData + dataProductionTotal;
 
-          const integrationEfficiencyTotal =
-            prevGameState.integrationEfficiency - dataProductionTotal / 2000;
+          const integrationStaminaTotal =
+            prevGameState.integrationStamina - dataProductionTotal / 2000;
 
           return {
             ...prevGameState,
             totalData: newDataTotal,
             processingCores: newProcessingCoresTotal,
             integrationSpeed: dataProductionTotal,
-            integrationEfficiency: integrationEfficiencyTotal,
+            integrationStamina: integrationStaminaTotal,
           };
-        } else {
-          return {
-            ...prevGameState,
-          };
+        } else if (
+          prevGameState.autoStaminaReplenishment &&
+          prevGameState.integrationStamina < 1
+        ) {
+          const addStamina =
+            prevGameState.integrationStamina +
+            1000 * prevGameState.staminaMultiplier;
+
+          const subtractProcessingCores = prevGameState.processingCores - 50;
+
+          if (prevGameState.processingCores >= 50) {
+            return {
+              ...prevGameState,
+              integrationStamina: addStamina,
+              processingCores: subtractProcessingCores,
+            };
+          }
         }
+
+        return { ...prevGameState };
       });
     }, 10);
 
@@ -128,8 +182,9 @@ const App: React.FC = () => {
       <GameUI
         gameState={gameState}
         synthesizeAlgorithm={synthesizeAlgorithm}
-        upgradeEfficiency={upgradeEfficiency}
+        replenishStamina={replenishStamina}
         activateMultiplier={activateMultiplier}
+        upgradeStaminaReplenishment={upgradeStaminaReplenishment}
       />
     </div>
   );
