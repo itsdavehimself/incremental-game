@@ -3,7 +3,7 @@ interface ResourceDisplayProps {
     totalData: number;
     processingCores: number;
     integrationSpeed: number;
-    integrationEfficiency: number;
+    integrationStamina: number;
     algorithms: number;
     executables: number;
   };
@@ -54,7 +54,7 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({ gameState }) => {
       </div>
       <div>
         Integration Stamina:{' '}
-        {Math.floor(gameState.integrationEfficiency).toLocaleString()}
+        {Math.floor(gameState.integrationStamina).toLocaleString()}
       </div>
       <div>
         Integration Algorithms:{' '}
