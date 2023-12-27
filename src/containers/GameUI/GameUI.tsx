@@ -64,11 +64,13 @@ const GameUI: React.FC<GameUIProps> = ({
         }%`}
       ></Button>
       <Button onClick={activateMultiplier} label="Multiplier"></Button>
-      <Network
-        gameState={gameState}
-        allocateToGPU={allocateToGPU}
-        allocateToStorage={allocateToStorage}
-      />
+      {gameState.networksActivated && (
+        <Network
+          gameState={gameState}
+          allocateToGPU={allocateToGPU}
+          allocateToStorage={allocateToStorage}
+        />
+      )}
     </div>
   );
 };
