@@ -17,6 +17,13 @@ interface GameState {
   staminaMultiplierIndex: number;
   staminaMultiplierPercentage: Array<number>;
   autoStaminaReplenishment: boolean;
+  networksActivated: boolean;
+  networks: number;
+  GPUFarms: number;
+  storageFacilities: number;
+  currentNodes: number;
+  totalNodes: number;
+  cognitum: number;
 }
 
 const App: React.FC = () => {
@@ -35,6 +42,13 @@ const App: React.FC = () => {
     staminaMultiplierIndex: 0,
     staminaMultiplierPercentage: [0.5, 1, 1.5, 2],
     autoStaminaReplenishment: false,
+    networksActivated: false,
+    networks: 0,
+    GPUFarms: 0,
+    storageFacilities: 0,
+    currentNodes: 0,
+    totalNodes: 0,
+    cognitum: 0,
   });
 
   const algorithmCostBase = 6;

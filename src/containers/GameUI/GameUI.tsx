@@ -1,5 +1,6 @@
 import Button from '../../components/Button/Button';
 import ResourceDisplay from '../../components/ResourceDisplay/ResourceDisplay';
+import Network from '../../components/Network/Network';
 
 interface GameUIProps {
   gameState: {
@@ -10,10 +11,18 @@ interface GameUIProps {
     algorithms: number;
     executables: number;
     algorithmCost: number;
+    algorithmMultiplier: number;
     algorithmMultiplierIndex: number;
     algorithMultiplierPercentage: Array<number>;
+    staminaMultiplier: number;
     staminaMultiplierIndex: number;
     staminaMultiplierPercentage: Array<number>;
+    autoStaminaReplenishment: boolean;
+    networksActivated: boolean;
+    networks: number;
+    GPUFarms: number;
+    storageFacilities: number;
+    cognitum: number;
   };
   synthesizeAlgorithm: () => void;
   replenishStamina: () => void;
@@ -48,6 +57,7 @@ const GameUI: React.FC<GameUIProps> = ({
         }%`}
       ></Button>
       <Button onClick={activateMultiplier} label="Multiplier"></Button>
+      <Network gameState={gameState} />
     </div>
   );
 };
