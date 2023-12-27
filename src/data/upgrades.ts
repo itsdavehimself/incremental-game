@@ -63,7 +63,7 @@ const upgrades: Upgrades = {
         currency: 'nodes',
         amount: 2000,
       },
-      multiplier: 0.5,
+      multiplier: 1,
       purchased: false,
     },
     {
