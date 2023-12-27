@@ -67,9 +67,9 @@ const upgrades: Upgrades = {
       purchased: false,
     },
     {
-      name: 'Cascading Infinity Stream',
+      name: 'Transcendent Bandwidth Matrix',
       description:
-        'Implement cascading streams, increasing bandwidth replenishment by another 150%.',
+        'Implement a transcendent matrix, increasing bandwidth replenishment by another 150%.',
       cost: {
         currency: 'nodes',
         amount: 3000,
@@ -80,7 +80,7 @@ const upgrades: Upgrades = {
     {
       name: 'Singularity Bandwidth Core',
       description:
-        'Attain a bandwidth singularity, automatically replenishing bandwidth.',
+        'Attain a bandwidth singularity, providing infinite bandwidth.',
       cost: {
         currency: 'nodes',
         amount: 4000,
