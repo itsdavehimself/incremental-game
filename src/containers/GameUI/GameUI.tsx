@@ -31,6 +31,8 @@ interface GameUIProps {
   replenishStamina: () => void;
   activateMultiplier: () => void;
   upgradeStaminaReplenishment: () => void;
+  allocateToGPU: () => void;
+  allocateToStorage: () => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
@@ -39,6 +41,8 @@ const GameUI: React.FC<GameUIProps> = ({
   replenishStamina,
   activateMultiplier,
   upgradeStaminaReplenishment,
+  allocateToGPU,
+  allocateToStorage,
 }) => {
   return (
     <div>
@@ -60,7 +64,11 @@ const GameUI: React.FC<GameUIProps> = ({
         }%`}
       ></Button>
       <Button onClick={activateMultiplier} label="Multiplier"></Button>
-      <Network gameState={gameState} />
+      <Network
+        gameState={gameState}
+        allocateToGPU={allocateToGPU}
+        allocateToStorage={allocateToStorage}
+      />
     </div>
   );
 };
