@@ -289,8 +289,10 @@ const App: React.FC = () => {
 
           const newDataTotal = prevGameState.totalData + dataProductionTotal;
 
-          const integrationStaminaTotal =
-            prevGameState.integrationStamina - dataProductionTotal / 2000;
+          const integrationStaminaTotal = Math.max(
+            prevGameState.integrationStamina - dataProductionTotal / 2000,
+            0,
+          );
 
           checkNetworkMilestones();
 
