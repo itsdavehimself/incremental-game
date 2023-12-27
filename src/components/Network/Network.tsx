@@ -1,10 +1,11 @@
 interface NetworkProps {
   gameState: {
     networks: number;
+    networksAvailable: number;
     GPUFarms: number;
     storageFacilities: number;
-    currentNodes: number;
-    totalNodes: number;
+    nodesCurrent: number;
+    nodesTotal: number;
     cognitum: number;
   };
 }
@@ -12,11 +13,14 @@ interface NetworkProps {
 const Network: React.FC<NetworkProps> = ({ gameState }) => {
   return (
     <div>
-      <div>Devices on Network: {gameState.networks}</div>
+      <div>Networks: {gameState.networks}</div>
+      <div>
+        Networks Available for Allocation: {gameState.networksAvailable}
+      </div>
       <div>Allocated as GPU Farms: {gameState.GPUFarms}</div>
       <div>Allocated as Storage Facilities: {gameState.storageFacilities}</div>
       <div>
-        Active nodes: {gameState.currentNodes}/{gameState.totalNodes}
+        Active nodes: {gameState.nodesCurrent}/{gameState.nodesTotal}
       </div>
       <div>Cognitum Mined: {gameState.cognitum}</div>
     </div>
