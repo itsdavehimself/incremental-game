@@ -170,8 +170,8 @@ const App: React.FC = () => {
       }
 
       const milestones = [
-        3e6, 5e6, 8e6, 1.3e7, 2.1e7, 3.4e7, 5.5e7, 8.9e7, 1.4e8, 2.3e8, 3.7e8,
-        6e8, 9.7e8, 1.6e9, 2.6e9, 4.2e9, 6.8e9, 1.1e10, 1.8e10, 2.9e10, 4.7e10,
+        5e6, 8e6, 1.3e7, 2.1e7, 3.4e7, 5.5e7, 8.9e7, 1.4e8, 2.3e8, 3.7e8, 6e8,
+        9.7e8, 1.6e9, 2.6e9, 4.2e9, 6.8e9, 1.1e10, 1.8e10, 2.9e10, 4.7e10,
         7.6e10, 1.2e11, 1.9e11, 3.1e11, 5e11, 8.1e11, 1.3e12, 2.1e12, 3.4e12,
         5.5e12, 8.9e12, 1.4e13, 2.3e13, 3.7e13, 6e13, 9.7e13, 1.6e14, 2.6e14,
       ];
@@ -190,9 +190,89 @@ const App: React.FC = () => {
     });
   };
 
+  const allocateToGPU = () => {
+    setGameState((prevGameState) => {
+      if (prevGameState.networksAvailable > 0) {
+        return {
+          ...prevGameState,
+          networksAvailable: prevGameState.networksAvailable - 1,
+          GPUFarms: prevGameState.GPUFarms + 1,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
+  const allocateToStorage = () => {
+    setGameState((prevGameState) => {
+      if (prevGameState.networksAvailable > 0) {
+        return {
+          ...prevGameState,
+          networksAvailable: prevGameState.networksAvailable - 1,
+          storageFacilities: prevGameState.storageFacilities + 1,
+          nodesTotal: prevGameState.nodesTotal + 1000,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
+  const incrementActiveNodes = () => {
+    setGameState((prevGameState) => {
+      if (
+        prevGameState.networksActivated &&
+        prevGameState.nodesCurrent < prevGameState.nodesTotal
+      ) {
+        const incrementedNodes =
+          prevGameState.nodesCurrent + (1 / 25) * prevGameState.GPUFarms;
+        const updatedNodesCurrent = Math.min(
+          incrementedNodes,
+          prevGameState.nodesTotal,
+        );
+
+        return {
+          ...prevGameState,
+          nodesCurrent: updatedNodesCurrent,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
+  const incrementCognitum = () => {
+    setGameState((prevGameState) => {
+      if (
+        prevGameState.networksActivated &&
+        prevGameState.nodesCurrent === prevGameState.nodesTotal
+      ) {
+        const incrementedCognitum = prevGameState.cognitum + 1 / 250;
+
+        return {
+          ...prevGameState,
+          cognitum: incrementedCognitum,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
   useEffect(() => {
     const intervalID = setInterval(() => {
       setGameState((prevGameState) => {
+        incrementActiveNodes();
+        incrementCognitum();
         if (prevGameState.integrationStamina > 0) {
           const processingCoreProductionTotal =
             processingCoreProductionBase *
@@ -255,6 +335,8 @@ const App: React.FC = () => {
         replenishStamina={replenishStamina}
         activateMultiplier={activateMultiplier}
         upgradeStaminaReplenishment={upgradeStaminaReplenishment}
+        allocateToGPU={allocateToGPU}
+        allocateToStorage={allocateToStorage}
       />
     </div>
   );
