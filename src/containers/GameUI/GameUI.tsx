@@ -20,8 +20,11 @@ interface GameUIProps {
     autoStaminaReplenishment: boolean;
     networksActivated: boolean;
     networks: number;
+    networksAvailable: number;
     GPUFarms: number;
     storageFacilities: number;
+    nodesCurrent: number;
+    nodesTotal: number;
     cognitum: number;
   };
   synthesizeAlgorithm: () => void;
