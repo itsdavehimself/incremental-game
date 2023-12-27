@@ -1,23 +1,24 @@
 import Button from '../../components/Button/Button';
 import ResourceDisplay from '../../components/ResourceDisplay/ResourceDisplay';
 import Network from '../../components/Network/Network';
+import Upgrades from '../../components/Upgrades/Upgrades';
 
 interface GameUIProps {
   gameState: {
     totalData: number;
     processingCores: number;
     integrationSpeed: number;
-    integrationStamina: number;
+    integrationBandwidth: number;
     algorithms: number;
     executables: number;
     algorithmCost: number;
     algorithmMultiplier: number;
     algorithmMultiplierIndex: number;
     algorithMultiplierPercentage: Array<number>;
-    staminaMultiplier: number;
-    staminaMultiplierIndex: number;
-    staminaMultiplierPercentage: Array<number>;
-    autoStaminaReplenishment: boolean;
+    bandwidthMultiplier: number;
+    bandwidthMultiplierIndex: number;
+    bandwidthMultiplierPercentage: Array<number>;
+    autoBandwidthReplenishment: boolean;
     networksActivated: boolean;
     networks: number;
     networksAvailable: number;
@@ -28,9 +29,9 @@ interface GameUIProps {
     cognitum: number;
   };
   synthesizeAlgorithm: () => void;
-  replenishStamina: () => void;
+  replenishBandwidth: () => void;
   activateMultiplier: () => void;
-  upgradeStaminaReplenishment: () => void;
+  upgradeBandwidthReplenishment: () => void;
   allocateToGPU: () => void;
   allocateToStorage: () => void;
 }
@@ -38,9 +39,9 @@ interface GameUIProps {
 const GameUI: React.FC<GameUIProps> = ({
   gameState,
   synthesizeAlgorithm,
-  replenishStamina,
+  replenishBandwidth,
   activateMultiplier,
-  upgradeStaminaReplenishment,
+  upgradeBandwidthReplenishment,
   allocateToGPU,
   allocateToStorage,
 }) => {
@@ -52,18 +53,14 @@ const GameUI: React.FC<GameUIProps> = ({
         label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
       ></Button>
       <Button
-        onClick={replenishStamina}
-        label={`Replenish Stamina (50 Processing Cores)`}
+        onClick={replenishBandwidth}
+        label={`Replenish Bandwidth (50 Processing Cores)`}
       ></Button>
-      <Button
-        onClick={upgradeStaminaReplenishment}
-        label={`Increase Stamina Replishment by ${
-          gameState.staminaMultiplierPercentage[
-            gameState.staminaMultiplierIndex
-          ] * 100
-        }%`}
-      ></Button>
-      <Button onClick={activateMultiplier} label="Multiplier"></Button>
+      <Upgrades
+        gameState={gameState}
+        activateMultiplier={activateMultiplier}
+        upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
+      />
       {gameState.networksActivated && (
         <Network
           gameState={gameState}
