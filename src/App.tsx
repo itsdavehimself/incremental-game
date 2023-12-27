@@ -19,11 +19,13 @@ interface GameState {
   autoStaminaReplenishment: boolean;
   networksActivated: boolean;
   networks: number;
+  networksAvailable: number;
   GPUFarms: number;
   storageFacilities: number;
-  currentNodes: number;
-  totalNodes: number;
+  nodesCurrent: number;
+  nodesTotal: number;
   cognitum: number;
+  networkMilestonesIndex: number;
 }
 
 const App: React.FC = () => {
@@ -44,11 +46,13 @@ const App: React.FC = () => {
     autoStaminaReplenishment: false,
     networksActivated: false,
     networks: 0,
+    networksAvailable: 0,
     GPUFarms: 0,
     storageFacilities: 0,
-    currentNodes: 0,
-    totalNodes: 0,
+    nodesCurrent: 0,
+    nodesTotal: 0,
     cognitum: 0,
+    networkMilestonesIndex: 0,
   });
 
   const algorithmCostBase = 6;
@@ -136,6 +140,56 @@ const App: React.FC = () => {
     });
   };
 
+  const activateNetworks = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        networksActivated: true,
+        networks: 2,
+        nodesTotal: 1000,
+        GPUFarms: 1,
+        storageFacilities: 1,
+      };
+    });
+  };
+
+  const earnNetworks = () => {
+    setGameState((prevGameState) => ({
+      ...prevGameState,
+      networks: prevGameState.networks + 1,
+      networksAvailable: prevGameState.networksAvailable + 1,
+    }));
+  };
+
+  const checkNetworkMilestones = () => {
+    setGameState((prevGameState) => {
+      const currentTotalData = prevGameState.totalData;
+
+      if (currentTotalData >= 2e6 && !prevGameState.networksActivated) {
+        activateNetworks();
+      }
+
+      const milestones = [
+        3e6, 5e6, 8e6, 1.3e7, 2.1e7, 3.4e7, 5.5e7, 8.9e7, 1.4e8, 2.3e8, 3.7e8,
+        6e8, 9.7e8, 1.6e9, 2.6e9, 4.2e9, 6.8e9, 1.1e10, 1.8e10, 2.9e10, 4.7e10,
+        7.6e10, 1.2e11, 1.9e11, 3.1e11, 5e11, 8.1e11, 1.3e12, 2.1e12, 3.4e12,
+        5.5e12, 8.9e12, 1.4e13, 2.3e13, 3.7e13, 6e13, 9.7e13, 1.6e14, 2.6e14,
+      ];
+
+      if (
+        currentTotalData >= milestones[prevGameState.networkMilestonesIndex]
+      ) {
+        earnNetworks();
+        return {
+          ...prevGameState,
+          networkMilestonesIndex: prevGameState.networkMilestonesIndex + 1,
+        };
+      }
+
+      return prevGameState;
+    });
+  };
+
   useEffect(() => {
     const intervalID = setInterval(() => {
       setGameState((prevGameState) => {
@@ -157,6 +211,8 @@ const App: React.FC = () => {
 
           const integrationStaminaTotal =
             prevGameState.integrationStamina - dataProductionTotal / 2000;
+
+          checkNetworkMilestones();
 
           return {
             ...prevGameState,
