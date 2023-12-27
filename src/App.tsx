@@ -40,7 +40,7 @@ const App: React.FC = () => {
     algorithMultiplierPercentage: [0.25, 0.5, 0.75, 1, 2, 4, 8, 16],
     staminaMultiplier: 1,
     staminaMultiplierIndex: 0,
-    staminaMultiplierPercentage: [0.5, 1, 1.5, 2],
+    staminaMultiplierPercentage: [0.25, 0.5, 1],
     autoStaminaReplenishment: false,
     networksActivated: false,
     networks: 0,
