@@ -6,17 +6,17 @@ interface GameState {
   totalData: number;
   processingCores: number;
   integrationSpeed: number;
-  integrationStamina: number;
+  integrationBandwidth: number;
   algorithms: number;
   executables: number;
   algorithmCost: number;
   algorithmMultiplier: number;
   algorithmMultiplierIndex: number;
   algorithMultiplierPercentage: Array<number>;
-  staminaMultiplier: number;
-  staminaMultiplierIndex: number;
-  staminaMultiplierPercentage: Array<number>;
-  autoStaminaReplenishment: boolean;
+  bandwidthMultiplier: number;
+  bandwidthMultiplierIndex: number;
+  bandwidthMultiplierPercentage: Array<number>;
+  autoBandwidthReplenishment: boolean;
   networksActivated: boolean;
   networks: number;
   networksAvailable: number;
@@ -33,17 +33,17 @@ const App: React.FC = () => {
     totalData: 0,
     processingCores: 0,
     integrationSpeed: 0,
-    integrationStamina: 1000,
+    integrationBandwidth: 1000,
     algorithms: 1,
     executables: 0,
     algorithmCost: 6,
     algorithmMultiplier: 1,
     algorithmMultiplierIndex: 0,
     algorithMultiplierPercentage: [0.25, 0.5, 0.75, 1, 2, 4, 8, 16],
-    staminaMultiplier: 1,
-    staminaMultiplierIndex: 0,
-    staminaMultiplierPercentage: [0.25, 0.5, 1],
-    autoStaminaReplenishment: false,
+    bandwidthMultiplier: 1,
+    bandwidthMultiplierIndex: 0,
+    bandwidthMultiplierPercentage: [0.25, 0.5, 1],
+    autoBandwidthReplenishment: false,
     networksActivated: false,
     networks: 0,
     networksAvailable: 0,
@@ -55,28 +55,29 @@ const App: React.FC = () => {
     networkMilestonesIndex: 0,
   });
 
-  const algorithmCostBase = 6;
-  const algorithmCostRateGrowth = 1.07;
-  const processingCoreProductionBase = 1.2 / 750;
-  const dataProductionBase = 1038 / 100;
+  const config = {
+    algorithmCostBase: 6,
+    algorithmCostRateGrowth: 1.07,
+    processingCoreProductionBase: 1.2 / 750,
+    dataProductionBase: 1038 / 100,
+  };
+
   const newAlgorithmCost = (currentNumberAlgorithms: number) => {
     const newCost =
-      algorithmCostBase * algorithmCostRateGrowth ** currentNumberAlgorithms;
+      config.algorithmCostBase *
+      config.algorithmCostRateGrowth ** currentNumberAlgorithms;
     return Math.ceil(newCost);
   };
 
   const synthesizeAlgorithm = () => {
     setGameState((prevGameState) => {
-      const incrementAlgorithm = prevGameState.algorithms + 1;
-      const subtractProcessingCores =
-        prevGameState.processingCores - prevGameState.algorithmCost;
       if (prevGameState.processingCores >= prevGameState.algorithmCost) {
-        const updatedAlgorithmCost = newAlgorithmCost(prevGameState.algorithms);
         return {
           ...prevGameState,
-          algorithms: incrementAlgorithm,
-          processingCores: subtractProcessingCores,
-          algorithmCost: updatedAlgorithmCost,
+          algorithms: prevGameState.algorithms + 1,
+          processingCores:
+            prevGameState.processingCores - prevGameState.algorithmCost,
+          algorithmCost: newAlgorithmCost(prevGameState.algorithms + 1),
         };
       } else {
         return {
@@ -94,26 +95,24 @@ const App: React.FC = () => {
           prevGameState.algorithMultiplierPercentage[
             prevGameState.algorithmMultiplierIndex
           ]);
-      const updatedIndex = prevGameState.algorithmMultiplierIndex + 1;
       return {
         ...prevGameState,
         algorithmMultiplier: updatedMultiplier,
-        algorithmMultiplierIndex: updatedIndex,
+        algorithmMultiplierIndex: prevGameState.algorithmMultiplierIndex + 1,
       };
     });
   };
 
-  const replenishStamina = () => {
+  const replenishBandwidth = () => {
     setGameState((prevGameState) => {
-      const addStamina =
-        prevGameState.integrationStamina +
-        1000 * prevGameState.staminaMultiplier;
-      const subtractProcessingCores = prevGameState.processingCores - 50;
+      const addBandwidth =
+        prevGameState.integrationBandwidth +
+        1000 * prevGameState.bandwidthMultiplier;
       if (prevGameState.processingCores >= 50) {
         return {
           ...prevGameState,
-          integrationStamina: addStamina,
-          processingCores: subtractProcessingCores,
+          integrationBandwidth: addBandwidth,
+          processingCores: prevGameState.processingCores - 50,
         };
       } else {
         return {
@@ -123,19 +122,18 @@ const App: React.FC = () => {
     });
   };
 
-  const upgradeStaminaReplenishment = () => {
+  const upgradeBandwidthReplenishment = () => {
     setGameState((prevGameState) => {
-      const updatedStaminamMultiplier =
-        prevGameState.staminaMultiplier *
+      const updatedBandwidthMultiplier =
+        prevGameState.bandwidthMultiplier *
         (1 +
-          prevGameState.staminaMultiplierPercentage[
-            prevGameState.staminaMultiplierIndex
+          prevGameState.bandwidthMultiplierPercentage[
+            prevGameState.bandwidthMultiplierIndex
           ]);
-      const updatedIndex = prevGameState.staminaMultiplierIndex + 1;
       return {
         ...prevGameState,
-        staminaMultiplier: updatedStaminamMultiplier,
-        staminaMultiplierIndex: updatedIndex,
+        bandwidthMultiplier: updatedBandwidthMultiplier,
+        bandwidthMultiplierIndex: prevGameState.bandwidthMultiplierIndex + 1,
       };
     });
   };
@@ -273,9 +271,9 @@ const App: React.FC = () => {
       setGameState((prevGameState) => {
         incrementActiveNodes();
         incrementCognitum();
-        if (prevGameState.integrationStamina > 0) {
+        if (prevGameState.integrationBandwidth > 0) {
           const processingCoreProductionTotal =
-            processingCoreProductionBase *
+            config.processingCoreProductionBase *
             prevGameState.algorithms *
             prevGameState.algorithmMultiplier;
 
@@ -283,14 +281,14 @@ const App: React.FC = () => {
             prevGameState.processingCores + processingCoreProductionTotal;
 
           const dataProductionTotal =
-            dataProductionBase *
+            config.dataProductionBase *
             prevGameState.algorithms *
             prevGameState.algorithmMultiplier;
 
           const newDataTotal = prevGameState.totalData + dataProductionTotal;
 
-          const integrationStaminaTotal = Math.max(
-            prevGameState.integrationStamina - dataProductionTotal / 2000,
+          const integrationBandwidthTotal = Math.max(
+            prevGameState.integrationBandwidth - dataProductionTotal / 2000,
             0,
           );
 
@@ -301,22 +299,22 @@ const App: React.FC = () => {
             totalData: newDataTotal,
             processingCores: newProcessingCoresTotal,
             integrationSpeed: dataProductionTotal,
-            integrationStamina: integrationStaminaTotal,
+            integrationBandwidth: integrationBandwidthTotal,
           };
         } else if (
-          prevGameState.autoStaminaReplenishment &&
-          prevGameState.integrationStamina < 1
+          prevGameState.autoBandwidthReplenishment &&
+          prevGameState.integrationBandwidth < 1
         ) {
-          const addStamina =
-            prevGameState.integrationStamina +
-            1000 * prevGameState.staminaMultiplier;
+          const addBandwidth =
+            prevGameState.integrationBandwidth +
+            1000 * prevGameState.bandwidthMultiplier;
 
           const subtractProcessingCores = prevGameState.processingCores - 50;
 
           if (prevGameState.processingCores >= 50) {
             return {
               ...prevGameState,
-              integrationStamina: addStamina,
+              integrationBandwidth: addBandwidth,
               processingCores: subtractProcessingCores,
             };
           }
@@ -334,9 +332,9 @@ const App: React.FC = () => {
       <GameUI
         gameState={gameState}
         synthesizeAlgorithm={synthesizeAlgorithm}
-        replenishStamina={replenishStamina}
+        replenishBandwidth={replenishBandwidth}
         activateMultiplier={activateMultiplier}
-        upgradeStaminaReplenishment={upgradeStaminaReplenishment}
+        upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
       />
