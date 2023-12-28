@@ -59,7 +59,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
               onClick={() => handleUpgradeClick(upgrade)}
               upgradeName={upgrade.name}
               upgradeDescription={upgrade.description}
-              upgradeCost={upgrade.cost.amount.toString()}
+              upgradeCost={upgrade.cost.amount.toLocaleString()}
               upgradeCurrency={upgrade.cost.currency}
               disabled={gameState.nodesCurrent < upgrade.cost.amount}
             />
@@ -74,7 +74,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
               onClick={() => handleUpgradeClick(upgrade)}
               upgradeName={upgrade.name}
               upgradeDescription={upgrade.description}
-              upgradeCost={upgrade.cost.amount.toString()}
+              upgradeCost={upgrade.cost.amount.toLocaleString()}
               upgradeCurrency={upgrade.cost.currency}
               disabled={gameState.nodesCurrent < upgrade.cost.amount}
             />
