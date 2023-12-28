@@ -23,6 +23,8 @@ interface GameUIProps {
     nodesCurrent: number;
     nodesTotal: number;
     cognitum: number;
+    networkMilestones: Array<number>;
+    networkMilestonesIndex: number;
   };
   synthesizeAlgorithm: () => void;
   replenishBandwidth: () => void;
