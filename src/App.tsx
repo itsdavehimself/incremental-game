@@ -21,6 +21,7 @@ interface GameState {
   nodesCurrent: number;
   nodesTotal: number;
   cognitum: number;
+  networkMilestones: Array<number>;
   networkMilestonesIndex: number;
 }
 
@@ -29,7 +30,7 @@ const App: React.FC = () => {
     totalData: 0,
     processingCores: 0,
     integrationSpeed: 0,
-    integrationBandwidth: 500,
+    integrationBandwidth: 750,
     algorithms: 1,
     executables: 0,
     algorithmCost: 6,
@@ -44,6 +45,12 @@ const App: React.FC = () => {
     nodesCurrent: 0,
     nodesTotal: 0,
     cognitum: 0,
+    networkMilestones: [
+      5.24288e6, 8.388608e6, 13.631488e6, 21.020096e6, 34.651584e6, 55.67168e6,
+      90.323264e6, 145.994944e6, 236.318208e6, 382.313152e6, 618.63136e6,
+      1001.944512e6, 1620.575872e6, 2622.520384e6, 4243.496256e6, 6866.01664e6,
+      11109.512896e6, 17975.529536e6, 29085.042432e6,
+    ],
     networkMilestonesIndex: 0,
   });
 
@@ -105,7 +112,7 @@ const App: React.FC = () => {
     setGameState((prevGameState) => {
       const addBandwidth =
         prevGameState.integrationBandwidth +
-        500 * prevGameState.bandwidthMultiplier;
+        750 * prevGameState.bandwidthMultiplier;
       if (prevGameState.processingCores >= 50) {
         return {
           ...prevGameState,
@@ -167,19 +174,13 @@ const App: React.FC = () => {
     setGameState((prevGameState) => {
       const currentTotalData = prevGameState.totalData;
 
-      if (currentTotalData >= 2e6 && !prevGameState.networksActivated) {
+      if (currentTotalData >= 2.097152e6 && !prevGameState.networksActivated) {
         activateNetworks();
       }
 
-      const milestones = [
-        5e6, 8e6, 1.3e7, 2.1e7, 3.4e7, 5.5e7, 8.9e7, 1.4e8, 2.3e8, 3.7e8, 6e8,
-        9.7e8, 1.6e9, 2.6e9, 4.2e9, 6.8e9, 1.1e10, 1.8e10, 2.9e10, 4.7e10,
-        7.6e10, 1.2e11, 1.9e11, 3.1e11, 5e11, 8.1e11, 1.3e12, 2.1e12, 3.4e12,
-        5.5e12, 8.9e12, 1.4e13, 2.3e13, 3.7e13, 6e13, 9.7e13, 1.6e14, 2.6e14,
-      ];
-
       if (
-        currentTotalData >= milestones[prevGameState.networkMilestonesIndex]
+        currentTotalData >=
+        gameState.networkMilestones[prevGameState.networkMilestonesIndex]
       ) {
         earnNetworks();
         return {
@@ -232,7 +233,7 @@ const App: React.FC = () => {
         prevGameState.nodesCurrent < prevGameState.nodesTotal
       ) {
         const incrementedNodes =
-          prevGameState.nodesCurrent + (1 / 10) * prevGameState.GPUFarms;
+          prevGameState.nodesCurrent + (1 / 5) * prevGameState.GPUFarms;
         const updatedNodesCurrent = Math.min(
           incrementedNodes,
           prevGameState.nodesTotal,
