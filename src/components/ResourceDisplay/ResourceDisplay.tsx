@@ -4,6 +4,7 @@ interface ResourceDisplayProps {
     processingCores: number;
     integrationSpeed: number;
     integrationBandwidth: number;
+    autoBandwidthReplenishment: boolean;
     algorithms: number;
     executables: number;
   };
@@ -54,7 +55,9 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({ gameState }) => {
       </div>
       <div>
         Integration Bandwidth:{' '}
-        {Math.floor(gameState.integrationBandwidth).toLocaleString()}
+        {gameState.autoBandwidthReplenishment
+          ? '\u221E'
+          : Math.floor(gameState.integrationBandwidth).toLocaleString()}
       </div>
       <div>
         Integration Algorithms:{' '}

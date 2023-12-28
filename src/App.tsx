@@ -11,11 +11,7 @@ interface GameState {
   executables: number;
   algorithmCost: number;
   algorithmMultiplier: number;
-  algorithmMultiplierIndex: number;
-  algorithMultiplierPercentage: Array<number>;
   bandwidthMultiplier: number;
-  bandwidthMultiplierIndex: number;
-  bandwidthMultiplierPercentage: Array<number>;
   autoBandwidthReplenishment: boolean;
   networksActivated: boolean;
   networks: number;
@@ -33,16 +29,12 @@ const App: React.FC = () => {
     totalData: 0,
     processingCores: 0,
     integrationSpeed: 0,
-    integrationBandwidth: 1000,
+    integrationBandwidth: 500,
     algorithms: 1,
     executables: 0,
     algorithmCost: 6,
     algorithmMultiplier: 1,
-    algorithmMultiplierIndex: 0,
-    algorithMultiplierPercentage: [0.25, 0.5, 0.75, 1, 2, 4, 8, 16],
     bandwidthMultiplier: 1,
-    bandwidthMultiplierIndex: 0,
-    bandwidthMultiplierPercentage: [0.25, 0.5, 1],
     autoBandwidthReplenishment: false,
     networksActivated: false,
     networks: 0,
@@ -87,19 +79,25 @@ const App: React.FC = () => {
     });
   };
 
-  const activateMultiplier = () => {
+  const upgradeIntegrationAlgorithm = (
+    multiplierPercentage: number | null,
+    cost: number,
+  ) => {
     setGameState((prevGameState) => {
-      const updatedMultiplier =
-        prevGameState.algorithmMultiplier *
-        (1 +
-          prevGameState.algorithMultiplierPercentage[
-            prevGameState.algorithmMultiplierIndex
-          ]);
-      return {
-        ...prevGameState,
-        algorithmMultiplier: updatedMultiplier,
-        algorithmMultiplierIndex: prevGameState.algorithmMultiplierIndex + 1,
-      };
+      if (multiplierPercentage !== null) {
+        const updatedMultiplier =
+          prevGameState.algorithmMultiplier * (1 + multiplierPercentage);
+        return {
+          ...prevGameState,
+          algorithmMultiplier: updatedMultiplier,
+          nodesCurrent: prevGameState.nodesCurrent - cost,
+        };
+      } else {
+        return {
+          ...prevGameState,
+          nodesCurrent: prevGameState.nodesCurrent - cost,
+        };
+      }
     });
   };
 
@@ -107,7 +105,7 @@ const App: React.FC = () => {
     setGameState((prevGameState) => {
       const addBandwidth =
         prevGameState.integrationBandwidth +
-        1000 * prevGameState.bandwidthMultiplier;
+        500 * prevGameState.bandwidthMultiplier;
       if (prevGameState.processingCores >= 50) {
         return {
           ...prevGameState,
@@ -122,19 +120,25 @@ const App: React.FC = () => {
     });
   };
 
-  const upgradeBandwidthReplenishment = () => {
+  const upgradeBandwidthReplenishment = (
+    multiplierPercentage: number | null,
+    cost: number,
+  ) => {
     setGameState((prevGameState) => {
-      const updatedBandwidthMultiplier =
-        prevGameState.bandwidthMultiplier *
-        (1 +
-          prevGameState.bandwidthMultiplierPercentage[
-            prevGameState.bandwidthMultiplierIndex
-          ]);
-      return {
-        ...prevGameState,
-        bandwidthMultiplier: updatedBandwidthMultiplier,
-        bandwidthMultiplierIndex: prevGameState.bandwidthMultiplierIndex + 1,
-      };
+      if (multiplierPercentage !== null) {
+        const updatedBandwidthMultiplier =
+          prevGameState.bandwidthMultiplier * (1 + multiplierPercentage);
+        return {
+          ...prevGameState,
+          bandwidthMultiplier: updatedBandwidthMultiplier,
+          nodesCurrent: prevGameState.nodesCurrent - cost,
+        };
+      } else {
+        return {
+          ...prevGameState,
+          autoBandwidthReplenishment: true,
+        };
+      }
     });
   };
 
@@ -228,7 +232,7 @@ const App: React.FC = () => {
         prevGameState.nodesCurrent < prevGameState.nodesTotal
       ) {
         const incrementedNodes =
-          prevGameState.nodesCurrent + (1 / 25) * prevGameState.GPUFarms;
+          prevGameState.nodesCurrent + (1 / 10) * prevGameState.GPUFarms;
         const updatedNodesCurrent = Math.min(
           incrementedNodes,
           prevGameState.nodesTotal,
@@ -333,7 +337,7 @@ const App: React.FC = () => {
         gameState={gameState}
         synthesizeAlgorithm={synthesizeAlgorithm}
         replenishBandwidth={replenishBandwidth}
-        activateMultiplier={activateMultiplier}
+        upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
         upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}

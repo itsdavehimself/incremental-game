@@ -13,11 +13,7 @@ interface GameUIProps {
     executables: number;
     algorithmCost: number;
     algorithmMultiplier: number;
-    algorithmMultiplierIndex: number;
-    algorithMultiplierPercentage: Array<number>;
     bandwidthMultiplier: number;
-    bandwidthMultiplierIndex: number;
-    bandwidthMultiplierPercentage: Array<number>;
     autoBandwidthReplenishment: boolean;
     networksActivated: boolean;
     networks: number;
@@ -30,8 +26,14 @@ interface GameUIProps {
   };
   synthesizeAlgorithm: () => void;
   replenishBandwidth: () => void;
-  activateMultiplier: () => void;
-  upgradeBandwidthReplenishment: () => void;
+  upgradeIntegrationAlgorithm: (
+    multiplierPercentage: number | null,
+    cost: number,
+  ) => void;
+  upgradeBandwidthReplenishment: (
+    multiplierPercentage: number | null,
+    cost: number,
+  ) => void;
   allocateToGPU: () => void;
   allocateToStorage: () => void;
 }
@@ -40,7 +42,7 @@ const GameUI: React.FC<GameUIProps> = ({
   gameState,
   synthesizeAlgorithm,
   replenishBandwidth,
-  activateMultiplier,
+  upgradeIntegrationAlgorithm,
   upgradeBandwidthReplenishment,
   allocateToGPU,
   allocateToStorage,
@@ -58,7 +60,7 @@ const GameUI: React.FC<GameUIProps> = ({
       ></Button>
       <Upgrades
         gameState={gameState}
-        activateMultiplier={activateMultiplier}
+        upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
         upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
       />
       {gameState.networksActivated && (

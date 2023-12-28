@@ -6,6 +6,7 @@ interface UpgradeButtonProps {
   upgradeDescription: string;
   upgradeCost: string;
   upgradeCurrency: string;
+  disabled: boolean;
 }
 
 const UpgradeButton: React.FC<UpgradeButtonProps> = ({
@@ -14,9 +15,14 @@ const UpgradeButton: React.FC<UpgradeButtonProps> = ({
   upgradeDescription,
   upgradeCost,
   upgradeCurrency,
+  disabled,
 }) => {
   return (
-    <button className={styles['main-btn']} onClick={onClick}>
+    <button
+      className={styles['main-btn']}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <h3>{upgradeName}</h3>
       <p>{upgradeDescription}</p>
       {upgradeCost} {upgradeCurrency}
