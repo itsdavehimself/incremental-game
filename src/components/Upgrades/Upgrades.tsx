@@ -1,5 +1,6 @@
 import UpgradeButton from '../UpgradeButton/UpgradeButton';
 import upgrades, { Upgrade } from '../../data/upgrades';
+import { useState } from 'react';
 
 interface UpgradesProps {
   gameState: {
@@ -37,49 +38,63 @@ const Upgrades: React.FC<UpgradesProps> = ({
   upgradeIntegrationAlgorithm,
   upgradeBandwidthReplenishment,
 }) => {
-  const handleUpgradeClick = (upgrade: Upgrade) => {
+  const [
+    visibleIntegrationAlgorithmIndex,
+    setVisibleIntegrationAlgorithmIndex,
+  ] = useState(0);
+  const [visibleBandwidthIndex, setVisibleBandwidthIndex] = useState(0);
+
+  const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
     if (!upgrade.purchased) {
       upgrade.purchased = true;
 
-      if (upgrade.type === 'integration') {
+      if (category === 'integration') {
         upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost.amount);
+        setVisibleIntegrationAlgorithmIndex(
+          visibleIntegrationAlgorithmIndex + 1,
+        );
       } else {
         upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
+        setVisibleBandwidthIndex(visibleBandwidthIndex + 1);
       }
     }
   };
 
+  const renderUpgradeButton = (
+    upgrade: Upgrade,
+    category: string,
+    index: number,
+  ) => (
+    <UpgradeButton
+      key={index}
+      onClick={() => handleUpgradeClick(upgrade, category)}
+      upgradeName={upgrade.name}
+      upgradeDescription={upgrade.description}
+      upgradeCost={upgrade.cost.amount.toLocaleString()}
+      upgradeCurrency={upgrade.cost.currency}
+      disabled={gameState.nodesCurrent < upgrade.cost.amount}
+    />
+  );
+
   return (
     <div>
-      {upgrades.integrationAlgorithms.map(
-        (upgrade, index) =>
-          !upgrade.purchased && (
-            <UpgradeButton
-              key={index}
-              onClick={() => handleUpgradeClick(upgrade)}
-              upgradeName={upgrade.name}
-              upgradeDescription={upgrade.description}
-              upgradeCost={upgrade.cost.amount.toLocaleString()}
-              upgradeCurrency={upgrade.cost.currency}
-              disabled={gameState.nodesCurrent < upgrade.cost.amount}
-            />
-          ),
-      )}
+      {upgrades.integrationAlgorithms
+        .filter(
+          (upgrade, index) =>
+            !upgrade.purchased && index === visibleIntegrationAlgorithmIndex,
+        )
+        .map((upgrade, index) =>
+          renderUpgradeButton(upgrade, 'integration', index),
+        )}
 
-      {upgrades.bandwidth.map(
-        (upgrade, index) =>
-          !upgrade.purchased && (
-            <UpgradeButton
-              key={index}
-              onClick={() => handleUpgradeClick(upgrade)}
-              upgradeName={upgrade.name}
-              upgradeDescription={upgrade.description}
-              upgradeCost={upgrade.cost.amount.toLocaleString()}
-              upgradeCurrency={upgrade.cost.currency}
-              disabled={gameState.nodesCurrent < upgrade.cost.amount}
-            />
-          ),
-      )}
+      {upgrades.bandwidth
+        .filter(
+          (upgrade, index) =>
+            !upgrade.purchased && index === visibleBandwidthIndex,
+        )
+        .map((upgrade, index) =>
+          renderUpgradeButton(upgrade, 'bandwidth', index),
+        )}
     </div>
   );
 };
