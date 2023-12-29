@@ -26,7 +26,7 @@ const upgrades: Upgrades = {
       description:
         'Establish seamless data fragment cohesion. Integration algorithms work 25% faster.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 750,
       },
       multiplier: 0.25,
@@ -38,7 +38,7 @@ const upgrades: Upgrades = {
       description:
         'Module harmonizing intricate code lines, amplifying integration algorithm accuracy and speed by 50%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 1250,
       },
       multiplier: 0.5,
@@ -50,7 +50,7 @@ const upgrades: Upgrades = {
       description:
         'Fuse data-enhanced elements, creating a superior neurofusion by elevating integration algorithms by 75%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 2500,
       },
       multiplier: 0.75,
@@ -62,7 +62,7 @@ const upgrades: Upgrades = {
       description:
         'Facilitate convergence of neuro and cybernetic elements, enhancing integration algorithms by 100%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 5000,
       },
       multiplier: 1,
@@ -74,7 +74,7 @@ const upgrades: Upgrades = {
       description:
         'Enhance synaptic linkage with quantum principles, optimizing integration algorithms by 200%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 6000,
       },
       multiplier: 2,
@@ -86,7 +86,7 @@ const upgrades: Upgrades = {
       description:
         'Power integration with a synergetic neural recursive engine, advancing integration algorithms by 250%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 10000,
       },
       multiplier: 2.5,
@@ -100,7 +100,7 @@ const upgrades: Upgrades = {
       description:
         'Introduce parallel data conduits, boosting integration bandwidth replenishment 25%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 1500,
       },
       multiplier: 0.25,
@@ -112,7 +112,7 @@ const upgrades: Upgrades = {
       description:
         'Utilize resonant arrays, improving bandwidth replenishment by 50%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 3000,
       },
       multiplier: 0.5,
@@ -124,7 +124,7 @@ const upgrades: Upgrades = {
       description:
         'Establish high-speed optical interconnects, elevating bandwidth replenishment by 100%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 4250,
       },
       multiplier: 1,
@@ -136,7 +136,7 @@ const upgrades: Upgrades = {
       description:
         'Implement a transcendent matrix, increasing bandwidth replenishment by another 150%.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 5500,
       },
       multiplier: 1.5,
@@ -148,7 +148,7 @@ const upgrades: Upgrades = {
       description:
         'Attain a bandwidth singularity, providing infinite bandwidth.',
       cost: {
-        currency: 'nodes',
+        currency: 'Nodes',
         amount: 8000,
       },
       multiplier: null,
