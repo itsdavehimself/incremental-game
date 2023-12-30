@@ -127,7 +127,7 @@ const App: React.FC = () => {
     });
   };
 
-  const addNetwork = (cost: number) => {
+  const buyNetwork = (cost: number) => {
     setGameState((prevGameState) => {
       if (prevGameState.cognitum >= cost) {
         return {
@@ -357,7 +357,7 @@ const App: React.FC = () => {
         replenishBandwidth={replenishBandwidth}
         upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
         upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
-        addNetwork={addNetwork}
+        buyNetwork={buyNetwork}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
       />

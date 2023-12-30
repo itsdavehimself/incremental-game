@@ -31,14 +31,14 @@ interface UpgradesProps {
     multiplierPercentage: number | null,
     cost: number,
   ) => void;
-  addNetwork: (cost: number) => void;
+  buyNetwork: (cost: number) => void;
 }
 
 const Upgrades: React.FC<UpgradesProps> = ({
   gameState,
   upgradeIntegrationAlgorithm,
   upgradeBandwidthReplenishment,
-  addNetwork,
+  buyNetwork,
 }) => {
   const [
     visibleIntegrationAlgorithmIndex,
@@ -60,7 +60,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
         upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
         setVisibleBandwidthIndex(visibleBandwidthIndex + 1);
       } else {
-        addNetwork(upgrade.cost.amount);
+        buyNetwork(upgrade.cost.amount);
         setVisibleNetworkIndex(visibleBandwidthIndex + 1);
       }
     }
