@@ -77,25 +77,30 @@ const Upgrades: React.FC<UpgradesProps> = ({
   );
 
   return (
-    <div>
-      {upgrades.integrationAlgorithms
-        .filter(
-          (upgrade, index) =>
-            !upgrade.purchased && index === visibleIntegrationAlgorithmIndex,
-        )
-        .map((upgrade, index) =>
-          renderUpgradeButton(upgrade, 'integration', index),
-        )}
+    <>
+      {gameState.networksActivated && (
+        <div>
+          {upgrades.integrationAlgorithms
+            .filter(
+              (upgrade, index) =>
+                !upgrade.purchased &&
+                index === visibleIntegrationAlgorithmIndex,
+            )
+            .map((upgrade, index) =>
+              renderUpgradeButton(upgrade, 'integration', index),
+            )}
 
-      {upgrades.bandwidth
-        .filter(
-          (upgrade, index) =>
-            !upgrade.purchased && index === visibleBandwidthIndex,
-        )
-        .map((upgrade, index) =>
-          renderUpgradeButton(upgrade, 'bandwidth', index),
-        )}
-    </div>
+          {upgrades.bandwidth
+            .filter(
+              (upgrade, index) =>
+                !upgrade.purchased && index === visibleBandwidthIndex,
+            )
+            .map((upgrade, index) =>
+              renderUpgradeButton(upgrade, 'bandwidth', index),
+            )}
+        </div>
+      )}
+    </>
   );
 };
 
