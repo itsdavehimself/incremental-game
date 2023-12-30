@@ -17,6 +17,7 @@ type UpgradeCategory = Upgrade[];
 interface Upgrades {
   integrationAlgorithms: UpgradeCategory;
   bandwidth: UpgradeCategory;
+  network: UpgradeCategory;
 }
 
 const upgrades: Upgrades = {
@@ -63,7 +64,7 @@ const upgrades: Upgrades = {
         'Facilitate convergence of neuro and cybernetic elements, enhancing integration algorithms by 100%.',
       cost: {
         currency: 'Nodes',
-        amount: 5000,
+        amount: 3500,
       },
       multiplier: 1,
       type: 'integration',
@@ -153,6 +154,79 @@ const upgrades: Upgrades = {
       },
       multiplier: null,
       type: 'bandwidth',
+      purchased: false,
+    },
+  ],
+  network: [
+    {
+      name: 'Node Infrastructure Expansion',
+      description:
+        'Boost the infrastructure of your networks expansion. +1 Network',
+      cost: {
+        currency: 'Cognitum',
+        amount: 10,
+      },
+      multiplier: null,
+      type: 'networks',
+      purchased: false,
+    },
+    {
+      name: 'Packet Amplification Module',
+      description:
+        'Increase network throughput, accelerating node acquisition. +1 Network.',
+      cost: {
+        currency: 'Cognitum',
+        amount: 25,
+      },
+      multiplier: null,
+      type: 'networks',
+      purchased: false,
+    },
+    {
+      name: 'AI-driven Network Expansion',
+      description:
+        'Self-optimizing AI expands network capabilities. +1 Network.',
+      cost: {
+        currency: 'Cognitum',
+        amount: 50,
+      },
+      multiplier: null,
+      type: 'networks',
+      purchased: false,
+    },
+    {
+      name: 'Quantum Routing Algorithm',
+      description:
+        'Implement quantum algorithms for optimal data routing. +1 Network.',
+      cost: {
+        currency: 'Cognitum',
+        amount: 100,
+      },
+      multiplier: null,
+      type: 'networks',
+      purchased: false,
+    },
+    {
+      name: 'Nanotech Network Fabrication',
+      description:
+        'Utilize nanobots for dynamic network construction. +1 Network.',
+      cost: {
+        currency: 'Cognitum',
+        amount: 150,
+      },
+      multiplier: null,
+      type: 'networks',
+      purchased: false,
+    },
+    {
+      name: 'Temporal Data Compression',
+      description: 'Squeeze more data into each unit of time. +1 Network.',
+      cost: {
+        currency: 'Cognitum',
+        amount: 150,
+      },
+      multiplier: null,
+      type: 'networks',
       purchased: false,
     },
   ],
