@@ -36,6 +36,7 @@ interface GameUIProps {
     multiplierPercentage: number | null,
     cost: number,
   ) => void;
+  addNetwork: (cost: number) => void;
   allocateToGPU: () => void;
   allocateToStorage: () => void;
 }
@@ -48,6 +49,7 @@ const GameUI: React.FC<GameUIProps> = ({
   upgradeBandwidthReplenishment,
   allocateToGPU,
   allocateToStorage,
+  addNetwork,
 }) => {
   return (
     <div>
@@ -64,6 +66,7 @@ const GameUI: React.FC<GameUIProps> = ({
         gameState={gameState}
         upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
         upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
+        addNetwork={addNetwork}
       />
       {gameState.networksActivated && (
         <Network

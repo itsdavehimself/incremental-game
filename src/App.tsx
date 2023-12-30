@@ -127,6 +127,22 @@ const App: React.FC = () => {
     });
   };
 
+  const addNetwork = (cost: number) => {
+    setGameState((prevGameState) => {
+      if (prevGameState.cognitum >= cost) {
+        return {
+          ...prevGameState,
+          networksAvailable: prevGameState.networksAvailable + 1,
+          cognitum: prevGameState.cognitum - cost,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
   const upgradeBandwidthReplenishment = (
     multiplierPercentage: number | null,
     cost: number,
@@ -144,6 +160,7 @@ const App: React.FC = () => {
         return {
           ...prevGameState,
           autoBandwidthReplenishment: true,
+          nodesCurrent: prevGameState.nodesCurrent - cost,
         };
       }
     });
@@ -340,6 +357,7 @@ const App: React.FC = () => {
         replenishBandwidth={replenishBandwidth}
         upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
         upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
+        addNetwork={addNetwork}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
       />

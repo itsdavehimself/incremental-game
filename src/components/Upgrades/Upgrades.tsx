@@ -31,18 +31,21 @@ interface UpgradesProps {
     multiplierPercentage: number | null,
     cost: number,
   ) => void;
+  addNetwork: (cost: number) => void;
 }
 
 const Upgrades: React.FC<UpgradesProps> = ({
   gameState,
   upgradeIntegrationAlgorithm,
   upgradeBandwidthReplenishment,
+  addNetwork,
 }) => {
   const [
     visibleIntegrationAlgorithmIndex,
     setVisibleIntegrationAlgorithmIndex,
   ] = useState(0);
   const [visibleBandwidthIndex, setVisibleBandwidthIndex] = useState(0);
+  const [visibleNetworkIndex, setVisibleNetworkIndex] = useState(0);
 
   const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
     if (!upgrade.purchased) {
@@ -53,9 +56,12 @@ const Upgrades: React.FC<UpgradesProps> = ({
         setVisibleIntegrationAlgorithmIndex(
           visibleIntegrationAlgorithmIndex + 1,
         );
-      } else {
+      } else if (category === 'bandwidth') {
         upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
         setVisibleBandwidthIndex(visibleBandwidthIndex + 1);
+      } else {
+        addNetwork(upgrade.cost.amount);
+        setVisibleNetworkIndex(visibleBandwidthIndex + 1);
       }
     }
   };
@@ -72,7 +78,12 @@ const Upgrades: React.FC<UpgradesProps> = ({
       upgradeDescription={upgrade.description}
       upgradeCost={upgrade.cost.amount.toLocaleString()}
       upgradeCurrency={upgrade.cost.currency}
-      disabled={gameState.nodesCurrent < upgrade.cost.amount}
+      disabled={
+        (upgrade.cost.currency === 'Cognitum' &&
+          gameState.cognitum < upgrade.cost.amount) ||
+        (upgrade.cost.currency === 'Nodes' &&
+          gameState.nodesCurrent < upgrade.cost.amount)
+      }
     />
   );
 
@@ -97,6 +108,15 @@ const Upgrades: React.FC<UpgradesProps> = ({
             )
             .map((upgrade, index) =>
               renderUpgradeButton(upgrade, 'bandwidth', index),
+            )}
+
+          {upgrades.network
+            .filter(
+              (upgrade, index) =>
+                !upgrade.purchased && index === visibleNetworkIndex,
+            )
+            .map((upgrade, index) =>
+              renderUpgradeButton(upgrade, 'network', index),
             )}
         </div>
       )}
