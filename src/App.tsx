@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import GameUI from './containers/GameUI/GameUI';
 import './app.scss';
+import upgrades, { Upgrade } from './data/upgrades';
 
 interface GameState {
   totalData: number;
@@ -23,9 +24,15 @@ interface GameState {
   cognitum: number;
   networkMilestones: Array<number>;
   networkMilestonesIndex: number;
+  upgrades: object;
+  integrationAlgorithmIndex: number;
+  bandwidthIndex: number;
+  networksIndex: number;
 }
 
 const App: React.FC = () => {
+  const [inputCode, setInputCode] = useState<string>('');
+  const [generatedCode, setGeneratedCode] = useState<string>('');
   const [gameState, setGameState] = useState<GameState>({
     totalData: 0,
     processingCores: 0,
@@ -52,6 +59,10 @@ const App: React.FC = () => {
       11109.512896e6, 17975.529536e6, 29085.042432e6,
     ],
     networkMilestonesIndex: 0,
+    upgrades: upgrades,
+    integrationAlgorithmIndex: 0,
+    bandwidthIndex: 0,
+    networksIndex: 0,
   });
 
   const config = {
@@ -98,11 +109,15 @@ const App: React.FC = () => {
           ...prevGameState,
           algorithmMultiplier: updatedMultiplier,
           nodesCurrent: prevGameState.nodesCurrent - cost,
+          integrationAlgorithmIndex:
+            prevGameState.integrationAlgorithmIndex + 1,
         };
       } else {
         return {
           ...prevGameState,
           nodesCurrent: prevGameState.nodesCurrent - cost,
+          integrationAlgorithmIndex:
+            prevGameState.integrationAlgorithmIndex + 1,
         };
       }
     });
@@ -118,6 +133,7 @@ const App: React.FC = () => {
           ...prevGameState,
           integrationBandwidth: addBandwidth,
           processingCores: prevGameState.processingCores - 50,
+          bandwidthIndex: prevGameState.bandwidthIndex + 1,
         };
       } else {
         return {
@@ -134,6 +150,7 @@ const App: React.FC = () => {
           ...prevGameState,
           networksAvailable: prevGameState.networksAvailable + 1,
           cognitum: prevGameState.cognitum - cost,
+          networksIndex: prevGameState.networksIndex + 1,
         };
       } else {
         return {
@@ -288,6 +305,54 @@ const App: React.FC = () => {
     });
   };
 
+  const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
+    if (!upgrade.purchased) {
+      upgrade.purchased = true;
+
+      if (category === 'integration') {
+        upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost.amount);
+      } else if (category === 'bandwidth') {
+        upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
+      } else {
+        buyNetwork(upgrade.cost.amount);
+      }
+    }
+  };
+
+  const encodeGameState = (state: GameState): string => {
+    const jsonString = JSON.stringify(state);
+    return btoa(jsonString);
+  };
+
+  const decodeGameState = (code: string): GameState | null => {
+    try {
+      const jsonString = atob(code);
+      return JSON.parse(jsonString);
+    } catch (error) {
+      console.error('Error decoding game state:', error);
+      return null;
+    }
+  };
+
+  const saveGameState = () => {
+    const code = encodeGameState(gameState);
+    localStorage.setItem('gameStateCode', code);
+    setGeneratedCode(code);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputCode(event.target.value);
+  };
+
+  const handleLoadButtonClick = () => {
+    const loadedState = decodeGameState(inputCode);
+    if (loadedState) {
+      setGameState(loadedState);
+    } else {
+      console.error('Invalid game state code');
+    }
+  };
+
   useEffect(() => {
     const intervalID = setInterval(() => {
       setGameState((prevGameState) => {
@@ -360,7 +425,24 @@ const App: React.FC = () => {
         buyNetwork={buyNetwork}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
+        handleUpgradeClick={handleUpgradeClick}
       />
+
+      <button onClick={saveGameState}>Save Game</button>
+
+      <div>
+        <p>Generated Code:</p>
+        <code>{generatedCode}</code>
+      </div>
+      <div>
+        <input
+          type="text"
+          value={inputCode}
+          onChange={handleInputChange}
+          placeholder="Enter game state code"
+        />
+        <button onClick={handleLoadButtonClick}>Load Game</button>
+      </div>
     </div>
   );
 };

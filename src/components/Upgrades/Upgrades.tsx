@@ -1,6 +1,5 @@
 import UpgradeButton from '../UpgradeButton/UpgradeButton';
 import upgrades, { Upgrade } from '../../data/upgrades';
-import { useState } from 'react';
 
 interface UpgradesProps {
   gameState: {
@@ -22,6 +21,10 @@ interface UpgradesProps {
     nodesCurrent: number;
     nodesTotal: number;
     cognitum: number;
+    upgrades: object;
+    integrationAlgorithmIndex: number;
+    bandwidthIndex: number;
+    networksIndex: number;
   };
   upgradeBandwidthReplenishment: (
     multiplierPercentage: number | null,
@@ -32,40 +35,13 @@ interface UpgradesProps {
     cost: number,
   ) => void;
   buyNetwork: (cost: number) => void;
+  handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
 }
 
 const Upgrades: React.FC<UpgradesProps> = ({
   gameState,
-  upgradeIntegrationAlgorithm,
-  upgradeBandwidthReplenishment,
-  buyNetwork,
+  handleUpgradeClick,
 }) => {
-  const [
-    visibleIntegrationAlgorithmIndex,
-    setVisibleIntegrationAlgorithmIndex,
-  ] = useState(0);
-  const [visibleBandwidthIndex, setVisibleBandwidthIndex] = useState(0);
-  const [visibleNetworkIndex, setVisibleNetworkIndex] = useState(0);
-
-  const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
-    if (!upgrade.purchased) {
-      upgrade.purchased = true;
-
-      if (category === 'integration') {
-        upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost.amount);
-        setVisibleIntegrationAlgorithmIndex(
-          visibleIntegrationAlgorithmIndex + 1,
-        );
-      } else if (category === 'bandwidth') {
-        upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
-        setVisibleBandwidthIndex(visibleBandwidthIndex + 1);
-      } else {
-        buyNetwork(upgrade.cost.amount);
-        setVisibleNetworkIndex(visibleBandwidthIndex + 1);
-      }
-    }
-  };
-
   const renderUpgradeButton = (
     upgrade: Upgrade,
     category: string,
@@ -95,7 +71,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
             .filter(
               (upgrade, index) =>
                 !upgrade.purchased &&
-                index === visibleIntegrationAlgorithmIndex,
+                index === gameState.integrationAlgorithmIndex,
             )
             .map((upgrade, index) =>
               renderUpgradeButton(upgrade, 'integration', index),
@@ -104,7 +80,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
           {upgrades.bandwidth
             .filter(
               (upgrade, index) =>
-                !upgrade.purchased && index === visibleBandwidthIndex,
+                !upgrade.purchased && index === gameState.bandwidthIndex,
             )
             .map((upgrade, index) =>
               renderUpgradeButton(upgrade, 'bandwidth', index),
@@ -113,7 +89,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
           {upgrades.network
             .filter(
               (upgrade, index) =>
-                !upgrade.purchased && index === visibleNetworkIndex,
+                !upgrade.purchased && index === gameState.networksIndex,
             )
             .map((upgrade, index) =>
               renderUpgradeButton(upgrade, 'network', index),
