@@ -70,6 +70,10 @@ const App: React.FC = () => {
     algorithmCostRateGrowth: 1.07,
     processingCoreProductionBase: 1.2 / 750,
     dataProductionBase: 1038 / 100,
+    bandwidthReplenishmentCost:
+      gameState.bandwidthIndex <= 1
+        ? 50
+        : 50 + 50 * (gameState.bandwidthIndex - 1),
   };
 
   const newAlgorithmCost = (currentNumberAlgorithms: number) => {
@@ -128,11 +132,12 @@ const App: React.FC = () => {
       const addBandwidth =
         prevGameState.integrationBandwidth +
         750 * prevGameState.bandwidthMultiplier;
-      if (prevGameState.processingCores >= 50) {
+      if (prevGameState.processingCores >= config.bandwidthReplenishmentCost) {
         return {
           ...prevGameState,
           integrationBandwidth: addBandwidth,
-          processingCores: prevGameState.processingCores - 50,
+          processingCores:
+            prevGameState.processingCores - config.bandwidthReplenishmentCost,
         };
       } else {
         return {
@@ -418,6 +423,7 @@ const App: React.FC = () => {
     <div className="app">
       <GameUI
         gameState={gameState}
+        config={config}
         synthesizeAlgorithm={synthesizeAlgorithm}
         replenishBandwidth={replenishBandwidth}
         upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}

@@ -31,6 +31,9 @@ interface GameUIProps {
     bandwidthIndex: number;
     networksIndex: number;
   };
+  config: {
+    bandwidthReplenishmentCost: number;
+  };
   synthesizeAlgorithm: () => void;
   replenishBandwidth: () => void;
   upgradeIntegrationAlgorithm: (
@@ -49,6 +52,7 @@ interface GameUIProps {
 
 const GameUI: React.FC<GameUIProps> = ({
   gameState,
+  config,
   synthesizeAlgorithm,
   replenishBandwidth,
   upgradeIntegrationAlgorithm,
@@ -67,7 +71,7 @@ const GameUI: React.FC<GameUIProps> = ({
       ></Button>
       <Button
         onClick={replenishBandwidth}
-        label={`Replenish Bandwidth (50 Processing Cores)`}
+        label={`Replenish Bandwidth (${config.bandwidthReplenishmentCost} Processing Cores)`}
       ></Button>
       <Upgrades
         gameState={gameState}
