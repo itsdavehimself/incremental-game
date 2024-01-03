@@ -133,7 +133,6 @@ const App: React.FC = () => {
           ...prevGameState,
           integrationBandwidth: addBandwidth,
           processingCores: prevGameState.processingCores - 50,
-          bandwidthIndex: prevGameState.bandwidthIndex + 1,
         };
       } else {
         return {
@@ -172,6 +171,7 @@ const App: React.FC = () => {
           ...prevGameState,
           bandwidthMultiplier: updatedBandwidthMultiplier,
           nodesCurrent: prevGameState.nodesCurrent - cost,
+          bandwidthIndex: prevGameState.bandwidthIndex + 1,
         };
       } else {
         return {
