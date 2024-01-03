@@ -18,6 +18,7 @@ interface Upgrades {
   integrationAlgorithms: UpgradeCategory;
   bandwidth: UpgradeCategory;
   network: UpgradeCategory;
+  executables: UpgradeCategory;
 }
 
 const upgrades: Upgrades = {
@@ -227,6 +228,20 @@ const upgrades: Upgrades = {
       },
       multiplier: null,
       type: 'networks',
+      purchased: false,
+    },
+  ],
+  executables: [
+    {
+      name: 'Exo-Neural Interface Matrix',
+      description:
+        'Connect to external neural networks to speed up data integration. 100% faster .exe Binaries.',
+      cost: {
+        currency: 'Cognitum',
+        amount: 50,
+      },
+      multiplier: 2,
+      type: 'executables',
       purchased: false,
     },
   ],

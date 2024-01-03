@@ -25,6 +25,7 @@ interface UpgradesProps {
     integrationAlgorithmIndex: number;
     bandwidthIndex: number;
     networksIndex: number;
+    executablesIndex: number;
   };
   upgradeBandwidthReplenishment: (
     multiplierPercentage: number | null,
@@ -94,6 +95,16 @@ const Upgrades: React.FC<UpgradesProps> = ({
             .map((upgrade, index) =>
               renderUpgradeButton(upgrade, 'network', index),
             )}
+
+          {gameState.executables > 0 &&
+            upgrades.executables
+              .filter(
+                (upgrade, index) =>
+                  !upgrade.purchased && index === gameState.executablesIndex,
+              )
+              .map((upgrade, index) =>
+                renderUpgradeButton(upgrade, 'executables', index),
+              )}
         </div>
       )}
     </>

@@ -10,6 +10,8 @@ interface GameState {
   integrationBandwidth: number;
   algorithms: number;
   executables: number;
+  executablesCost: number;
+  executablesMultiplier: number;
   algorithmCost: number;
   algorithmMultiplier: number;
   bandwidthMultiplier: number;
@@ -28,6 +30,8 @@ interface GameState {
   integrationAlgorithmIndex: number;
   bandwidthIndex: number;
   networksIndex: number;
+  executablesIndex: number;
+  filesActivated: boolean;
 }
 
 const App: React.FC = () => {
@@ -40,6 +44,8 @@ const App: React.FC = () => {
     integrationBandwidth: 750,
     algorithms: 1,
     executables: 0,
+    executablesCost: 10000,
+    executablesMultiplier: 1,
     algorithmCost: 6,
     algorithmMultiplier: 1,
     bandwidthMultiplier: 1,
@@ -63,13 +69,16 @@ const App: React.FC = () => {
     integrationAlgorithmIndex: 0,
     bandwidthIndex: 0,
     networksIndex: 0,
+    executablesIndex: 0,
+    filesActivated: false,
   });
 
   const config = {
     algorithmCostBase: 6,
     algorithmCostRateGrowth: 1.07,
+    executablesCostBase: 10000,
     processingCoreProductionBase: 1.2 / 750,
-    dataProductionBase: 1038 / 100,
+    dataProductionBase: 1691 / 100,
     bandwidthReplenishmentCost:
       gameState.bandwidthIndex <= 1
         ? 50
@@ -92,6 +101,26 @@ const App: React.FC = () => {
           processingCores:
             prevGameState.processingCores - prevGameState.algorithmCost,
           algorithmCost: newAlgorithmCost(prevGameState.algorithms + 1),
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
+  const createExecutable = () => {
+    setGameState((prevGameState) => {
+      if (prevGameState.processingCores >= prevGameState.executablesCost) {
+        return {
+          ...prevGameState,
+          executables: prevGameState.executables + 1,
+          processingCores:
+            prevGameState.processingCores - prevGameState.executablesCost,
+          executablesCost:
+            (prevGameState.executablesCost * prevGameState.executablesCost) /
+            10,
         };
       } else {
         return {
@@ -324,6 +353,21 @@ const App: React.FC = () => {
     }
   };
 
+  const checkToActivateFileViewer = () => {
+    setGameState((prevGameState) => {
+      if (prevGameState.totalData > 1024 * 15) {
+        return {
+          ...prevGameState,
+          filesActivated: true,
+        };
+      } else {
+        return {
+          ...prevGameState,
+        };
+      }
+    });
+  };
+
   const encodeGameState = (state: GameState): string => {
     const jsonString = JSON.stringify(state);
     return btoa(jsonString);
@@ -363,11 +407,17 @@ const App: React.FC = () => {
       setGameState((prevGameState) => {
         incrementActiveNodes();
         incrementCognitum();
+        checkToActivateFileViewer();
         if (prevGameState.integrationBandwidth > 0) {
           const processingCoreProductionTotal =
             config.processingCoreProductionBase *
             prevGameState.algorithms *
-            prevGameState.algorithmMultiplier;
+            prevGameState.algorithmMultiplier *
+            (prevGameState.executables === 0
+              ? 1
+              : Math.log(1 + prevGameState.executables * 0.01 + 1) *
+                10 *
+                gameState.executablesMultiplier);
 
           const newProcessingCoresTotal =
             prevGameState.processingCores + processingCoreProductionTotal;
@@ -375,7 +425,12 @@ const App: React.FC = () => {
           const dataProductionTotal =
             config.dataProductionBase *
             prevGameState.algorithms *
-            prevGameState.algorithmMultiplier;
+            prevGameState.algorithmMultiplier *
+            (prevGameState.executables === 0
+              ? 1
+              : Math.log(1 + prevGameState.executables * 0.01 + 1) *
+                10 *
+                gameState.executablesMultiplier);
 
           const newDataTotal = prevGameState.totalData + dataProductionTotal;
 
@@ -425,6 +480,7 @@ const App: React.FC = () => {
         gameState={gameState}
         config={config}
         synthesizeAlgorithm={synthesizeAlgorithm}
+        createExecutable={createExecutable}
         replenishBandwidth={replenishBandwidth}
         upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
         upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
