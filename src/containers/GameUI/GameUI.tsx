@@ -2,6 +2,7 @@ import Button from '../../components/Button/Button';
 import ResourceDisplay from '../../components/ResourceDisplay/ResourceDisplay';
 import Network from '../../components/Network/Network';
 import Upgrades from '../../components/Upgrades/Upgrades';
+import FileViewer from '../../components/FileViewer/FileViewer';
 import { Upgrade } from '../../data/upgrades';
 
 interface GameUIProps {
@@ -12,6 +13,7 @@ interface GameUIProps {
     integrationBandwidth: number;
     algorithms: number;
     executables: number;
+    executablesCost: number;
     algorithmCost: number;
     algorithmMultiplier: number;
     bandwidthMultiplier: number;
@@ -30,11 +32,14 @@ interface GameUIProps {
     integrationAlgorithmIndex: number;
     bandwidthIndex: number;
     networksIndex: number;
+    executablesIndex: number;
+    filesActivated: boolean;
   };
   config: {
     bandwidthReplenishmentCost: number;
   };
   synthesizeAlgorithm: () => void;
+  createExecutable: () => void;
   replenishBandwidth: () => void;
   upgradeIntegrationAlgorithm: (
     multiplierPercentage: number | null,
@@ -54,6 +59,7 @@ const GameUI: React.FC<GameUIProps> = ({
   gameState,
   config,
   synthesizeAlgorithm,
+  createExecutable,
   replenishBandwidth,
   upgradeIntegrationAlgorithm,
   upgradeBandwidthReplenishment,
@@ -73,6 +79,10 @@ const GameUI: React.FC<GameUIProps> = ({
         onClick={replenishBandwidth}
         label={`Replenish Bandwidth (${config.bandwidthReplenishmentCost} Processing Cores)`}
       ></Button>
+      <Button
+        onClick={createExecutable}
+        label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
+      ></Button>
       <Upgrades
         gameState={gameState}
         upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
@@ -80,6 +90,7 @@ const GameUI: React.FC<GameUIProps> = ({
         buyNetwork={buyNetwork}
         handleUpgradeClick={handleUpgradeClick}
       />
+      {gameState.filesActivated && <FileViewer></FileViewer>}
       {gameState.networksActivated && (
         <Network
           gameState={gameState}
