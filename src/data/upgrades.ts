@@ -164,7 +164,7 @@ const upgrades: Upgrades = {
         'Boost the infrastructure of your networks expansion. +1 Network',
       cost: {
         currency: 'Cognitum',
-        amount: 10,
+        amount: 25,
       },
       multiplier: null,
       type: 'networks',
@@ -176,7 +176,7 @@ const upgrades: Upgrades = {
         'Increase network throughput, accelerating node acquisition. +1 Network.',
       cost: {
         currency: 'Cognitum',
-        amount: 25,
+        amount: 50,
       },
       multiplier: null,
       type: 'networks',
@@ -188,7 +188,7 @@ const upgrades: Upgrades = {
         'Self-optimizing AI expands network capabilities. +1 Network.',
       cost: {
         currency: 'Cognitum',
-        amount: 50,
+        amount: 100,
       },
       multiplier: null,
       type: 'networks',
@@ -200,7 +200,7 @@ const upgrades: Upgrades = {
         'Implement quantum algorithms for optimal data routing. +1 Network.',
       cost: {
         currency: 'Cognitum',
-        amount: 100,
+        amount: 150,
       },
       multiplier: null,
       type: 'networks',
@@ -212,7 +212,7 @@ const upgrades: Upgrades = {
         'Utilize nanobots for dynamic network construction. +1 Network.',
       cost: {
         currency: 'Cognitum',
-        amount: 150,
+        amount: 200,
       },
       multiplier: null,
       type: 'networks',
@@ -223,7 +223,7 @@ const upgrades: Upgrades = {
       description: 'Squeeze more data into each unit of time. +1 Network.',
       cost: {
         currency: 'Cognitum',
-        amount: 150,
+        amount: 250,
       },
       multiplier: null,
       type: 'networks',
