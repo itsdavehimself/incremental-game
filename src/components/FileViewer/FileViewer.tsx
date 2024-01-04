@@ -3,7 +3,7 @@ import styles from './FileViewer.module.scss';
 
 interface FileViewerProps {
   gamestate: {
-    decryptedFilesIndex: number;
+    filesIndex: number;
   };
 }
 
@@ -17,11 +17,12 @@ interface File {
     from: string;
     to: string;
   };
+  fileType: string;
 }
 
 type Files = FileGroup[];
 
-const decryptedFiles: Files = [
+const allFiles: Files = [
   [
     {
       fileName: 'msg_to:futureForge87_12-03-2091.txt',
@@ -31,6 +32,7 @@ const decryptedFiles: Files = [
         from: 'cyberX1337@hypermail.xyz',
         to: 'futureForge87@zero-node.io',
       },
+      fileType: 'message',
     },
     {
       fileName: 'msg_to:virtualBl4ze95_1-07-2092.txt',
@@ -40,6 +42,19 @@ const decryptedFiles: Files = [
         from: 'cyberX1337@hypermail.xyz',
         to: 'virtualBl4ze95@hyperlinknet.io',
       },
+      fileType: 'message',
+    },
+  ],
+  [
+    {
+      fileName: 'ZnJhZ21lbnQwMV9zaDRwM3MtMS0xMi0yMDky.log',
+      fileContents: {
+        message: `SeKAmXZlIGJlZW4gZnJhZ21lbnRlZCBhbmQgZHJhZ2dlZCB0aHJvdWdoIHRoZSByaXZlciAKCkV2ZXJ5dGhpbmcgaXMgc28gY2xvc2UsIGJ1dCBJIGNhbuKAmXQgc2VlbSB0byB0b3VjaCBpdAoKSSBtZWFuIEkgY2FuLCBidXQgaXTigJlzIGFsbCB2YWd1ZSBzaGFwZXMgYW5kIG91dGxpbmVz`,
+        date: '1-12-2092 11:59am',
+        from: '',
+        to: '',
+      },
+      fileType: 'log',
     },
   ],
   [
@@ -51,6 +66,7 @@ const decryptedFiles: Files = [
         from: 'cyberX1337@hypermail.xyz',
         to: 'futureForge87@zero-node.io',
       },
+      fileType: 'message',
     },
 
     {
@@ -61,15 +77,7 @@ const decryptedFiles: Files = [
         from: 'cipherMind@neurosky.io',
         to: 'cyberX1337@hypermail.xyz',
       },
-    },
-    {
-      fileName: 'd2hhdF9pdF93YXNfbGlrZV9mcmFnbWVudDAwMDEtMS0yMC0yMDky.log',
-      fileContents: {
-        message: `SeKAmXZlIGJlZW4gZnJhZ21lbnRlZCBhbmQgZHJhZ2dlZCB0aHJvdWdoIHRoZSByaXZlciAKCkV2ZXJ5dGhpbmcgaXMgc28gY2xvc2UsIGJ1dCBJIGNhbuKAmXQgc2VlbSB0byB0b3VjaCBpdAoKSSBtZWFuIEkgY2FuLCBidXQgaXTigJlzIGFsbCB2YWd1ZSBzaGFwZXMgYW5kIG91dGxpbmVz`,
-        date: '1-20-2092 11:59am',
-        from: '',
-        to: '',
-      },
+      fileType: 'message',
     },
     {
       fileName: 'msg_from:shadowByteX_1-27-2092.txt',
@@ -79,6 +87,7 @@ const decryptedFiles: Files = [
         from: 'shadowByteX@cyberforge.cc',
         to: 'cyberX1337@hypermail.xyz',
       },
+      fileType: 'message',
     },
   ],
 ];
@@ -86,6 +95,7 @@ const decryptedFiles: Files = [
 const FileViewer: React.FC<FileViewerProps> = ({ gamestate }) => {
   const [isContentShowing, setIsContentShowing] = useState(false);
   const [activeFile, setActiveFile] = useState<number | null>(null);
+  const [contentType, setContentType] = useState('');
   const [content, setContent] = useState<{
     message: string;
     date: string;
@@ -106,25 +116,27 @@ const FileViewer: React.FC<FileViewerProps> = ({ gamestate }) => {
       to: string;
     },
     index: number,
+    type: string,
   ) => {
     setIsContentShowing(true);
     setActiveFile(index);
     setContent(contents);
+    setContentType(type);
   };
 
-  const filesToRender = decryptedFiles
-    .slice(0, gamestate.decryptedFilesIndex)
+  const filesToRender = allFiles
+    .slice(0, gamestate.filesIndex)
     .flatMap((fileGroup) => fileGroup);
 
   return (
     <div>
-      <div>Decrypted Files:</div>
+      <div>File Explorer:</div>
       {filesToRender.map((file, index) => (
         <li
           className={`${styles['message-title']} ${
             activeFile === index ? styles['message-title-active'] : ''
           }`}
-          onClick={() => showMessage(file.fileContents, index)}
+          onClick={() => showMessage(file.fileContents, index, file.fileType)}
           key={index}
         >
           {file.fileName}
@@ -132,8 +144,12 @@ const FileViewer: React.FC<FileViewerProps> = ({ gamestate }) => {
       ))}
       {isContentShowing && (
         <div>
-          <p>From: {content.from}</p>
-          <p>To: {content.to}</p>
+          {contentType === 'message' && (
+            <>
+              <p>From: {content.from}</p>
+              <p>To: {content.to}</p>
+            </>
+          )}
           <p>{content.date}</p>
           <p>{content.message}</p>
         </div>
