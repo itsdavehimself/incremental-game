@@ -89,7 +89,7 @@ const upgrades: Upgrades = {
         'Power integration with a synergetic neural recursive engine, advancing integration algorithms by 250%.',
       cost: {
         currency: 'Nodes',
-        amount: 10000,
+        amount: 20000,
       },
       multiplier: 2.5,
       type: 'integration',
