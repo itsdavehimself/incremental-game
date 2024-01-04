@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import GameUI from './containers/GameUI/GameUI';
 import './app.scss';
-import upgrades, { Upgrade } from './data/upgrades';
+import upgrades, { Upgrade, CostBreakdown } from './data/upgrades';
 
 interface GameState {
   totalData: number;
@@ -74,7 +74,7 @@ const App: React.FC = () => {
     executablesIndex: 0,
     filesActivated: false,
     filesIndex: 0,
-    filesMilestones: [15360, 102400, 1048576, 2097152],
+    filesMilestones: [15360, 81920, 102400, 1048576, 2097152],
   });
 
   const config = {
@@ -87,6 +87,11 @@ const App: React.FC = () => {
       gameState.bandwidthIndex <= 1
         ? 50
         : 50 + 50 * (gameState.bandwidthIndex - 1),
+  };
+
+  const getUpgradeCost = (currency: string, costs: CostBreakdown[]) => {
+    const costObject = costs.find((cost) => cost.currency === currency);
+    return costObject ? costObject.amount : 0;
   };
 
   const newAlgorithmCost = (currentNumberAlgorithms: number) => {
@@ -134,51 +139,76 @@ const App: React.FC = () => {
 
   const upgradeIntegrationAlgorithm = (
     multiplierPercentage: number | null,
-    cost: number,
+    costs: CostBreakdown[],
   ) => {
     setGameState((prevGameState) => {
-      if (multiplierPercentage !== null) {
-        const updatedMultiplier =
-          prevGameState.algorithmMultiplier * (1 + multiplierPercentage);
-        return {
-          ...prevGameState,
-          algorithmMultiplier: updatedMultiplier,
-          nodesCurrent: prevGameState.nodesCurrent - cost,
-          integrationAlgorithmIndex:
-            prevGameState.integrationAlgorithmIndex + 1,
-        };
-      } else {
-        return {
-          ...prevGameState,
-          nodesCurrent: prevGameState.nodesCurrent - cost,
-          integrationAlgorithmIndex:
-            prevGameState.integrationAlgorithmIndex + 1,
-        };
-      }
+      const updatedMultiplier =
+        multiplierPercentage !== null
+          ? prevGameState.algorithmMultiplier * (1 + multiplierPercentage)
+          : prevGameState.algorithmMultiplier;
+
+      const updatedNodes =
+        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
+      const updatedCognitum =
+        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+
+      return {
+        ...prevGameState,
+        algorithmMultiplier: updatedMultiplier,
+        nodesCurrent: updatedNodes,
+        cognitum: updatedCognitum,
+        integrationAlgorithmIndex: prevGameState.integrationAlgorithmIndex + 1,
+      };
+    });
+  };
+
+  const upgradeBandwidthReplenishment = (
+    multiplierPercentage: number | null,
+    costs: CostBreakdown[],
+  ) => {
+    setGameState((prevGameState) => {
+      const updatedMultiplier =
+        multiplierPercentage !== null
+          ? prevGameState.algorithmMultiplier * (1 + multiplierPercentage)
+          : prevGameState.algorithmMultiplier;
+
+      const updatedNodes =
+        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
+      const updatedCognitum =
+        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+
+      return {
+        ...prevGameState,
+        algorithmMultiplier: updatedMultiplier,
+        nodesCurrent: updatedNodes,
+        cognitum: updatedCognitum,
+        bandwidthIndex: prevGameState.bandwidthIndex + 1,
+      };
     });
   };
 
   const upgradeExecutables = (
     multiplierPercentage: number | null,
-    cost: number,
+    costs: CostBreakdown[],
   ) => {
     setGameState((prevGameState) => {
-      if (multiplierPercentage !== null) {
-        const updatedMultiplier =
-          prevGameState.executablesMultiplier * (1 + multiplierPercentage);
-        return {
-          ...prevGameState,
-          executablesMultiplier: updatedMultiplier,
-          cognitum: prevGameState.cognitum - cost,
-          executablesIndex: prevGameState.executablesIndex + 1,
-        };
-      } else {
-        return {
-          ...prevGameState,
-          cognitum: prevGameState.cognitum - cost,
-          executablesIndex: prevGameState.executablesIndex + 1,
-        };
-      }
+      const updatedMultiplier =
+        multiplierPercentage !== null
+          ? prevGameState.algorithmMultiplier * (1 + multiplierPercentage)
+          : prevGameState.algorithmMultiplier;
+
+      const updatedNodes =
+        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
+      const updatedCognitum =
+        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+
+      return {
+        ...prevGameState,
+        executablesMultiplier: updatedMultiplier,
+        nodesCurrent: updatedNodes,
+        cognitum: updatedCognitum,
+        executablesIndex: prevGameState.executablesIndex + 1,
+      };
     });
   };
 
@@ -202,44 +232,16 @@ const App: React.FC = () => {
     });
   };
 
-  const buyNetwork = (cost: number) => {
+  const buyNetwork = (costs: CostBreakdown[]) => {
     setGameState((prevGameState) => {
-      if (prevGameState.cognitum >= cost) {
-        return {
-          ...prevGameState,
-          networksAvailable: prevGameState.networksAvailable + 1,
-          cognitum: prevGameState.cognitum - cost,
-          networksIndex: prevGameState.networksIndex + 1,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const upgradeBandwidthReplenishment = (
-    multiplierPercentage: number | null,
-    cost: number,
-  ) => {
-    setGameState((prevGameState) => {
-      if (multiplierPercentage !== null) {
-        const updatedBandwidthMultiplier =
-          prevGameState.bandwidthMultiplier * (1 + multiplierPercentage);
-        return {
-          ...prevGameState,
-          bandwidthMultiplier: updatedBandwidthMultiplier,
-          nodesCurrent: prevGameState.nodesCurrent - cost,
-          bandwidthIndex: prevGameState.bandwidthIndex + 1,
-        };
-      } else {
-        return {
-          ...prevGameState,
-          autoBandwidthReplenishment: true,
-          nodesCurrent: prevGameState.nodesCurrent - cost,
-        };
-      }
+      const updatedCognitum =
+        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+      return {
+        ...prevGameState,
+        networksAvailable: prevGameState.networksAvailable + 1,
+        cognitum: updatedCognitum,
+        networksIndex: prevGameState.networksIndex + 1,
+      };
     });
   };
 
@@ -370,13 +372,13 @@ const App: React.FC = () => {
       upgrade.purchased = true;
 
       if (category === 'integration') {
-        upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost.amount);
+        upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost);
       } else if (category === 'bandwidth') {
-        upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
-      } else if (category === 'networks') {
-        buyNetwork(upgrade.cost.amount);
+        upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
+      } else if (category === 'network') {
+        buyNetwork(upgrade.cost);
       } else {
-        upgradeExecutables(upgrade.multiplier, upgrade.cost.amount);
+        upgradeExecutables(upgrade.multiplier, upgrade.cost);
       }
     }
   };
@@ -522,9 +524,6 @@ const App: React.FC = () => {
         synthesizeAlgorithm={synthesizeAlgorithm}
         createExecutable={createExecutable}
         replenishBandwidth={replenishBandwidth}
-        upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
-        upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
-        buyNetwork={buyNetwork}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
         handleUpgradeClick={handleUpgradeClick}

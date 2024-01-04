@@ -44,14 +44,23 @@ const Upgrades: React.FC<UpgradesProps> = ({
       onClick={() => handleUpgradeClick(upgrade, category)}
       upgradeName={upgrade.name}
       upgradeDescription={upgrade.description}
-      upgradeCost={upgrade.cost.amount.toLocaleString()}
-      upgradeCurrency={upgrade.cost.currency}
-      disabled={
-        (upgrade.cost.currency === 'Cognitum' &&
-          gameState.cognitum < upgrade.cost.amount) ||
-        (upgrade.cost.currency === 'Nodes' &&
-          gameState.nodesCurrent < upgrade.cost.amount)
-      }
+      upgradeCost={upgrade.cost}
+      disabled={(() => {
+        for (let i = 0; i < upgrade.cost.length; i++) {
+          const currency = upgrade.cost[i].currency;
+          const amount = upgrade.cost[i].amount;
+
+          if (currency === 'Cognitum' && gameState.cognitum < amount) {
+            return true;
+          }
+
+          if (currency === 'Nodes' && gameState.nodesCurrent < amount) {
+            return true;
+          }
+        }
+
+        return false;
+      })()}
     />
   );
 

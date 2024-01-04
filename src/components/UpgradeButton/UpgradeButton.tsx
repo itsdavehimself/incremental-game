@@ -1,11 +1,11 @@
 import styles from './UpgradeButton.module.scss';
+import { CostBreakdown } from '../../data/upgrades';
 
 interface UpgradeButtonProps {
   onClick: () => void;
   upgradeName: string;
   upgradeDescription: string;
-  upgradeCost: string;
-  upgradeCurrency: string;
+  upgradeCost: CostBreakdown[];
   disabled: boolean;
 }
 
@@ -14,7 +14,6 @@ const UpgradeButton: React.FC<UpgradeButtonProps> = ({
   upgradeName,
   upgradeDescription,
   upgradeCost,
-  upgradeCurrency,
   disabled,
 }) => {
   return (
@@ -25,7 +24,11 @@ const UpgradeButton: React.FC<UpgradeButtonProps> = ({
     >
       <h3>{upgradeName}</h3>
       <p>{upgradeDescription}</p>
-      {upgradeCost} {upgradeCurrency}
+      {upgradeCost.map((cost, index) => (
+        <div key={index}>
+          {cost.amount} {cost.currency}
+        </div>
+      ))}
     </button>
   );
 };

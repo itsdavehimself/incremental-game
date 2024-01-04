@@ -42,15 +42,6 @@ interface GameUIProps {
   synthesizeAlgorithm: () => void;
   createExecutable: () => void;
   replenishBandwidth: () => void;
-  upgradeIntegrationAlgorithm: (
-    multiplierPercentage: number | null,
-    cost: number,
-  ) => void;
-  upgradeBandwidthReplenishment: (
-    multiplierPercentage: number | null,
-    cost: number,
-  ) => void;
-  buyNetwork: (cost: number) => void;
   allocateToGPU: () => void;
   allocateToStorage: () => void;
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
