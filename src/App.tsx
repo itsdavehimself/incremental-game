@@ -32,8 +32,8 @@ interface GameState {
   networksIndex: number;
   executablesIndex: number;
   filesActivated: boolean;
-  decryptedFilesIndex: number;
-  decryptedFilesMilestones: Array<number>;
+  filesIndex: number;
+  filesMilestones: Array<number>;
 }
 
 const App: React.FC = () => {
@@ -73,8 +73,8 @@ const App: React.FC = () => {
     networksIndex: 0,
     executablesIndex: 0,
     filesActivated: false,
-    decryptedFilesIndex: 0,
-    decryptedFilesMilestones: [15360, 1048576, 2097152],
+    filesIndex: 0,
+    filesMilestones: [15360, 102400, 1048576, 2097152],
   });
 
   const config = {
@@ -389,17 +389,16 @@ const App: React.FC = () => {
         return {
           ...prevGameState,
           filesActivated: true,
-          decryptedFilesIndex: 1,
+          filesIndex: 1,
         };
       }
 
       if (
-        currentTotalData >=
-        gameState.decryptedFilesMilestones[prevGameState.decryptedFilesIndex]
+        currentTotalData >= gameState.filesMilestones[prevGameState.filesIndex]
       ) {
         return {
           ...prevGameState,
-          decryptedFilesIndex: prevGameState.decryptedFilesIndex + 1,
+          filesIndex: prevGameState.filesIndex + 1,
         };
       } else {
         return {

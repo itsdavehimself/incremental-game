@@ -34,7 +34,7 @@ interface GameUIProps {
     networksIndex: number;
     executablesIndex: number;
     filesActivated: boolean;
-    decryptedFilesIndex: number;
+    filesIndex: number;
   };
   config: {
     bandwidthReplenishmentCost: number;
