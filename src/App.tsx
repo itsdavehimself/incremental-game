@@ -183,6 +183,7 @@ const App: React.FC = () => {
         nodesCurrent: updatedNodes,
         cognitum: updatedCognitum,
         bandwidthIndex: prevGameState.bandwidthIndex + 1,
+        autoBandwidthReplenishment: multiplierPercentage === null,
       };
     });
   };
@@ -496,7 +497,7 @@ const App: React.FC = () => {
         ) {
           const addBandwidth =
             prevGameState.integrationBandwidth +
-            1000 * prevGameState.bandwidthMultiplier;
+            750 * prevGameState.bandwidthMultiplier;
 
           const subtractProcessingCores = prevGameState.processingCores - 50;
 
