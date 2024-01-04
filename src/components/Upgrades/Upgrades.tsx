@@ -27,15 +27,6 @@ interface UpgradesProps {
     networksIndex: number;
     executablesIndex: number;
   };
-  upgradeBandwidthReplenishment: (
-    multiplierPercentage: number | null,
-    cost: number,
-  ) => void;
-  upgradeIntegrationAlgorithm: (
-    multiplierPercentage: number | null,
-    cost: number,
-  ) => void;
-  buyNetwork: (cost: number) => void;
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
 }
 

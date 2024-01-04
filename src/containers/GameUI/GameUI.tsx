@@ -62,11 +62,8 @@ const GameUI: React.FC<GameUIProps> = ({
   synthesizeAlgorithm,
   createExecutable,
   replenishBandwidth,
-  upgradeIntegrationAlgorithm,
-  upgradeBandwidthReplenishment,
   allocateToGPU,
   allocateToStorage,
-  buyNetwork,
   handleUpgradeClick,
 }) => {
   return (
@@ -84,13 +81,7 @@ const GameUI: React.FC<GameUIProps> = ({
         onClick={createExecutable}
         label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
       ></Button>
-      <Upgrades
-        gameState={gameState}
-        upgradeIntegrationAlgorithm={upgradeIntegrationAlgorithm}
-        upgradeBandwidthReplenishment={upgradeBandwidthReplenishment}
-        buyNetwork={buyNetwork}
-        handleUpgradeClick={handleUpgradeClick}
-      />
+      <Upgrades gameState={gameState} handleUpgradeClick={handleUpgradeClick} />
       {gameState.filesActivated && (
         <FileViewer gamestate={gameState}></FileViewer>
       )}
