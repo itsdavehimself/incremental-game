@@ -26,7 +26,7 @@ const decryptedFiles: Files = [
     {
       fileName: 'msg_to:futureForge87_12-03-2091.txt',
       fileContents: {
-        message: `it's so close to being done... let you know when it's ready. can't wait to watch it devour the data. lot's to do... talk soon.`,
+        message: `it's so close to being done... let you know when it's ready. can't wait to watch it devour the data. lots to do... talk soon.`,
         date: '12-03-2091 10:47pm',
         from: 'cyberX1337@hypermail.xyz',
         to: 'futureForge87@zero-node.io',
