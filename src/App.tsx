@@ -74,7 +74,7 @@ const App: React.FC = () => {
     executablesIndex: 0,
     filesActivated: false,
     filesIndex: 0,
-    filesMilestones: [15360, 81920, 102400, 1048576, 2097152],
+    filesMilestones: [15360, 81920, 102400, 1048576, 1572864, 2097152],
   });
 
   const config = {
@@ -169,8 +169,8 @@ const App: React.FC = () => {
     setGameState((prevGameState) => {
       const updatedMultiplier =
         multiplierPercentage !== null
-          ? prevGameState.algorithmMultiplier * (1 + multiplierPercentage)
-          : prevGameState.algorithmMultiplier;
+          ? prevGameState.bandwidthMultiplier * (1 + multiplierPercentage)
+          : prevGameState.bandwidthMultiplier;
 
       const updatedNodes =
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
@@ -179,7 +179,7 @@ const App: React.FC = () => {
 
       return {
         ...prevGameState,
-        algorithmMultiplier: updatedMultiplier,
+        bandwidthMultiplier: updatedMultiplier,
         nodesCurrent: updatedNodes,
         cognitum: updatedCognitum,
         bandwidthIndex: prevGameState.bandwidthIndex + 1,
@@ -194,8 +194,8 @@ const App: React.FC = () => {
     setGameState((prevGameState) => {
       const updatedMultiplier =
         multiplierPercentage !== null
-          ? prevGameState.algorithmMultiplier * (1 + multiplierPercentage)
-          : prevGameState.algorithmMultiplier;
+          ? prevGameState.executablesMultiplier * (1 + multiplierPercentage)
+          : prevGameState.executablesMultiplier;
 
       const updatedNodes =
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
