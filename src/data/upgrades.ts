@@ -96,14 +96,14 @@ const upgrades: Upgrades = {
     {
       name: 'Synergetic Neural Recursive Engine',
       description:
-        'Power integration with a synergetic neural recursive engine, advancing integration algorithms by 250%.',
+        'Power integration with a synergetic neural recursive engine, advancing integration algorithms by another 100%.',
       cost: [
         {
           currency: 'Nodes',
-          amount: 20000,
+          amount: 15000,
         },
       ],
-      multiplier: 2.5,
+      multiplier: 1,
       type: 'integration',
       purchased: false,
     },
@@ -271,6 +271,10 @@ const upgrades: Upgrades = {
       description:
         'Connect to external neural networks to speed up data integration. 100% faster .exe Binaries.',
       cost: [
+        {
+          currency: 'Nodes',
+          amount: 20000,
+        },
         {
           currency: 'Cognitum',
           amount: 50,
