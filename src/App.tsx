@@ -46,7 +46,7 @@ const App: React.FC = () => {
     integrationBandwidth: 750,
     algorithms: 1,
     executables: 0,
-    executablesCost: 10000,
+    executablesCost: 100000,
     executablesMultiplier: 1,
     algorithmCost: 6,
     algorithmMultiplier: 1,
@@ -122,9 +122,7 @@ const App: React.FC = () => {
           executables: prevGameState.executables + 1,
           processingCores:
             prevGameState.processingCores - prevGameState.executablesCost,
-          executablesCost:
-            (prevGameState.executablesCost * prevGameState.executablesCost) /
-            10,
+          executablesCost: prevGameState.executablesCost * 2,
         };
       } else {
         return {
@@ -155,6 +153,30 @@ const App: React.FC = () => {
           nodesCurrent: prevGameState.nodesCurrent - cost,
           integrationAlgorithmIndex:
             prevGameState.integrationAlgorithmIndex + 1,
+        };
+      }
+    });
+  };
+
+  const upgradeExecutables = (
+    multiplierPercentage: number | null,
+    cost: number,
+  ) => {
+    setGameState((prevGameState) => {
+      if (multiplierPercentage !== null) {
+        const updatedMultiplier =
+          prevGameState.executablesMultiplier * (1 + multiplierPercentage);
+        return {
+          ...prevGameState,
+          executablesMultiplier: updatedMultiplier,
+          cognitum: prevGameState.cognitum - cost,
+          executablesIndex: prevGameState.executablesIndex + 1,
+        };
+      } else {
+        return {
+          ...prevGameState,
+          cognitum: prevGameState.cognitum - cost,
+          executablesIndex: prevGameState.executablesIndex + 1,
         };
       }
     });
@@ -351,8 +373,10 @@ const App: React.FC = () => {
         upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost.amount);
       } else if (category === 'bandwidth') {
         upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost.amount);
-      } else {
+      } else if (category === 'networks') {
         buyNetwork(upgrade.cost.amount);
+      } else {
+        upgradeExecutables(upgrade.multiplier, upgrade.cost.amount);
       }
     }
   };
