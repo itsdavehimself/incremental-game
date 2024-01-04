@@ -34,6 +34,7 @@ interface GameUIProps {
     networksIndex: number;
     executablesIndex: number;
     filesActivated: boolean;
+    decryptedFilesIndex: number;
   };
   config: {
     bandwidthReplenishmentCost: number;
@@ -90,7 +91,9 @@ const GameUI: React.FC<GameUIProps> = ({
         buyNetwork={buyNetwork}
         handleUpgradeClick={handleUpgradeClick}
       />
-      {gameState.filesActivated && <FileViewer></FileViewer>}
+      {gameState.filesActivated && (
+        <FileViewer gamestate={gameState}></FileViewer>
+      )}
       {gameState.networksActivated && (
         <Network
           gameState={gameState}
