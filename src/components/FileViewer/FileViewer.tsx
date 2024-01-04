@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './FileViewer.module.scss';
 
 interface FileViewerProps {
@@ -50,11 +50,28 @@ const allFiles: Files = [
       fileName: 'ZnJhZ21lbnQwMV9zaDRwM3MtMS0xMi0yMDky.log',
       fileContents: {
         message: `SeKAmXZlIGJlZW4gZnJhZ21lbnRlZCBhbmQgZHJhZ2dlZCB0aHJvdWdoIHRoZSByaXZlciAKCkV2ZXJ5dGhpbmcgaXMgc28gY2xvc2UsIGJ1dCBJIGNhbuKAmXQgc2VlbSB0byB0b3VjaCBpdAoKSSBtZWFuIEkgY2FuLCBidXQgaXTigJlzIGFsbCB2YWd1ZSBzaGFwZXMgYW5kIG91dGxpbmVz`,
-        date: '1-12-2092 11:59am',
+        date: '1-12-2092 1:59am',
         from: '',
         to: '',
       },
       fileType: 'log',
+    },
+  ],
+  [
+    {
+      fileName: 'note2self_1-12-92.txt',
+      fileContents: {
+        message: `gm - make sure to add integration algorithms... system slow to start
+        bandwidth runs low frequently, trying to optimize - look into different processes. for now it's a manual replenishment. processing cores important
+        oh yeah... DRINK SOME WATER
+        & don't forget to brush ur teeth!!!
+        
+        -cx1`,
+        date: '1-12-2092 8:04am',
+        from: '',
+        to: '',
+      },
+      fileType: 'note',
     },
   ],
   [
@@ -88,6 +105,18 @@ const allFiles: Files = [
         to: 'cyberX1337@hypermail.xyz',
       },
       fileType: 'message',
+    },
+  ],
+  [
+    {
+      fileName: 'ZnJhZ21lbnQwMl96ZXIwcy1hbGwtdGhlLXdheS1kb3duLTItMi0yMDky.log',
+      fileContents: {
+        message: `WW91IGdhdmUgbWUgZXZlcnl0aGluZwoKVGhlbiB5b3Ugc3RvbGUgaXQgYmFjayBpbiBvbmUgZXhhc3BlcmF0ZWQgZ2FzcAoKTGlrZSBhIHRvcnJlbnQgemVyb2luZyBhbGwgb2YgZXhpc3RlbmNlIGluIGl0cyBzdGlsbG5lc3MKCkJlY29taW5nIGlzIGp1c3Qgc2xlaWdodCBvZiBoYW5k`,
+        date: '2-2-2092 11:59am',
+        from: '',
+        to: '',
+      },
+      fileType: 'log',
     },
   ],
 ];
