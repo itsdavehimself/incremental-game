@@ -3,6 +3,7 @@ import ResourceDisplay from '../../components/ResourceDisplay/ResourceDisplay';
 import Network from '../../components/Network/Network';
 import Upgrades from '../../components/Upgrades/Upgrades';
 import FileViewer from '../../components/FileViewer/FileViewer';
+import WalletDecryption from '../../components/WalletDecryption/WalletDecryption';
 import { Upgrade } from '../../data/upgrades';
 
 interface GameUIProps {
@@ -83,6 +84,7 @@ const GameUI: React.FC<GameUIProps> = ({
           allocateToStorage={allocateToStorage}
         />
       )}
+      <WalletDecryption></WalletDecryption>
     </div>
   );
 };
