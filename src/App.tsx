@@ -32,6 +32,8 @@ interface GameState {
   networksIndex: number;
   executablesIndex: number;
   filesActivated: boolean;
+  decryptedFilesIndex: number;
+  decryptedFilesMilestones: Array<number>;
 }
 
 const App: React.FC = () => {
@@ -71,6 +73,8 @@ const App: React.FC = () => {
     networksIndex: 0,
     executablesIndex: 0,
     filesActivated: false,
+    decryptedFilesIndex: 0,
+    decryptedFilesMilestones: [15360, 1048576, 2097152],
   });
 
   const config = {
@@ -353,12 +357,25 @@ const App: React.FC = () => {
     }
   };
 
-  const checkToActivateFileViewer = () => {
+  const checkDecryptedFileMilestones = () => {
     setGameState((prevGameState) => {
-      if (prevGameState.totalData > 1024 * 15) {
+      const currentTotalData = prevGameState.totalData;
+
+      if (currentTotalData > 1024 * 15 && !prevGameState.filesActivated) {
         return {
           ...prevGameState,
           filesActivated: true,
+          decryptedFilesIndex: 1,
+        };
+      }
+
+      if (
+        currentTotalData >=
+        gameState.decryptedFilesMilestones[prevGameState.decryptedFilesIndex]
+      ) {
+        return {
+          ...prevGameState,
+          decryptedFilesIndex: prevGameState.decryptedFilesIndex + 1,
         };
       } else {
         return {
@@ -407,7 +424,7 @@ const App: React.FC = () => {
       setGameState((prevGameState) => {
         incrementActiveNodes();
         incrementCognitum();
-        checkToActivateFileViewer();
+        checkDecryptedFileMilestones();
         if (prevGameState.integrationBandwidth > 0) {
           const processingCoreProductionTotal =
             config.processingCoreProductionBase *
