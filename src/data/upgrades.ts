@@ -305,6 +305,24 @@ const upgrades: Upgrades = {
       type: 'wallets',
       purchased: false,
     },
+    {
+      name: 'Hexadecimal Palette Deciphering',
+      description:
+        'Utilize hexadecimal codes for dynamic button colors. Adds colored buttons to Dead Wallet Decryption.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 15000,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 25,
+        },
+      ],
+      multiplier: null,
+      type: 'wallets',
+      purchased: false,
+    },
   ],
 };
 
