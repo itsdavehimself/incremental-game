@@ -48,17 +48,13 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   };
 
   const generatePrize = (decrypted: number, bricked: number) => {
-    const randomInteger = Math.floor(Math.random() * 21);
+    const randomInteger = Math.floor(Math.random() * (21 + decrypted / 2));
 
     const basePrize = randomInteger + 5;
 
-    const decryptionBonus = 1 + decrypted;
+    const brickPenalty = bricked;
 
-    const brickPenalty = bricked / 7;
-
-    const finalPrize = Math.ceil(
-      Math.max(1, basePrize + decryptionBonus - brickPenalty),
-    );
+    const finalPrize = Math.ceil(Math.max(1, basePrize - brickPenalty));
 
     return finalPrize;
   };
