@@ -40,6 +40,7 @@ interface GameUIProps {
     walletsDecrypted: number;
     walletsBricked: number;
     walletDecryptionCost: number;
+    walletDecryptionIndex: number;
   };
   config: {
     bandwidthReplenishmentCost: number;

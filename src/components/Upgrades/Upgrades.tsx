@@ -26,6 +26,7 @@ interface UpgradesProps {
     bandwidthIndex: number;
     networksIndex: number;
     executablesIndex: number;
+    walletDecryptionIndex: number;
   };
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
 }
@@ -104,6 +105,17 @@ const Upgrades: React.FC<UpgradesProps> = ({
               )
               .map((upgrade, index) =>
                 renderUpgradeButton(upgrade, 'executables', index),
+              )}
+
+          {gameState.nodesTotal >= 12000 &&
+            upgrades.wallets
+              .filter(
+                (upgrade, index) =>
+                  !upgrade.purchased &&
+                  index === gameState.walletDecryptionIndex,
+              )
+              .map((upgrade, index) =>
+                renderUpgradeButton(upgrade, 'wallets', index),
               )}
         </div>
       )}

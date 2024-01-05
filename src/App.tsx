@@ -38,6 +38,7 @@ interface GameState {
   walletsDecrypted: number;
   walletsBricked: number;
   walletDecryptionCost: number;
+  walletDecryptionIndex: number;
 }
 
 const App: React.FC = () => {
@@ -83,6 +84,7 @@ const App: React.FC = () => {
     walletsDecrypted: 0,
     walletsBricked: 0,
     walletDecryptionCost: 5000,
+    walletDecryptionIndex: 0,
   });
 
   const config = {
@@ -254,6 +256,19 @@ const App: React.FC = () => {
     });
   };
 
+  const unlockWalletDecryption = (costs: CostBreakdown[]) => {
+    setGameState((prevGameState) => {
+      const updatedNodes =
+        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
+      return {
+        ...prevGameState,
+        walletDecryptionActivated: true,
+        nodesCurrent: updatedNodes,
+        walletDecryptionIndex: prevGameState.walletDecryptionIndex + 1,
+      };
+    });
+  };
+
   const activateNetworks = () => {
     setGameState((prevGameState) => {
       return {
@@ -391,14 +406,21 @@ const App: React.FC = () => {
     if (!upgrade.purchased) {
       upgrade.purchased = true;
 
-      if (category === 'integration') {
-        upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost);
-      } else if (category === 'bandwidth') {
-        upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
-      } else if (category === 'network') {
-        buyNetwork(upgrade.cost);
-      } else {
-        upgradeExecutables(upgrade.multiplier, upgrade.cost);
+      switch (category) {
+        case 'integration':
+          upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost);
+          break;
+        case 'bandwidth':
+          upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
+          break;
+        case 'network':
+          buyNetwork(upgrade.cost);
+          break;
+        case 'wallets':
+          unlockWalletDecryption(upgrade.cost);
+          break;
+        case 'executables':
+          upgradeExecutables(upgrade.multiplier, upgrade.cost);
       }
     }
   };
