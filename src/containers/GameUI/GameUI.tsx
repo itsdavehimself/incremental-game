@@ -36,6 +36,7 @@ interface GameUIProps {
     executablesIndex: number;
     filesActivated: boolean;
     filesIndex: number;
+    walletDecryptionActivated: boolean;
     walletsDecrypted: number;
     walletsBricked: number;
     walletDecryptionCost: number;
@@ -93,12 +94,14 @@ const GameUI: React.FC<GameUIProps> = ({
           allocateToStorage={allocateToStorage}
         />
       )}
-      <WalletDecryption
-        gameState={gameState}
-        incrementWallets={incrementWallets}
-        receiveCognitumPrize={receiveCognitumPrize}
-        purchaseWalletDecryption={purchaseWalletDecryption}
-      ></WalletDecryption>
+      {gameState.walletDecryptionActivated && (
+        <WalletDecryption
+          gameState={gameState}
+          incrementWallets={incrementWallets}
+          receiveCognitumPrize={receiveCognitumPrize}
+          purchaseWalletDecryption={purchaseWalletDecryption}
+        ></WalletDecryption>
+      )}
     </div>
   );
 };
