@@ -26,7 +26,7 @@ const UpgradeButton: React.FC<UpgradeButtonProps> = ({
       <p>{upgradeDescription}</p>
       {upgradeCost.map((cost, index) => (
         <div key={index}>
-          {cost.amount} {cost.currency}
+          {cost.amount.toLocaleString()} {cost.currency}
         </div>
       ))}
     </button>
