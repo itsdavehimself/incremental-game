@@ -94,7 +94,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
                 !upgrade.purchased && index === gameState.networksIndex,
             )
             .map((upgrade, index) =>
-              renderUpgradeButton(upgrade, 'network', index),
+              renderUpgradeButton(upgrade, 'networks', index),
             )}
 
           {gameState.executables > 0 &&
