@@ -59,6 +59,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   };
 
   const startRound = () => {
+    if (isGameRunning) {
+      return;
+    }
     setIsGameRunning(true);
     setCognitumPrize(
       generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
