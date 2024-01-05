@@ -107,7 +107,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
                 renderUpgradeButton(upgrade, 'executables', index),
               )}
 
-          {gameState.nodesTotal >= 12000 &&
+          {gameState.nodesTotal >= 10000 &&
             upgrades.wallets
               .filter(
                 (upgrade, index) =>
