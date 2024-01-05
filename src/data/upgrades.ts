@@ -19,6 +19,7 @@ interface Upgrades {
   bandwidth: UpgradeCategory;
   network: UpgradeCategory;
   executables: UpgradeCategory;
+  wallets: UpgradeCategory;
 }
 
 const upgrades: Upgrades = {
@@ -277,11 +278,27 @@ const upgrades: Upgrades = {
         },
         {
           currency: 'Cognitum',
-          amount: 50,
+          amount: 100,
         },
       ],
       multiplier: 2,
       type: 'executables',
+      purchased: false,
+    },
+  ],
+  wallets: [
+    {
+      name: 'Back from the Dead',
+      description:
+        'Decrypt cold storage solutions to access lost Cognitum. Enable Dead Wallet Decryption.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 12000,
+        },
+      ],
+      multiplier: null,
+      type: 'wallets',
       purchased: false,
     },
   ],
