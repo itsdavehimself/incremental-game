@@ -36,6 +36,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   });
   const [isGameRunning, setIsGameRunning] = useState<boolean>(false);
   const [isShowingSequence, setIsShowingSequence] = useState<boolean>(false);
+  const [isShowingPrize, setIsShowingPrize] = useState(false);
   const [cognitumPrize, setCognitumPrize] = useState<number>(0);
 
   const createSequence = () => {
@@ -97,10 +98,12 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         playerSequence.length === gameSequence.length &&
         playerSequence.length > 0
       ) {
+        setIsShowingPrize(true);
         incrementWallets(true);
         setPlayerSequence([]);
         receiveCognitumPrize(cognitumPrize);
         setIsGameRunning(false);
+        setTimeout(() => setIsShowingPrize(false), 4000);
       }
     };
 
@@ -156,6 +159,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           Start Decryption ({gameState.walletDecryptionCost} Nodes)
         </button>
       </div>
+      {isShowingPrize && <div>Recovered {cognitumPrize} cognitum</div>}
     </div>
   );
 };
