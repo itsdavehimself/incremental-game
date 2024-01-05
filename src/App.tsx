@@ -410,7 +410,6 @@ const App: React.FC = () => {
         ...prevGameState,
         nodesCurrent:
           prevGameState.nodesCurrent - gameState.walletDecryptionCost,
-        walletDecryptionCost: prevGameState.walletDecryptionCost + 500,
       };
     });
   };
@@ -471,6 +470,7 @@ const App: React.FC = () => {
         return {
           ...prevGameState,
           walletsDecrypted: prevGameState.walletsDecrypted + 1,
+          walletDecryptionCost: prevGameState.walletDecryptionCost + 500,
         };
       } else {
         return {
