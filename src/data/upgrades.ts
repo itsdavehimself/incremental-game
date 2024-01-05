@@ -202,10 +202,6 @@ const upgrades: Upgrades = {
         'Increase network throughput, accelerating node acquisition. +1 Network.',
       cost: [
         {
-          currency: 'Nodes',
-          amount: 10000,
-        },
-        {
           currency: 'Cognitum',
           amount: 50,
         },
