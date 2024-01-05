@@ -49,6 +49,7 @@ interface GameUIProps {
   allocateToStorage: () => void;
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
   incrementWallets: (decrypted: boolean) => void;
+  receiveCognitumPrize: (prize: number) => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
@@ -61,6 +62,7 @@ const GameUI: React.FC<GameUIProps> = ({
   allocateToStorage,
   handleUpgradeClick,
   incrementWallets,
+  receiveCognitumPrize,
 }) => {
   return (
     <div>
@@ -91,6 +93,7 @@ const GameUI: React.FC<GameUIProps> = ({
       <WalletDecryption
         gameState={gameState}
         incrementWallets={incrementWallets}
+        receiveCognitumPrize={receiveCognitumPrize}
       ></WalletDecryption>
     </div>
   );

@@ -433,6 +433,15 @@ const App: React.FC = () => {
     });
   };
 
+  const receiveCognitumPrize = (prize: number) => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        cognitum: prevGameState.cognitum + prize,
+      };
+    });
+  };
+
   const encodeGameState = (state: GameState): string => {
     const jsonString = JSON.stringify(state);
     return btoa(jsonString);
@@ -551,6 +560,7 @@ const App: React.FC = () => {
         allocateToStorage={allocateToStorage}
         handleUpgradeClick={handleUpgradeClick}
         incrementWallets={incrementWallets}
+        receiveCognitumPrize={receiveCognitumPrize}
       />
 
       <button onClick={saveGameState}>Save Game</button>

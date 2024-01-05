@@ -7,6 +7,7 @@ interface WalletDecryptionProps {
     walletsBricked: number;
   };
   incrementWallets: (decrypted: boolean) => void;
+  receiveCognitumPrize: (prize: number) => void;
 }
 
 interface BtnColors {
@@ -19,6 +20,7 @@ interface BtnColors {
 const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   gameState,
   incrementWallets,
+  receiveCognitumPrize,
 }) => {
   const [gameSequence, setGameSequence] = useState<string[]>([]);
   const [playerSequence, setPlayerSequence] = useState<string[]>([]);
@@ -30,19 +32,37 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   });
   const [isGameRunning, setIsGameRunning] = useState<boolean>(false);
   const [isShowingSequence, setIsShowingSequence] = useState<boolean>(false);
+  const [cognitumPrize, setCognitumPrize] = useState<number>(0);
 
   const createSequence = () => {
     const btns = ['btnOne', 'btnTwo', 'btnThree', 'btnFour'];
     const randomSequence = Array.from(
-      { length: 4 },
+      { length: Math.floor(4 + gameState.walletsDecrypted / 3) },
       () => btns[Math.floor(Math.random() * btns.length)],
     );
     console.log(randomSequence);
     setGameSequence([...randomSequence]);
   };
 
+  const generatePrize = (decrypted: number, bricked: number) => {
+    const basePrize = Math.floor(Math.random() * 5);
+
+    const decryptionBonus = 1 + decrypted;
+
+    const brickPenalty = bricked / 7;
+
+    const finalPrize = Math.ceil(
+      Math.max(1, basePrize + decryptionBonus - brickPenalty),
+    );
+
+    return finalPrize;
+  };
+
   const startRound = () => {
     setIsGameRunning(true);
+    setCognitumPrize(
+      generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
+    );
     createSequence();
   };
 
@@ -76,6 +96,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       ) {
         incrementWallets(true);
         setPlayerSequence([]);
+        receiveCognitumPrize(cognitumPrize);
         setIsGameRunning(false);
       }
     };
