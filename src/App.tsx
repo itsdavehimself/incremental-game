@@ -415,34 +415,25 @@ const App: React.FC = () => {
     });
   };
 
-  enum UpgradeCategory {
-    Integration = 'integration',
-    Bandwidth = 'bandwidth',
-    Networks = 'networks',
-    Wallets = 'wallets',
-    Executables = 'executables',
-  }
-
-  const handleUpgradeClick = (upgrade: Upgrade, category: UpgradeCategory) => {
+  const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
     if (!upgrade.purchased) {
       upgrade.purchased = true;
 
       switch (category) {
-        case UpgradeCategory.Integration:
+        case 'integration':
           upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost);
           break;
-        case UpgradeCategory.Bandwidth:
+        case 'bandwidth':
           upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
           break;
-        case UpgradeCategory.Networks:
+        case 'networks':
           buyNetwork(upgrade.cost);
           break;
-        case UpgradeCategory.Wallets:
+        case 'wallets':
           unlockWalletDecryption(upgrade.cost);
           break;
-        case UpgradeCategory.Executables:
+        case 'executables':
           upgradeExecutables(upgrade.multiplier, upgrade.cost);
-          break;
       }
     }
   };
