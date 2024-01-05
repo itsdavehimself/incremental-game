@@ -83,7 +83,7 @@ const App: React.FC = () => {
     walletDecryptionActivated: false,
     walletsDecrypted: 0,
     walletsBricked: 0,
-    walletDecryptionCost: 5000,
+    walletDecryptionCost: 2000,
     walletDecryptionIndex: 0,
   });
 
@@ -245,12 +245,15 @@ const App: React.FC = () => {
 
   const buyNetwork = (costs: CostBreakdown[]) => {
     setGameState((prevGameState) => {
+      const updatedNodes =
+        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
       const updatedCognitum =
         prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
       return {
         ...prevGameState,
         networksAvailable: prevGameState.networksAvailable + 1,
         cognitum: updatedCognitum,
+        nodesCurrent: updatedNodes,
         networksIndex: prevGameState.networksIndex + 1,
       };
     });
@@ -413,7 +416,7 @@ const App: React.FC = () => {
         case 'bandwidth':
           upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
           break;
-        case 'network':
+        case 'networks':
           buyNetwork(upgrade.cost);
           break;
         case 'wallets':
@@ -526,7 +529,7 @@ const App: React.FC = () => {
               ? 1
               : Math.log(1 + prevGameState.executables * 0.01 + 1) *
                 10 *
-                gameState.executablesMultiplier);
+                prevGameState.executablesMultiplier);
 
           const newProcessingCoresTotal =
             prevGameState.processingCores + processingCoreProductionTotal;
@@ -537,9 +540,9 @@ const App: React.FC = () => {
             prevGameState.algorithmMultiplier *
             (prevGameState.executables === 0
               ? 1
-              : Math.log(1 + prevGameState.executables * 0.01 + 1) *
-                10 *
-                gameState.executablesMultiplier);
+              : Math.log(1 + prevGameState.executables * 1 + 1) *
+                7 *
+                prevGameState.executablesMultiplier);
 
           const newDataTotal = prevGameState.totalData + dataProductionTotal;
 
