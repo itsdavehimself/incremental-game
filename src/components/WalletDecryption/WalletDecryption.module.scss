@@ -8,6 +8,39 @@
   background-color: white;
 }
 
+.purple {
+  background-color: purple;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.pink {
+  background-color: pink;
+}
+
 .white:hover {
-  background-color: gray;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.highlighted {
+  animation: highlight 0.5s ease-in-out;
+}
+
+@keyframes highlight {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
