@@ -269,7 +269,7 @@ const App: React.FC = () => {
     });
   };
 
-  const unlockWalletDecryption = (costs: CostBreakdown[]) => {
+  const upgradeWalletDecryption = (costs: CostBreakdown[]) => {
     setGameState((prevGameState) => {
       const updatedNodes =
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
@@ -430,7 +430,7 @@ const App: React.FC = () => {
           buyNetwork(upgrade.cost);
           break;
         case 'wallets':
-          unlockWalletDecryption(upgrade.cost);
+          upgradeWalletDecryption(upgrade.cost);
           break;
         case 'executables':
           upgradeExecutables(upgrade.multiplier, upgrade.cost);
