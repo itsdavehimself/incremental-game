@@ -69,7 +69,17 @@ const App: React.FC = () => {
       5.24288e6, 8.388608e6, 13.631488e6, 21.020096e6, 34.651584e6, 55.67168e6,
       90.323264e6, 145.994944e6, 236.318208e6, 382.313152e6, 618.63136e6,
       1001.944512e6, 1620.575872e6, 2622.520384e6, 4243.496256e6, 6866.01664e6,
-      11109.512896e6, 17975.529536e6, 29085.042432e6,
+      11109.512896e6, 17975.529536e6, 29085.042432e6, 47060.571968e6,
+      76145.6144e6, 123206.186368e6, 199351.800768e6, 322558.987136e6,
+      521910.787904e6, 844470.788096e6, 1363981.576e6, 2208452.3648e6,
+      3572434.9408e6, 5780887.3056e6, 9353322.2464e6, 15124210.552e6,
+      24477532.7984e6, 39601743.3504e6, 64079276.1488e6, 103881019.4992e6,
+      168960295.648e6, 272841315.1488e6, 441801610.7968e6, 714642925.9456e6,
+      1159442536.7424e6, 1874085462.7392e6, 3033528007.4816e6,
+      4907613470.2208e6, 7941141477.7024e6, 12848794947.9232e6,
+      20789936425.9248e6, 33638731373.8496e6, 54428667899.7744e6,
+      88067499273.624e6, 142596067173.3984e6, 230663566446.0224e6,
+      373259633619.4208e6, 603923200065.4432e6, 977182833684.864e6,
     ],
     networkMilestonesIndex: 0,
     upgrades: upgrades,
@@ -405,25 +415,34 @@ const App: React.FC = () => {
     });
   };
 
-  const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
+  enum UpgradeCategory {
+    Integration = 'integration',
+    Bandwidth = 'bandwidth',
+    Networks = 'networks',
+    Wallets = 'wallets',
+    Executables = 'executables',
+  }
+
+  const handleUpgradeClick = (upgrade: Upgrade, category: UpgradeCategory) => {
     if (!upgrade.purchased) {
       upgrade.purchased = true;
 
       switch (category) {
-        case 'integration':
+        case UpgradeCategory.Integration:
           upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost);
           break;
-        case 'bandwidth':
+        case UpgradeCategory.Bandwidth:
           upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
           break;
-        case 'networks':
+        case UpgradeCategory.Networks:
           buyNetwork(upgrade.cost);
           break;
-        case 'wallets':
+        case UpgradeCategory.Wallets:
           unlockWalletDecryption(upgrade.cost);
           break;
-        case 'executables':
+        case UpgradeCategory.Executables:
           upgradeExecutables(upgrade.multiplier, upgrade.cost);
+          break;
       }
     }
   };
