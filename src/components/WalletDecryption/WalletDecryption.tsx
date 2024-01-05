@@ -1,7 +1,13 @@
 import styles from './WalletDecryption.module.scss';
 import { useState, useEffect } from 'react';
 
-interface WalletDecryptionProps {}
+interface WalletDecryptionProps {
+  gameState: {
+    walletsDecrypted: number;
+    walletsBricked: number;
+  };
+  incrementWallets: (decrypted: boolean) => void;
+}
 
 interface BtnColors {
   btnOne: string;
@@ -10,10 +16,12 @@ interface BtnColors {
   btnFour: string;
 }
 
-const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
+const WalletDecryption: React.FC<WalletDecryptionProps> = ({
+  gameState,
+  incrementWallets,
+}) => {
   const [gameSequence, setGameSequence] = useState<string[]>([]);
   const [playerSequence, setPlayerSequence] = useState<string[]>([]);
-  const [round, setRound] = useState<number>(0);
   const [btnColors, setBtnColors] = useState<BtnColors>({
     btnOne: 'white',
     btnTwo: 'white',
@@ -21,6 +29,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
     btnFour: 'white',
   });
   const [isGameRunning, setIsGameRunning] = useState<boolean>(false);
+  const [isShowingSequence, setIsShowingSequence] = useState<boolean>(false);
 
   const createSequence = () => {
     const btns = ['btnOne', 'btnTwo', 'btnThree', 'btnFour'];
@@ -42,6 +51,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
   };
 
   const handleButtonClick = (btnName: string) => {
+    if (isShowingSequence || !isGameRunning) {
+      return;
+    }
     setPlayerSequence((prevSequence) => [...prevSequence, btnName]);
     console.log(btnName);
     console.log(playerSequence);
@@ -51,8 +63,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
     const checkSequence = () => {
       for (let i = 0; i < playerSequence.length; i++) {
         if (playerSequence[i] !== gameSequence[i]) {
-          alert('Game Over! Try Again.');
           setPlayerSequence([]);
+          incrementWallets(false);
+          setIsGameRunning(false);
           return;
         }
       }
@@ -61,9 +74,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
         playerSequence.length === gameSequence.length &&
         playerSequence.length > 0
       ) {
-        alert(`Nice job. Well done.`);
-        setRound((prevRound) => prevRound + 1);
+        incrementWallets(true);
         setPlayerSequence([]);
+        setIsGameRunning(false);
       }
     };
 
@@ -72,12 +85,15 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
 
   useEffect(() => {
     const playSequence = () => {
+      setIsShowingSequence(true);
+
       let i = 0;
       const interval = setInterval(() => {
         showSequence(gameSequence[i]);
         i++;
         if (i >= gameSequence.length) {
           clearInterval(interval);
+          setIsShowingSequence(false);
         }
       }, 1000);
     };
@@ -90,6 +106,8 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
   return (
     <div>
       <h3>Dead Wallet Decryption</h3>
+      <div> Wallets Decrypted: {gameState.walletsDecrypted}</div>
+      <div> Wallets Bricked: {gameState.walletsBricked}</div>
       <button
         onClick={() => handleButtonClick('btnOne')}
         className={`${styles['btn']} ${styles[`${btnColors.btnOne}`]}`}
@@ -106,7 +124,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = () => {
         onClick={() => handleButtonClick('btnFour')}
         className={`${styles['btn']} ${styles[`${btnColors.btnFour}`]}`}
       ></button>{' '}
-      <button onClick={startRound}>Start Game</button>
+      <div>
+        <button onClick={startRound}>Start Decryption</button>
+      </div>
     </div>
   );
 };

@@ -36,6 +36,8 @@ interface GameUIProps {
     executablesIndex: number;
     filesActivated: boolean;
     filesIndex: number;
+    walletsDecrypted: number;
+    walletsBricked: number;
   };
   config: {
     bandwidthReplenishmentCost: number;
@@ -46,6 +48,7 @@ interface GameUIProps {
   allocateToGPU: () => void;
   allocateToStorage: () => void;
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
+  incrementWallets: (decrypted: boolean) => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
@@ -57,6 +60,7 @@ const GameUI: React.FC<GameUIProps> = ({
   allocateToGPU,
   allocateToStorage,
   handleUpgradeClick,
+  incrementWallets,
 }) => {
   return (
     <div>
@@ -84,7 +88,10 @@ const GameUI: React.FC<GameUIProps> = ({
           allocateToStorage={allocateToStorage}
         />
       )}
-      <WalletDecryption></WalletDecryption>
+      <WalletDecryption
+        gameState={gameState}
+        incrementWallets={incrementWallets}
+      ></WalletDecryption>
     </div>
   );
 };

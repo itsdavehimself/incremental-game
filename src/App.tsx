@@ -34,6 +34,9 @@ interface GameState {
   filesActivated: boolean;
   filesIndex: number;
   filesMilestones: Array<number>;
+  walletDecryptionActivated: boolean;
+  walletsDecrypted: number;
+  walletsBricked: number;
 }
 
 const App: React.FC = () => {
@@ -75,6 +78,9 @@ const App: React.FC = () => {
     filesActivated: false,
     filesIndex: 0,
     filesMilestones: [15360, 81920, 102400, 1048576, 1572864, 2097152],
+    walletDecryptionActivated: false,
+    walletsDecrypted: 0,
+    walletsBricked: 0,
   });
 
   const config = {
@@ -411,6 +417,22 @@ const App: React.FC = () => {
     });
   };
 
+  const incrementWallets = (decrypted: boolean) => {
+    setGameState((prevGameState) => {
+      if (decrypted) {
+        return {
+          ...prevGameState,
+          walletsDecrypted: prevGameState.walletsDecrypted + 1,
+        };
+      } else {
+        return {
+          ...prevGameState,
+          walletsBricked: prevGameState.walletsBricked + 1,
+        };
+      }
+    });
+  };
+
   const encodeGameState = (state: GameState): string => {
     const jsonString = JSON.stringify(state);
     return btoa(jsonString);
@@ -528,6 +550,7 @@ const App: React.FC = () => {
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
         handleUpgradeClick={handleUpgradeClick}
+        incrementWallets={incrementWallets}
       />
 
       <button onClick={saveGameState}>Save Game</button>
