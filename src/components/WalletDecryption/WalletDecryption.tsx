@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react';
 
 interface WalletDecryptionProps {
   gameState: {
+    nodesCurrent: number;
     walletsDecrypted: number;
     walletsBricked: number;
+    walletDecryptionCost: number;
   };
   incrementWallets: (decrypted: boolean) => void;
   receiveCognitumPrize: (prize: number) => void;
+  purchaseWalletDecryption: () => void;
 }
 
 interface BtnColors {
@@ -21,6 +24,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   gameState,
   incrementWallets,
   receiveCognitumPrize,
+  purchaseWalletDecryption,
 }) => {
   const [gameSequence, setGameSequence] = useState<string[]>([]);
   const [playerSequence, setPlayerSequence] = useState<string[]>([]);
@@ -40,7 +44,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       { length: Math.floor(4 + gameState.walletsDecrypted / 3) },
       () => btns[Math.floor(Math.random() * btns.length)],
     );
-    console.log(randomSequence);
     setGameSequence([...randomSequence]);
   };
 
@@ -68,6 +71,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     setCognitumPrize(
       generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
     );
+    purchaseWalletDecryption();
     createSequence();
   };
 
@@ -80,8 +84,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       return;
     }
     setPlayerSequence((prevSequence) => [...prevSequence, btnName]);
-    console.log(btnName);
-    console.log(playerSequence);
   };
 
   useEffect(() => {
@@ -151,7 +153,12 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         className={`${styles['btn']} ${styles[`${btnColors.btnFour}`]}`}
       ></button>{' '}
       <div>
-        <button onClick={startRound}>Start Decryption</button>
+        <button
+          onClick={startRound}
+          disabled={gameState.walletDecryptionCost > gameState.nodesCurrent}
+        >
+          Start Decryption ({gameState.walletDecryptionCost} Nodes)
+        </button>
       </div>
     </div>
   );

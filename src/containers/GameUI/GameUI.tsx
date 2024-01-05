@@ -38,6 +38,7 @@ interface GameUIProps {
     filesIndex: number;
     walletsDecrypted: number;
     walletsBricked: number;
+    walletDecryptionCost: number;
   };
   config: {
     bandwidthReplenishmentCost: number;
@@ -50,6 +51,7 @@ interface GameUIProps {
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
   incrementWallets: (decrypted: boolean) => void;
   receiveCognitumPrize: (prize: number) => void;
+  purchaseWalletDecryption: () => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
@@ -63,6 +65,7 @@ const GameUI: React.FC<GameUIProps> = ({
   handleUpgradeClick,
   incrementWallets,
   receiveCognitumPrize,
+  purchaseWalletDecryption,
 }) => {
   return (
     <div>
@@ -94,6 +97,7 @@ const GameUI: React.FC<GameUIProps> = ({
         gameState={gameState}
         incrementWallets={incrementWallets}
         receiveCognitumPrize={receiveCognitumPrize}
+        purchaseWalletDecryption={purchaseWalletDecryption}
       ></WalletDecryption>
     </div>
   );

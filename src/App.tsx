@@ -37,6 +37,7 @@ interface GameState {
   walletDecryptionActivated: boolean;
   walletsDecrypted: number;
   walletsBricked: number;
+  walletDecryptionCost: number;
 }
 
 const App: React.FC = () => {
@@ -81,6 +82,7 @@ const App: React.FC = () => {
     walletDecryptionActivated: false,
     walletsDecrypted: 0,
     walletsBricked: 0,
+    walletDecryptionCost: 5000,
   });
 
   const config = {
@@ -374,6 +376,17 @@ const App: React.FC = () => {
     });
   };
 
+  const purchaseWalletDecryption = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        nodesCurrent:
+          prevGameState.nodesCurrent - gameState.walletDecryptionCost,
+        walletDecryptionCost: prevGameState.walletDecryptionCost + 500,
+      };
+    });
+  };
+
   const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
     if (!upgrade.purchased) {
       upgrade.purchased = true;
@@ -561,6 +574,7 @@ const App: React.FC = () => {
         handleUpgradeClick={handleUpgradeClick}
         incrementWallets={incrementWallets}
         receiveCognitumPrize={receiveCognitumPrize}
+        purchaseWalletDecryption={purchaseWalletDecryption}
       />
 
       <button onClick={saveGameState}>Save Game</button>
