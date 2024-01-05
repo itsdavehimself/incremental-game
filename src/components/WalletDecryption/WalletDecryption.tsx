@@ -54,14 +54,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         highlighted: false,
       },
     };
-
-    if (gameState.walletDecryptionIndex === 2) {
-      baseColors.btnOne.color = 'purple';
-      baseColors.btnTwo.color = 'yellow';
-      baseColors.btnThree.color = 'blue';
-      baseColors.btnFour.color = 'pink';
-    }
-
     return baseColors;
   });
 
@@ -183,6 +175,18 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       playSequence();
     }
   }, [gameSequence, isGameRunning]);
+
+  useEffect(() => {
+    if (gameState.walletDecryptionIndex >= 2) {
+      setBtnColors((prevBtnColors) => ({
+        ...prevBtnColors,
+        btnOne: { ...prevBtnColors.btnOne, color: 'purple' },
+        btnTwo: { ...prevBtnColors.btnTwo, color: 'yellow' },
+        btnThree: { ...prevBtnColors.btnThree, color: 'blue' },
+        btnFour: { ...prevBtnColors.btnFour, color: 'pink' },
+      }));
+    }
+  }, [gameState.walletDecryptionIndex]);
 
   return (
     <div>
