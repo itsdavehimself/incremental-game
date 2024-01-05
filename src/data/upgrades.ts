@@ -101,7 +101,7 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 15000,
+          amount: 11000,
         },
       ],
       multiplier: 1,
