@@ -45,7 +45,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   };
 
   const generatePrize = (decrypted: number, bricked: number) => {
-    const basePrize = Math.floor(Math.random() * 5);
+    const randomInteger = Math.floor(Math.random() * 21);
+
+    const basePrize = randomInteger + 5;
 
     const decryptionBonus = 1 + decrypted;
 
