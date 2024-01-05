@@ -101,7 +101,7 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 11000,
+          amount: 12000,
         },
       ],
       multiplier: 1,
@@ -202,6 +202,10 @@ const upgrades: Upgrades = {
         'Increase network throughput, accelerating node acquisition. +1 Network.',
       cost: [
         {
+          currency: 'Nodes',
+          amount: 10000,
+        },
+        {
           currency: 'Cognitum',
           amount: 50,
         },
@@ -274,14 +278,14 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 20000,
+          amount: 10000,
         },
         {
           currency: 'Cognitum',
           amount: 100,
         },
       ],
-      multiplier: 2,
+      multiplier: 1,
       type: 'executables',
       purchased: false,
     },
