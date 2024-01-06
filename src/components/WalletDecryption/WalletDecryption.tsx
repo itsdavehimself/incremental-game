@@ -70,7 +70,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   const generatePrize = (decrypted: number, bricked: number) => {
     const randomInteger = Math.floor(Math.random() * (31 + decrypted / 1.3));
 
-    const basePrize = randomInteger + 10;
+    const basePrize = randomInteger + 10 + decrypted / 2;
 
     const brickPenalty = bricked;
 
@@ -109,7 +109,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     setIsShowingSolution(true);
     setTimeout(
       () => setIsShowingSolution(false),
-      250 * gameState.walletsDecrypted,
+      500 * gameState.walletsDecrypted,
     );
   };
 
