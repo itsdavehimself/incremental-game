@@ -98,7 +98,7 @@ const App: React.FC = () => {
     walletDecryptionCost: 1000,
     walletDecryptionIndex: 0,
     fractionalMemoryShards: 0,
-    memoryShardsProbability: 0.5,
+    memoryShardsProbability: 0.33,
   });
 
   const config = {
