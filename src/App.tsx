@@ -469,11 +469,15 @@ const App: React.FC = () => {
 
   const incrementWallets = (decrypted: boolean) => {
     setGameState((prevGameState) => {
+      const updatedDecryptionCost = Math.min(
+        7500,
+        prevGameState.walletDecryptionCost + 500,
+      );
       if (decrypted) {
         return {
           ...prevGameState,
           walletsDecrypted: prevGameState.walletsDecrypted + 1,
-          walletDecryptionCost: prevGameState.walletDecryptionCost + 500,
+          walletDecryptionCost: updatedDecryptionCost,
         };
       } else {
         return {
