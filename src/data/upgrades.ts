@@ -101,7 +101,11 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 12000,
+          amount: 10000,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 15,
         },
       ],
       multiplier: 1,
@@ -115,11 +119,11 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 17500,
+          amount: 15500,
         },
         {
           currency: 'Cognitum',
-          amount: 100,
+          amount: 175,
         },
       ],
       multiplier: 1,
@@ -288,25 +292,25 @@ const upgrades: Upgrades = {
     {
       name: 'Exo-Neural Interface Matrix',
       description:
-        'Connect to external neural networks to speed up data integration. 100% faster .exe Binaries.',
+        'Connect to external neural networks to speed up data integration. 300% faster .exe Binaries.',
       cost: [
         {
           currency: 'Nodes',
-          amount: 10000,
+          amount: 18500,
         },
         {
           currency: 'Cognitum',
-          amount: 100,
+          amount: 200,
         },
       ],
-      multiplier: 1,
+      multiplier: 2,
       type: 'executables',
       purchased: false,
     },
     {
       name: 'Omni-Algorithm Superstructure',
       description:
-        'Construct an all-encompassing algorithmic framework. 100% faster .exe Binaries.',
+        'Construct an all-encompassing algorithmic framework. 400% faster .exe Binaries.',
       cost: [
         {
           currency: 'Nodes',
@@ -314,10 +318,10 @@ const upgrades: Upgrades = {
         },
         {
           currency: 'Cognitum',
-          amount: 125,
+          amount: 300,
         },
       ],
-      multiplier: 1,
+      multiplier: 3,
       type: 'executables',
       purchased: false,
     },
@@ -362,11 +366,33 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 20000,
+          amount: 19500,
         },
         {
           currency: 'Cognitum',
-          amount: 75,
+          amount: 150,
+        },
+      ],
+      multiplier: null,
+      type: 'wallets',
+      purchased: false,
+    },
+    {
+      name: 'Hash AutoResolution Protocol',
+      description:
+        'Applies hash algorithms for to brute force key resolution. Automatic Dead Wallet decryption.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 25000,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 250,
+        },
+        {
+          currency: 'Fractional Core Memory Shards',
+          amount: 2,
         },
       ],
       multiplier: null,

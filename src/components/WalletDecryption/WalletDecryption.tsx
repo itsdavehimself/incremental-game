@@ -83,6 +83,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     if (isGameRunning) {
       return;
     }
+    setIsShowingSolution(false);
     setIsGameRunning(true);
     setCognitumPrize(
       generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
@@ -109,8 +110,12 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     setIsShowingSolution(true);
     setTimeout(
       () => setIsShowingSolution(false),
-      500 * gameState.walletsDecrypted,
+      350 * gameState.walletsDecrypted,
     );
+  };
+
+  const autoDecryption = (sequence: Array<string>) => {
+    setTimeout(() => setPlayerSequence(sequence), 2000);
   };
 
   const playSequence = (shouldShowSolution: boolean = true) => {
@@ -149,6 +154,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           setIsShowingSequence(false);
           if (shouldShowSolution) {
             showSolution();
+          }
+          if (gameState.walletDecryptionIndex >= 4) {
+            autoDecryption(gameSequence);
           }
         }, 1000);
       }
@@ -218,7 +226,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         }`}
       ></button>{' '}
       <div>
-        {gameState.walletDecryptionIndex >= 3 && (
+        {gameState.walletDecryptionIndex === 3 && (
           <>
             {isShowingSolution && (
               <div>
