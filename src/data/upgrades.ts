@@ -207,7 +207,7 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Cognitum',
-          amount: 25,
+          amount: 10,
         },
       ],
       multiplier: null,
