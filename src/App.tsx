@@ -292,10 +292,14 @@ const App: React.FC = () => {
   };
 
   const upgradeMemoryShardsProbability = (
-    newProbability: number,
+    newProbability: number | null,
     costs: CostBreakdown[],
   ) => {
     setGameState((prevGameState) => {
+      const updatedProbability =
+        newProbability !== null
+          ? newProbability
+          : prevGameState.memoryShardsProbability;
       const updatedNodes =
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
       const updatedCognitum =
@@ -308,7 +312,7 @@ const App: React.FC = () => {
         nodesCurrent: updatedNodes,
         cognitum: updatedCognitum,
         processingCores: updatedProcessingCores,
-        memoryShardsProbability: newProbability,
+        memoryShardsProbability: updatedProbability,
         memoryShardIndex: prevGameState.memoryShardIndex + 1,
       };
     });
