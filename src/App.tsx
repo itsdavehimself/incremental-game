@@ -39,6 +39,8 @@ interface GameState {
   walletsBricked: number;
   walletDecryptionCost: number;
   walletDecryptionIndex: number;
+  fractionalMemoryShards: number;
+  memoryShardsProbability: number;
 }
 
 const App: React.FC = () => {
@@ -57,7 +59,7 @@ const App: React.FC = () => {
     algorithmMultiplier: 1,
     bandwidthMultiplier: 1,
     autoBandwidthReplenishment: false,
-    networksActivated: false,
+    networksActivated: true,
     networks: 0,
     networksAvailable: 0,
     GPUFarms: 0,
@@ -90,11 +92,13 @@ const App: React.FC = () => {
     filesActivated: false,
     filesIndex: 0,
     filesMilestones: [15360, 81920, 102400, 1048576, 1572864, 2097152],
-    walletDecryptionActivated: false,
+    walletDecryptionActivated: true,
     walletsDecrypted: 0,
     walletsBricked: 0,
-    walletDecryptionCost: 2000,
+    walletDecryptionCost: 1000,
     walletDecryptionIndex: 0,
+    fractionalMemoryShards: 0,
+    memoryShardsProbability: 0.5,
   });
 
   const config = {
@@ -497,6 +501,15 @@ const App: React.FC = () => {
     });
   };
 
+  const receiveMemoryShardsPrize = (prize: number) => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        fractionalMemoryShards: prevGameState.fractionalMemoryShards + prize,
+      };
+    });
+  };
+
   const encodeGameState = (state: GameState): string => {
     const jsonString = JSON.stringify(state);
     return btoa(jsonString);
@@ -613,6 +626,7 @@ const App: React.FC = () => {
         incrementWallets={incrementWallets}
         receiveCognitumPrize={receiveCognitumPrize}
         purchaseWalletDecryption={purchaseWalletDecryption}
+        receiveMemoryShardsPrize={receiveMemoryShardsPrize}
       />
 
       <button onClick={saveGameState}>Save Game</button>

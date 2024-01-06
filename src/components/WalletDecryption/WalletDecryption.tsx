@@ -8,9 +8,12 @@ interface WalletDecryptionProps {
     walletsBricked: number;
     walletDecryptionCost: number;
     walletDecryptionIndex: number;
+    fractionalMemoryShards: number;
+    memoryShardsProbability: number;
   };
   incrementWallets: (decrypted: boolean) => void;
   receiveCognitumPrize: (prize: number) => void;
+  receiveMemoryShardsPrize: (prize: number) => void;
   purchaseWalletDecryption: () => void;
 }
 
@@ -31,6 +34,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   incrementWallets,
   receiveCognitumPrize,
   purchaseWalletDecryption,
+  receiveMemoryShardsPrize,
 }) => {
   const [gameSequence, setGameSequence] = useState<string[]>([]);
   const [playerSequence, setPlayerSequence] = useState<string[]>([]);
@@ -56,6 +60,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   const [isShowingSequence, setIsShowingSequence] = useState<boolean>(false);
   const [isShowingPrize, setIsShowingPrize] = useState(false);
   const [cognitumPrize, setCognitumPrize] = useState<number>(0);
+  const [memoryShardsPrize, setMemoryShardsPrize] = useState<number>(0);
   const [isShowingSolution, setIsShowingSolution] = useState(false);
 
   const createSequence = () => {
@@ -79,15 +84,36 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     return finalPrize;
   };
 
+  const calculateMemoryShards = (decrypted: number) => {
+    const baseShardsAmount = Math.round((Math.random() * decrypted) / 3) / 10;
+    const shardsPrize =
+      Math.round((baseShardsAmount + decrypted / 45) * 10) / 10;
+    setMemoryShardsPrize(shardsPrize);
+
+    return shardsPrize;
+  };
+
+  const generateMemoryShards = () => {
+    const randomNumber = Math.random();
+    if (randomNumber < gameState.memoryShardsProbability) {
+      calculateMemoryShards(gameState.walletsDecrypted);
+    } else {
+      return;
+    }
+  };
+
   const startRound = () => {
     if (isGameRunning) {
       return;
     }
-    setIsShowingSolution(false);
     setIsGameRunning(true);
+    setIsShowingSolution(false);
     setCognitumPrize(
       generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
     );
+    if (gameState.walletsDecrypted > 14) {
+      generateMemoryShards();
+    }
     purchaseWalletDecryption();
     createSequence();
   };
@@ -176,14 +202,21 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
 
       if (
         playerSequence.length === gameSequence.length &&
-        playerSequence.length > 0
+        playerSequence.length > 0 &&
+        !isShowingPrize
       ) {
         setIsShowingPrize(true);
         incrementWallets(true);
+        console.log('yo this is triggering me');
         setPlayerSequence([]);
         receiveCognitumPrize(cognitumPrize);
-        setIsGameRunning(false);
-        setTimeout(() => setIsShowingPrize(false), 3000);
+        receiveMemoryShardsPrize(memoryShardsPrize);
+        setTimeout(() => {
+          setIsShowingPrize(false);
+        }, 3000);
+        setTimeout(() => {
+          setIsGameRunning(false);
+        }, 3500);
       }
     };
 
@@ -201,6 +234,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       <h3>Dead Wallet Decryption</h3>
       <div> Wallets Decrypted: {gameState.walletsDecrypted}</div>
       <div> Wallets Bricked: {gameState.walletsBricked}</div>
+      {gameState.walletsDecrypted >= 15 && (
+        <div>Fractional Memory Shards: {gameState.fractionalMemoryShards}</div>
+      )}
       <button
         onClick={() => handleButtonClick('btnOne')}
         className={`${styles['btn']} ${styles.white} ${
@@ -241,7 +277,10 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       <div>
         <button
           onClick={startRound}
-          disabled={gameState.walletDecryptionCost > gameState.nodesCurrent}
+          disabled={
+            gameState.walletDecryptionCost > gameState.nodesCurrent ||
+            isGameRunning
+          }
         >
           Start Decryption ({gameState.walletDecryptionCost.toLocaleString()}{' '}
           Nodes)
@@ -250,7 +289,12 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       {gameState.walletDecryptionIndex >= 2 && (
         <button onClick={() => playSequence(false)}>Replay Sequence</button>
       )}
-      {isShowingPrize && <div>Recovered {cognitumPrize} cognitum</div>}
+      {isShowingPrize && (
+        <>
+          <div>Recovered {cognitumPrize} cognitum</div>
+          <div>Recovered {memoryShardsPrize} fractional memory shards</div>
+        </>
+      )}
     </div>
   );
 };
