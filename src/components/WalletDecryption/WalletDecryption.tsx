@@ -110,6 +110,48 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     setTimeout(() => setIsShowingSolution(false), 3500);
   };
 
+  const playSequence = (shouldShowSolution: boolean = true) => {
+    setIsShowingSequence(true);
+
+    let i = 0;
+    const interval = setInterval(() => {
+      const currentButton = gameSequence[i];
+
+      setBtnColors((prevColors) => {
+        const updatedColors: BtnColors = {
+          ...prevColors,
+          [currentButton]: {
+            highlighted: true,
+          },
+        };
+        return updatedColors;
+      });
+
+      setTimeout(() => {
+        setBtnColors((prevColors) => {
+          const updatedColors: BtnColors = {
+            ...prevColors,
+            [currentButton]: {
+              highlighted: false,
+            },
+          };
+          return updatedColors;
+        });
+      }, 500);
+
+      i++;
+      if (i >= gameSequence.length) {
+        setTimeout(() => {
+          clearInterval(interval);
+          setIsShowingSequence(false);
+          if (shouldShowSolution) {
+            showSolution();
+          }
+        }, 1000);
+      }
+    }, 1000);
+  };
+
   useEffect(() => {
     const checkSequence = () => {
       for (let i = 0; i < playerSequence.length; i++) {
@@ -138,46 +180,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   }, [playerSequence]);
 
   useEffect(() => {
-    const playSequence = () => {
-      setIsShowingSequence(true);
-
-      let i = 0;
-      const interval = setInterval(() => {
-        const currentButton = gameSequence[i];
-
-        setBtnColors((prevColors) => {
-          const updatedColors: BtnColors = {
-            ...prevColors,
-            [currentButton]: {
-              highlighted: true,
-            },
-          };
-          return updatedColors;
-        });
-
-        setTimeout(() => {
-          setBtnColors((prevColors) => {
-            const updatedColors: BtnColors = {
-              ...prevColors,
-              [currentButton]: {
-                highlighted: false,
-              },
-            };
-            return updatedColors;
-          });
-        }, 500);
-
-        i++;
-        if (i >= gameSequence.length) {
-          setTimeout(() => {
-            clearInterval(interval);
-            setIsShowingSequence(false);
-            showSolution();
-          }, 1000);
-        }
-      }, 1000);
-    };
-
     if (isGameRunning) {
       playSequence();
     }
@@ -213,7 +215,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         }`}
       ></button>{' '}
       <div>
-        {gameState.walletDecryptionIndex >= 2 && (
+        {gameState.walletDecryptionIndex >= 3 && (
           <>
             {isShowingSolution && (
               <div>
@@ -234,6 +236,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           Nodes)
         </button>
       </div>
+      {gameState.walletDecryptionIndex >= 2 && (
+        <button onClick={() => playSequence(false)}>Replay Sequence</button>
+      )}
       {isShowingPrize && <div>Recovered {cognitumPrize} cognitum</div>}
     </div>
   );
