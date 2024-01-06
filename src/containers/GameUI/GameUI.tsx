@@ -41,6 +41,8 @@ interface GameUIProps {
     walletsBricked: number;
     walletDecryptionCost: number;
     walletDecryptionIndex: number;
+    fractionalMemoryShards: number;
+    memoryShardsProbability: number;
   };
   config: {
     bandwidthReplenishmentCost: number;
@@ -54,6 +56,7 @@ interface GameUIProps {
   incrementWallets: (decrypted: boolean) => void;
   receiveCognitumPrize: (prize: number) => void;
   purchaseWalletDecryption: () => void;
+  receiveMemoryShardsPrize: (prize: number) => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
@@ -68,6 +71,7 @@ const GameUI: React.FC<GameUIProps> = ({
   incrementWallets,
   receiveCognitumPrize,
   purchaseWalletDecryption,
+  receiveMemoryShardsPrize,
 }) => {
   return (
     <div>
@@ -103,6 +107,7 @@ const GameUI: React.FC<GameUIProps> = ({
           incrementWallets={incrementWallets}
           receiveCognitumPrize={receiveCognitumPrize}
           purchaseWalletDecryption={purchaseWalletDecryption}
+          receiveMemoryShardsPrize={receiveMemoryShardsPrize}
         ></WalletDecryption>
       )}
     </div>
