@@ -273,10 +273,13 @@ const App: React.FC = () => {
     setGameState((prevGameState) => {
       const updatedNodes =
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
+      const updatedCognitum =
+        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
       return {
         ...prevGameState,
         walletDecryptionActivated: true,
         nodesCurrent: updatedNodes,
+        cognitum: updatedCognitum,
         walletDecryptionIndex: prevGameState.walletDecryptionIndex + 1,
       };
     });
