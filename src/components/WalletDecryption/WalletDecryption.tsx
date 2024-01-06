@@ -107,7 +107,10 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
 
   const showSolution = () => {
     setIsShowingSolution(true);
-    setTimeout(() => setIsShowingSolution(false), 3500);
+    setTimeout(
+      () => setIsShowingSolution(false),
+      250 * gameState.walletsDecrypted,
+    );
   };
 
   const playSequence = (shouldShowSolution: boolean = true) => {
