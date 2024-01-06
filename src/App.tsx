@@ -470,8 +470,8 @@ const App: React.FC = () => {
   const incrementWallets = (decrypted: boolean) => {
     setGameState((prevGameState) => {
       const updatedDecryptionCost = Math.min(
-        7500,
-        prevGameState.walletDecryptionCost + 500,
+        5000,
+        prevGameState.walletDecryptionCost + 250,
       );
       if (decrypted) {
         return {
@@ -544,8 +544,8 @@ const App: React.FC = () => {
             prevGameState.algorithmMultiplier *
             (prevGameState.executables === 0
               ? 1
-              : Math.log(1 + prevGameState.executables * 0.01 + 1) *
-                10 *
+              : Math.log(1 + prevGameState.executables * 0.75 + 1) *
+                5 *
                 prevGameState.executablesMultiplier);
 
           const newProcessingCoresTotal =
@@ -557,8 +557,8 @@ const App: React.FC = () => {
             prevGameState.algorithmMultiplier *
             (prevGameState.executables === 0
               ? 1
-              : Math.log(1 + prevGameState.executables * 1 + 1) *
-                7 *
+              : Math.log(1 + prevGameState.executables * 0.75 + 1) *
+                5 *
                 prevGameState.executablesMultiplier);
 
           const newDataTotal = prevGameState.totalData + dataProductionTotal;
