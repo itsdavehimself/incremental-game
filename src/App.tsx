@@ -393,7 +393,7 @@ const App: React.FC = () => {
         prevGameState.networksActivated &&
         prevGameState.nodesCurrent === prevGameState.nodesTotal
       ) {
-        const incrementedCognitum = prevGameState.cognitum + 1 / 250;
+        const incrementedCognitum = prevGameState.cognitum + 1 / 500;
 
         return {
           ...prevGameState,
@@ -584,14 +584,10 @@ const App: React.FC = () => {
           const addBandwidth =
             prevGameState.integrationBandwidth +
             750 * prevGameState.bandwidthMultiplier;
-
-          const subtractProcessingCores = prevGameState.processingCores - 50;
-
           if (prevGameState.processingCores >= 50) {
             return {
               ...prevGameState,
               integrationBandwidth: addBandwidth,
-              processingCores: subtractProcessingCores,
             };
           }
         }
