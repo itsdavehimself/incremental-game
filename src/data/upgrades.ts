@@ -111,7 +111,7 @@ const upgrades: Upgrades = {
     {
       name: 'Neuro-Inferential Processing Array',
       description:
-        'Implement an array for neuro-inferential processing, enabling advanced cognitive computations increasing algorithms by 200%.',
+        'Implement an array for neuro-inferential processing, enabling advanced cognitive computations increasing algorithms by 100%.',
       cost: [
         {
           currency: 'Nodes',
@@ -310,11 +310,11 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 20000,
+          amount: 22000,
         },
         {
           currency: 'Cognitum',
-          amount: 250,
+          amount: 125,
         },
       ],
       multiplier: 1,
@@ -340,7 +340,7 @@ const upgrades: Upgrades = {
     {
       name: 'Cryptographic Snapshot Replay',
       description:
-        'Replay button sequences using cryptographic snapshot data. Displays button sequence in Dead Wallet Decryption.',
+        'Replay button sequences using cryptographic snapshot data. Replays button sequence in Dead Wallet Decryption.',
       cost: [
         {
           currency: 'Nodes',
@@ -349,6 +349,24 @@ const upgrades: Upgrades = {
         {
           currency: 'Cognitum',
           amount: 50,
+        },
+      ],
+      multiplier: null,
+      type: 'wallets',
+      purchased: false,
+    },
+    {
+      name: 'Decentralized Key Disclosure',
+      description:
+        'Utilize a decentralized algorithm to reveal key sequences. Reveals button sequence for a short time.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 20000,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 75,
         },
       ],
       multiplier: null,
