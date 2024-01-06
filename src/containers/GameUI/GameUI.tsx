@@ -43,6 +43,7 @@ interface GameUIProps {
     walletDecryptionIndex: number;
     fractionalMemoryShards: number;
     memoryShardsProbability: number;
+    memoryShardIndex: number;
   };
   config: {
     bandwidthReplenishmentCost: number;

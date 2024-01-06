@@ -27,6 +27,8 @@ interface UpgradesProps {
     networksIndex: number;
     executablesIndex: number;
     walletDecryptionIndex: number;
+    walletsDecrypted: number;
+    memoryShardIndex: number;
   };
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
 }
@@ -56,6 +58,13 @@ const Upgrades: React.FC<UpgradesProps> = ({
           }
 
           if (currency === 'Nodes' && gameState.nodesCurrent < amount) {
+            return true;
+          }
+
+          if (
+            currency === 'Processing Cores' &&
+            gameState.processingCores < amount
+          ) {
             return true;
           }
         }
@@ -116,6 +125,16 @@ const Upgrades: React.FC<UpgradesProps> = ({
               )
               .map((upgrade, index) =>
                 renderUpgradeButton(upgrade, 'wallets', index),
+              )}
+
+          {gameState.walletsDecrypted >= 15 &&
+            upgrades.shards
+              .filter(
+                (upgrade, index) =>
+                  !upgrade.purchased && index === gameState.memoryShardIndex,
+              )
+              .map((upgrade, index) =>
+                renderUpgradeButton(upgrade, 'shards', index),
               )}
         </div>
       )}

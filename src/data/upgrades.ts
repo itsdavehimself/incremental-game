@@ -20,6 +20,7 @@ interface Upgrades {
   network: UpgradeCategory;
   executables: UpgradeCategory;
   wallets: UpgradeCategory;
+  shards: UpgradeCategory;
 }
 
 const upgrades: Upgrades = {
@@ -391,12 +392,32 @@ const upgrades: Upgrades = {
           amount: 250,
         },
         {
-          currency: 'Fractional Core Memory Shards',
+          currency: 'Fractional Memory Shards',
           amount: 2,
         },
       ],
       multiplier: null,
       type: 'wallets',
+      purchased: false,
+    },
+  ],
+  shards: [
+    {
+      name: 'NeuroMesh Cortex Integrator',
+      description:
+        'Integrate NeuroMesh for advanced memory shard discovery. Increase probability of finding memory shards to 50%.',
+      cost: [
+        {
+          currency: 'Processing Cores',
+          amount: 20000000,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 100,
+        },
+      ],
+      multiplier: null,
+      type: 'shards',
       purchased: false,
     },
   ],

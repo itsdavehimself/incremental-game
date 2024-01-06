@@ -41,6 +41,7 @@ interface GameState {
   walletDecryptionIndex: number;
   fractionalMemoryShards: number;
   memoryShardsProbability: number;
+  memoryShardIndex: number;
 }
 
 const App: React.FC = () => {
@@ -59,7 +60,7 @@ const App: React.FC = () => {
     algorithmMultiplier: 1,
     bandwidthMultiplier: 1,
     autoBandwidthReplenishment: false,
-    networksActivated: true,
+    networksActivated: false,
     networks: 0,
     networksAvailable: 0,
     GPUFarms: 0,
@@ -92,13 +93,14 @@ const App: React.FC = () => {
     filesActivated: false,
     filesIndex: 0,
     filesMilestones: [15360, 81920, 102400, 1048576, 1572864, 2097152],
-    walletDecryptionActivated: true,
+    walletDecryptionActivated: false,
     walletsDecrypted: 0,
     walletsBricked: 0,
     walletDecryptionCost: 1000,
     walletDecryptionIndex: 0,
     fractionalMemoryShards: 0,
     memoryShardsProbability: 0.33,
+    memoryShardIndex: 0,
   });
 
   const config = {
@@ -289,6 +291,29 @@ const App: React.FC = () => {
     });
   };
 
+  const upgradeMemoryShardsProbability = (
+    newProbability: number,
+    costs: CostBreakdown[],
+  ) => {
+    setGameState((prevGameState) => {
+      const updatedNodes =
+        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
+      const updatedCognitum =
+        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+      const updatedProcessingCores =
+        prevGameState.processingCores -
+        getUpgradeCost('Processing Cores', costs);
+      return {
+        ...prevGameState,
+        nodesCurrent: updatedNodes,
+        cognitum: updatedCognitum,
+        processingCores: updatedProcessingCores,
+        memoryShardsProbability: newProbability,
+        memoryShardIndex: prevGameState.memoryShardIndex + 1,
+      };
+    });
+  };
+
   const activateNetworks = () => {
     setGameState((prevGameState) => {
       return {
@@ -440,6 +465,10 @@ const App: React.FC = () => {
           break;
         case 'executables':
           upgradeExecutables(upgrade.multiplier, upgrade.cost);
+          break;
+        case 'shards':
+          upgradeMemoryShardsProbability(upgrade.multiplier, upgrade.cost);
+          break;
       }
     }
   };
