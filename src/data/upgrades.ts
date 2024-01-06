@@ -108,6 +108,24 @@ const upgrades: Upgrades = {
       type: 'integration',
       purchased: false,
     },
+    {
+      name: 'Neuro-Inferential Processing Array',
+      description:
+        'Implement an array for neuro-inferential processing, enabling advanced cognitive computations increasing algorithms by 200%.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 17500,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 100,
+        },
+      ],
+      multiplier: 1,
+      type: 'integration',
+      purchased: false,
+    },
   ],
   bandwidth: [
     {
@@ -285,6 +303,24 @@ const upgrades: Upgrades = {
       type: 'executables',
       purchased: false,
     },
+    {
+      name: 'Omni-Algorithm Superstructure',
+      description:
+        'Construct an all-encompassing algorithmic framework. 100% faster .exe Binaries.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 20000,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 250,
+        },
+      ],
+      multiplier: 1,
+      type: 'executables',
+      purchased: false,
+    },
   ],
   wallets: [
     {
@@ -302,9 +338,9 @@ const upgrades: Upgrades = {
       purchased: false,
     },
     {
-      name: 'Hexadecimal Palette Deciphering',
+      name: 'Cryptographic Snapshot Replay',
       description:
-        'Utilize hexadecimal codes for dynamic button colors. Adds colored buttons to Dead Wallet Decryption.',
+        'Replay button sequences using cryptographic snapshot data. Displays button sequence in Dead Wallet Decryption.',
       cost: [
         {
           currency: 'Nodes',
@@ -312,7 +348,7 @@ const upgrades: Upgrades = {
         },
         {
           currency: 'Cognitum',
-          amount: 25,
+          amount: 50,
         },
       ],
       multiplier: null,

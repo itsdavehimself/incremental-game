@@ -15,7 +15,6 @@ interface WalletDecryptionProps {
 }
 
 interface BtnInfo {
-  color: string;
   highlighted: boolean;
 }
 
@@ -38,19 +37,15 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   const [btnColors, setBtnColors] = useState<BtnColors>(() => {
     const baseColors = {
       btnOne: {
-        color: 'white',
         highlighted: false,
       },
       btnTwo: {
-        color: 'white',
         highlighted: false,
       },
       btnThree: {
-        color: 'white',
         highlighted: false,
       },
       btnFour: {
-        color: 'white',
         highlighted: false,
       },
     };
@@ -61,6 +56,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   const [isShowingSequence, setIsShowingSequence] = useState<boolean>(false);
   const [isShowingPrize, setIsShowingPrize] = useState(false);
   const [cognitumPrize, setCognitumPrize] = useState<number>(0);
+  const [isShowingSolution, setIsShowingSolution] = useState(false);
 
   const createSequence = () => {
     const btns = ['btnOne', 'btnTwo', 'btnThree', 'btnFour'];
@@ -72,9 +68,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   };
 
   const generatePrize = (decrypted: number, bricked: number) => {
-    const randomInteger = Math.floor(Math.random() * (21 + decrypted / 2));
+    const randomInteger = Math.floor(Math.random() * (31 + decrypted / 1.3));
 
-    const basePrize = randomInteger + 5;
+    const basePrize = randomInteger + 10;
 
     const brickPenalty = bricked;
 
@@ -100,6 +96,18 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       return;
     }
     setPlayerSequence((prevSequence) => [...prevSequence, btnName]);
+  };
+
+  const ButtonMapping: Record<string, number> = {
+    btnOne: 1,
+    btnTwo: 2,
+    btnThree: 3,
+    btnFour: 4,
+  };
+
+  const showSolution = () => {
+    setIsShowingSolution(true);
+    setTimeout(() => setIsShowingSolution(false), 3500);
   };
 
   useEffect(() => {
@@ -141,7 +149,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           const updatedColors: BtnColors = {
             ...prevColors,
             [currentButton]: {
-              ...prevColors[currentButton],
               highlighted: true,
             },
           };
@@ -153,7 +160,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
             const updatedColors: BtnColors = {
               ...prevColors,
               [currentButton]: {
-                ...prevColors[currentButton],
                 highlighted: false,
               },
             };
@@ -166,6 +172,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           setTimeout(() => {
             clearInterval(interval);
             setIsShowingSequence(false);
+            showSolution();
           }, 1000);
         }
       }, 1000);
@@ -176,18 +183,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     }
   }, [gameSequence, isGameRunning]);
 
-  useEffect(() => {
-    if (gameState.walletDecryptionIndex >= 2) {
-      setBtnColors((prevBtnColors) => ({
-        ...prevBtnColors,
-        btnOne: { ...prevBtnColors.btnOne, color: 'purple' },
-        btnTwo: { ...prevBtnColors.btnTwo, color: 'yellow' },
-        btnThree: { ...prevBtnColors.btnThree, color: 'blue' },
-        btnFour: { ...prevBtnColors.btnFour, color: 'pink' },
-      }));
-    }
-  }, [gameState.walletDecryptionIndex]);
-
   return (
     <div>
       <h3>Dead Wallet Decryption</h3>
@@ -195,28 +190,41 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       <div> Wallets Bricked: {gameState.walletsBricked}</div>
       <button
         onClick={() => handleButtonClick('btnOne')}
-        className={`${styles['btn']} ${styles[`${btnColors.btnOne.color}`]} ${
+        className={`${styles['btn']} ${styles.white} ${
           btnColors.btnOne.highlighted ? styles.highlighted : ''
         }`}
       ></button>{' '}
       <button
         onClick={() => handleButtonClick('btnTwo')}
-        className={`${styles['btn']} ${styles[`${btnColors.btnTwo.color}`]} ${
+        className={`${styles['btn']} ${styles.white} ${
           btnColors.btnTwo.highlighted ? styles.highlighted : ''
         }`}
       ></button>{' '}
       <button
         onClick={() => handleButtonClick('btnThree')}
-        className={`${styles['btn']} ${styles[`${btnColors.btnThree.color}`]} ${
+        className={`${styles['btn']} ${styles.white} ${
           btnColors.btnThree.highlighted ? styles.highlighted : ''
         }`}
       ></button>{' '}
       <button
         onClick={() => handleButtonClick('btnFour')}
-        className={`${styles['btn']} ${styles[`${btnColors.btnFour.color}`]} ${
+        className={`${styles['btn']} ${styles.white} ${
           btnColors.btnFour.highlighted ? styles.highlighted : ''
         }`}
       ></button>{' '}
+      <div>
+        {gameState.walletDecryptionIndex >= 2 && (
+          <>
+            {isShowingSolution && (
+              <div>
+                {gameSequence.map((btn, index) => (
+                  <span key={index}>{ButtonMapping[btn]} </span>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
       <div>
         <button
           onClick={startRound}
