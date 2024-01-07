@@ -42,6 +42,7 @@ interface GameState {
   fractionalMemoryShards: number;
   memoryShardsProbability: number;
   memoryShardIndex: number;
+  timeElapsed: number;
 }
 
 const App: React.FC = () => {
@@ -101,6 +102,7 @@ const App: React.FC = () => {
     fractionalMemoryShards: 0,
     memoryShardsProbability: 0.33,
     memoryShardIndex: 0,
+    timeElapsed: 0,
   });
 
   const config = {
@@ -125,6 +127,15 @@ const App: React.FC = () => {
       config.algorithmCostBase *
       config.algorithmCostRateGrowth ** currentNumberAlgorithms;
     return Math.ceil(newCost);
+  };
+
+  const incrementTime = () => {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        timeElapsed: prevGameState.timeElapsed + 0.01,
+      };
+    });
   };
 
   const synthesizeAlgorithm = () => {
@@ -228,6 +239,9 @@ const App: React.FC = () => {
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
       const updatedCognitum =
         prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+      const updatedMemoryShards =
+        prevGameState.fractionalMemoryShards -
+        getUpgradeCost('Fractional Memory Shards', costs);
 
       return {
         ...prevGameState,
@@ -235,6 +249,7 @@ const App: React.FC = () => {
         nodesCurrent: updatedNodes,
         cognitum: updatedCognitum,
         executablesIndex: prevGameState.executablesIndex + 1,
+        fractionalMemoryShards: updatedMemoryShards,
       };
     });
   };
@@ -289,11 +304,19 @@ const App: React.FC = () => {
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
       const updatedCognitum =
         prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+      const updatedMemoryShards =
+        prevGameState.fractionalMemoryShards -
+        getUpgradeCost('Fractional Memory Shards', costs);
+      const updatedProcessingCores =
+        prevGameState.processingCores -
+        getUpgradeCost('Processing Cores', costs);
       return {
         ...prevGameState,
         walletDecryptionActivated: true,
         nodesCurrent: updatedNodes,
         cognitum: updatedCognitum,
+        fractionalMemoryShards: updatedMemoryShards,
+        processingCores: updatedProcessingCores,
         walletDecryptionIndex: prevGameState.walletDecryptionIndex + 1,
       };
     });
@@ -585,9 +608,21 @@ const App: React.FC = () => {
     }
   };
 
+  const formatTime = (totalSeconds: number) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${
+      seconds < 10 ? '0' : ''
+    }${seconds}`;
+    return formattedTime;
+  };
+
   useEffect(() => {
     const intervalID = setInterval(() => {
       setGameState((prevGameState) => {
+        incrementTime();
         incrementActiveNodes();
         incrementCognitum();
         checkDecryptedFileMilestones();
@@ -685,6 +720,7 @@ const App: React.FC = () => {
         />
         <button onClick={handleLoadButtonClick}>Load Game</button>
       </div>
+      <div>{formatTime(gameState.timeElapsed)} elapsed</div>
     </div>
   );
 };
