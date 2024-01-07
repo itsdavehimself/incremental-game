@@ -153,7 +153,7 @@ const App: React.FC = () => {
           executables: prevGameState.executables + 1,
           processingCores:
             prevGameState.processingCores - prevGameState.executablesCost,
-          executablesCost: prevGameState.executablesCost * 2,
+          executablesCost: prevGameState.executablesCost * 10,
         };
       } else {
         return {
@@ -265,12 +265,20 @@ const App: React.FC = () => {
         prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
       const updatedCognitum =
         prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+      const updatedMemoryShards =
+        prevGameState.fractionalMemoryShards -
+        getUpgradeCost('Fractional Memory Shards', costs);
+      const updatedProcessingCores =
+        prevGameState.processingCores -
+        getUpgradeCost('Processing Cores', costs);
       return {
         ...prevGameState,
         networksAvailable: prevGameState.networksAvailable + 1,
         cognitum: updatedCognitum,
         nodesCurrent: updatedNodes,
         networksIndex: prevGameState.networksIndex + 1,
+        fractionalMemoryShards: updatedMemoryShards,
+        processingCores: updatedProcessingCores,
       };
     });
   };
