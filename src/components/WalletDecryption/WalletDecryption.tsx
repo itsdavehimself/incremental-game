@@ -235,7 +235,10 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       <div> Wallets Decrypted: {gameState.walletsDecrypted}</div>
       <div> Wallets Bricked: {gameState.walletsBricked}</div>
       {gameState.walletsDecrypted >= 15 && (
-        <div>Fractional Memory Shards: {gameState.fractionalMemoryShards}</div>
+        <div>
+          Fractional Memory Shards:{' '}
+          {gameState.fractionalMemoryShards.toFixed(1)}
+        </div>
       )}
       <button
         onClick={() => handleButtonClick('btnOne')}
@@ -292,7 +295,11 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       {isShowingPrize && (
         <>
           <div>Recovered {cognitumPrize} cognitum</div>
-          <div>Recovered {memoryShardsPrize} fractional memory shards</div>
+          {gameState.walletsDecrypted > 14 && (
+            <div>
+              Recovered {memoryShardsPrize.toFixed(1)} fractional memory shards
+            </div>
+          )}
         </>
       )}
     </div>
