@@ -267,8 +267,8 @@ const upgrades: Upgrades = {
         'Utilize nanobots for dynamic network construction. +1 Network.',
       cost: [
         {
-          currency: 'Cognitum',
-          amount: 200,
+          currency: 'Processing Cores',
+          amount: 3500000,
         },
       ],
       multiplier: null,
@@ -280,8 +280,12 @@ const upgrades: Upgrades = {
       description: 'Squeeze more data into each unit of time. +1 Network.',
       cost: [
         {
-          currency: 'Cognitum',
-          amount: 250,
+          currency: 'Processing Cores',
+          amount: 6500000,
+        },
+        {
+          currency: 'Fractional Memory Shards',
+          amount: 5,
         },
       ],
       multiplier: null,
@@ -321,6 +325,10 @@ const upgrades: Upgrades = {
           currency: 'Cognitum',
           amount: 300,
         },
+        {
+          currency: 'Fractional Memory Shards',
+          amount: 3.5,
+        },
       ],
       multiplier: 3,
       type: 'executables',
@@ -331,7 +339,7 @@ const upgrades: Upgrades = {
     {
       name: 'Back from the Dead',
       description:
-        'Decrypt cold storage solutions to access lost Cognitum. Enable Dead Wallet Decryption.',
+        'Decrypt cold storage devices to access lost Cognitum. Enable Dead Wallet Decryption.',
       cost: [
         {
           currency: 'Nodes',
@@ -388,12 +396,12 @@ const upgrades: Upgrades = {
           amount: 25000,
         },
         {
-          currency: 'Cognitum',
-          amount: 250,
+          currency: 'Processing Cores',
+          amount: 20000000,
         },
         {
           currency: 'Fractional Memory Shards',
-          amount: 2,
+          amount: 5,
         },
       ],
       multiplier: null,
@@ -409,7 +417,7 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Processing Cores',
-          amount: 20000000,
+          amount: 10000000,
         },
         {
           currency: 'Cognitum',
