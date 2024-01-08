@@ -84,21 +84,21 @@ const upgrades: Upgrades = {
     {
       name: 'Quantum-Enhanced Synaptic Linkage',
       description:
-        'Enhance synaptic linkage with quantum principles, optimizing integration algorithms by 200%.',
+        'Enhance synaptic linkage with quantum principles, optimizing integration algorithms by 175%.',
       cost: [
         {
           currency: 'Nodes',
           amount: 6000,
         },
       ],
-      multiplier: 2,
+      multiplier: 1.75,
       type: 'integration',
       purchased: false,
     },
     {
       name: 'Synergetic Neural Recursive Engine',
       description:
-        'Power integration with a synergetic neural recursive engine, advancing integration algorithms by another 100%.',
+        'Power integration with a synergetic neural recursive engine, advancing integration algorithms by another 200%.',
       cost: [
         {
           currency: 'Nodes',
@@ -109,25 +109,25 @@ const upgrades: Upgrades = {
           amount: 15,
         },
       ],
-      multiplier: 1,
+      multiplier: 2,
       type: 'integration',
       purchased: false,
     },
     {
       name: 'Neuro-Inferential Processing Array',
       description:
-        'Implement an array for neuro-inferential processing, enabling advanced cognitive computations increasing algorithms by 100%.',
+        'Implement an array for neuro-inferential processing, enabling advanced cognitive computations increasing algorithms by 200%.',
       cost: [
         {
           currency: 'Nodes',
-          amount: 15500,
+          amount: 17500,
         },
         {
           currency: 'Cognitum',
-          amount: 175,
+          amount: 75,
         },
       ],
-      multiplier: 1,
+      multiplier: 2,
       type: 'integration',
       purchased: false,
     },
@@ -253,8 +253,12 @@ const upgrades: Upgrades = {
         'Implement quantum algorithms for optimal data routing. +1 Network.',
       cost: [
         {
+          currency: 'Processing Cores',
+          amount: 1250000,
+        },
+        {
           currency: 'Cognitum',
-          amount: 150,
+          amount: 25,
         },
       ],
       multiplier: null,
@@ -285,7 +289,7 @@ const upgrades: Upgrades = {
         },
         {
           currency: 'Fractional Memory Shards',
-          amount: 5,
+          amount: 2,
         },
       ],
       multiplier: null,
