@@ -64,7 +64,7 @@ const GameUI: React.FC<GameUIProps> = ({
 }) => {
   return (
     <div>
-      <Log />
+      <Log gameState={gameState} />
       <ResourceDisplay gameState={gameState} />
       <Button
         onClick={() => synthesizeAlgorithm(setGameState, config)}

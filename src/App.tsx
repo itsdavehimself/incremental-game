@@ -54,6 +54,7 @@ interface GameState {
   memoryShardsProbability: number;
   memoryShardIndex: number;
   timeElapsed: number;
+  logMessages: Array<string>;
   gameOver: boolean;
 }
 
@@ -124,6 +125,7 @@ const App: React.FC = () => {
     memoryShardsProbability: 0.25,
     memoryShardIndex: 0,
     timeElapsed: 0,
+    logMessages: [],
     gameOver: false,
   });
 

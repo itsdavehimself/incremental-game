@@ -17,6 +17,21 @@ const Upgrades: React.FC<UpgradesProps> = ({
   setGameState,
   initiateUpgrade,
 }) => {
+  const createUpgradeLogMessage = (upgradeName: string) => {
+    setGameState((prevGameState) => {
+      const newMessage = `Upgrade Complete: ${upgradeName}`;
+      return {
+        ...prevGameState,
+        logMessages: [...prevGameState.logMessages, newMessage],
+      };
+    });
+  };
+
+  const handleUpgradeButtonClick = (upgrade: Upgrade, category: string) => {
+    initiateUpgrade(upgrade, category, setGameState);
+    createUpgradeLogMessage(upgrade.name);
+  };
+
   const renderUpgradeButton = (
     upgrade: Upgrade,
     category: string,
@@ -24,7 +39,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
   ) => (
     <UpgradeButton
       key={index}
-      onClick={() => initiateUpgrade(upgrade, category, setGameState)}
+      onClick={() => handleUpgradeButtonClick(upgrade, category)}
       upgradeName={upgrade.name}
       upgradeDescription={upgrade.description}
       upgradeCost={upgrade.cost}
