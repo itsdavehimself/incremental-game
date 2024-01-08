@@ -10,7 +10,8 @@ import * as networkHelpers from './helpers/networkHelpers';
 import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as saveGameHelpers from './helpers/saveGameHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
-import { updateGameState } from './utility/GameController';
+import { updateGameState } from './utility/gameController';
+import { useMemo } from 'react';
 
 interface GameState {
   totalData: number;
@@ -23,6 +24,7 @@ interface GameState {
   executablesMultiplier: number;
   algorithmCost: number;
   algorithmMultiplier: number;
+  bandwidthReplenishmentCost: number;
   bandwidthMultiplier: number;
   autoBandwidthReplenishment: boolean;
   networksActivated: boolean;
@@ -61,7 +63,6 @@ interface Config {
   executablesCostBase: number;
   processingCoreProductionBase: number;
   dataProductionBase: number;
-  bandwidthReplenishmentCost: number;
 }
 
 const App: React.FC = () => {
@@ -78,6 +79,7 @@ const App: React.FC = () => {
     executablesMultiplier: 1,
     algorithmCost: 6,
     algorithmMultiplier: 1,
+    bandwidthReplenishmentCost: 50,
     bandwidthMultiplier: 1,
     autoBandwidthReplenishment: false,
     networksActivated: false,
@@ -125,17 +127,16 @@ const App: React.FC = () => {
     gameOver: false,
   });
 
-  const config: Config = {
-    algorithmCostBase: 6,
-    algorithmCostRateGrowth: 1.07,
-    executablesCostBase: 10000,
-    processingCoreProductionBase: 1.2 / 750,
-    dataProductionBase: 1691 / 100,
-    bandwidthReplenishmentCost:
-      gameState.bandwidthIndex <= 1
-        ? 50
-        : 50 + 50 * (gameState.bandwidthIndex - 1),
-  };
+  const config = useMemo<Config>(
+    () => ({
+      algorithmCostBase: 6,
+      algorithmCostRateGrowth: 1.07,
+      executablesCostBase: 10000,
+      processingCoreProductionBase: 1.2 / 750,
+      dataProductionBase: 1691 / 100,
+    }),
+    [],
+  );
 
   const synthesizeAlgorithm = integrationAlgorithmHelpers.synthesizeAlgorithm;
 
@@ -177,7 +178,7 @@ const App: React.FC = () => {
     }, 10);
 
     return () => clearInterval(intervalID);
-  }, []);
+  }, [config]);
 
   return (
     <div className="app">

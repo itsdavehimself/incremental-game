@@ -20,7 +20,7 @@ interface GameUIProps {
   ) => void;
   replenishBandwidth: (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
-    config: Config,
+    gameState: GameState,
   ) => void;
   allocateToGPU: (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -75,8 +75,8 @@ const GameUI: React.FC<GameUIProps> = ({
       ></Button>
       {!gameState.autoBandwidthReplenishment && (
         <Button
-          onClick={() => replenishBandwidth(setGameState, config)}
-          label={`Replenish Bandwidth (${config.bandwidthReplenishmentCost} Processing Cores)`}
+          onClick={() => replenishBandwidth(setGameState, gameState)}
+          label={`Replenish Bandwidth (${gameState.bandwidthReplenishmentCost} Processing Cores)`}
         ></Button>
       )}
       <Button

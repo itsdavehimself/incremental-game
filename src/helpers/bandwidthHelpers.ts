@@ -1,6 +1,7 @@
 import { getUpgradeCost } from './costHelpers';
 import { CostBreakdown } from '../data/upgrades';
-import { Config, GameState } from '../App';
+import { GameState } from '../App';
+import { bandwidthReplenishmentCost } from './costHelpers';
 
 const upgradeBandwidthReplenishment = (
   multiplierPercentage: number | null,
@@ -25,24 +26,25 @@ const upgradeBandwidthReplenishment = (
       cognitum: updatedCognitum,
       bandwidthIndex: prevGameState.bandwidthIndex + 1,
       autoBandwidthReplenishment: multiplierPercentage === null,
+      bandwidthReplenishmentCost: bandwidthReplenishmentCost(prevGameState),
     };
   });
 };
 
 const replenishBandwidth = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
-  config: Config,
+  gameState: GameState,
 ) => {
   setGameState((prevGameState) => {
     const addBandwidth =
       prevGameState.integrationBandwidth +
       750 * prevGameState.bandwidthMultiplier;
-    if (prevGameState.processingCores >= config.bandwidthReplenishmentCost) {
+    if (prevGameState.processingCores >= gameState.bandwidthReplenishmentCost) {
       return {
         ...prevGameState,
         integrationBandwidth: addBandwidth,
         processingCores:
-          prevGameState.processingCores - config.bandwidthReplenishmentCost,
+          prevGameState.processingCores - gameState.bandwidthReplenishmentCost,
       };
     } else {
       return {
