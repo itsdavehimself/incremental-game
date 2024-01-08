@@ -70,6 +70,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       () => btns[Math.floor(Math.random() * btns.length)],
     );
     setGameSequence([...randomSequence]);
+    return randomSequence;
   };
 
   const generatePrize = (decrypted: number, bricked: number) => {
@@ -140,8 +141,8 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     );
   };
 
-  const autoDecryption = (sequence: Array<string>) => {
-    setTimeout(() => setPlayerSequence(sequence), 2000);
+  const autoDecryption = () => {
+    setTimeout(() => setPlayerSequence(createSequence()), 2000);
   };
 
   const playSequence = (shouldShowSolution: boolean = true) => {
@@ -279,7 +280,13 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       </div>
       <div>
         <button
-          onClick={startRound}
+          onClick={() => {
+            if (gameState.walletDecryptionIndex >= 4) {
+              autoDecryption();
+            } else {
+              startRound();
+            }
+          }}
           disabled={
             gameState.walletDecryptionCost > gameState.nodesCurrent ||
             isGameRunning
@@ -290,7 +297,9 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         </button>
       </div>
       {gameState.walletDecryptionIndex >= 2 && (
-        <button onClick={() => playSequence(false)}>Replay Sequence</button>
+        <button onClick={() => playSequence(false)} disabled={!isGameRunning}>
+          Replay Sequence
+        </button>
       )}
       {isShowingPrize && (
         <>
