@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { GameState } from '../../App';
 import * as walletHelpers from './walletHelpers';
 import { BtnColors } from './walletHelpers';
+import DecryptionButton from '../DecryptionButton/DecryptionButton';
 
 interface WalletDecryptionProps {
   gameState: GameState;
@@ -148,30 +149,22 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           {gameState.fractionalMemoryShards.toFixed(1)}
         </div>
       )}
-      <button
+      <DecryptionButton
         onClick={() => handleButtonClick('btnOne')}
-        className={`${styles['btn']} ${styles.white} ${
-          btnColors.btnOne.highlighted ? styles.highlighted : ''
-        }`}
-      ></button>{' '}
-      <button
+        className={btnColors.btnOne.highlighted ? styles.highlighted : ''}
+      />{' '}
+      <DecryptionButton
         onClick={() => handleButtonClick('btnTwo')}
-        className={`${styles['btn']} ${styles.white} ${
-          btnColors.btnTwo.highlighted ? styles.highlighted : ''
-        }`}
-      ></button>{' '}
-      <button
+        className={btnColors.btnTwo.highlighted ? styles.highlighted : ''}
+      />{' '}
+      <DecryptionButton
         onClick={() => handleButtonClick('btnThree')}
-        className={`${styles['btn']} ${styles.white} ${
-          btnColors.btnThree.highlighted ? styles.highlighted : ''
-        }`}
-      ></button>{' '}
-      <button
+        className={btnColors.btnThree.highlighted ? styles.highlighted : ''}
+      />{' '}
+      <DecryptionButton
         onClick={() => handleButtonClick('btnFour')}
-        className={`${styles['btn']} ${styles.white} ${
-          btnColors.btnFour.highlighted ? styles.highlighted : ''
-        }`}
-      ></button>{' '}
+        className={btnColors.btnFour.highlighted ? styles.highlighted : ''}
+      />{' '}
       <div>
         {gameState.walletDecryptionIndex === 3 && (
           <>
