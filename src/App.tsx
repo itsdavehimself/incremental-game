@@ -10,7 +10,7 @@ import * as networkHelpers from './helpers/networkHelpers';
 import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as saveGameHelpers from './helpers/saveGameHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
-import { checkDecryptedFileMilestones } from './helpers/decryptedFilesHelper';
+import { updateGameState } from './utility/GameController';
 
 interface GameState {
   totalData: number;
@@ -143,15 +143,9 @@ const App: React.FC = () => {
 
   const createExecutable = executablesHelpers.createExecutable;
 
-  const checkNetworkMilestones = networkHelpers.checkNetworkMilestones;
-
   const allocateToGPU = networkHelpers.allocateToGPU;
 
   const allocateToStorage = networkHelpers.allocateToStorage;
-
-  const incrementActiveNodes = networkHelpers.incrementActiveNodes;
-
-  const incrementCognitum = networkHelpers.incrementCognitum;
 
   const purchaseWalletDecryption =
     walletDecryptionHelpers.purchaseWalletDecryption;
@@ -169,15 +163,6 @@ const App: React.FC = () => {
 
   const handleLoadButtonClick = utilityFunctions.handleLoadButtonClick;
 
-  const incrementTime = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        timeElapsed: prevGameState.timeElapsed + 0.01,
-      };
-    });
-  };
-
   const handleLoadInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -186,68 +171,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const intervalID = setInterval(() => {
-      setGameState((prevGameState) => {
-        incrementTime();
-        incrementActiveNodes(setGameState);
-        incrementCognitum(setGameState);
-        checkDecryptedFileMilestones(setGameState, gameState);
-        if (prevGameState.integrationBandwidth > 0) {
-          const processingCoreProductionTotal =
-            config.processingCoreProductionBase *
-            prevGameState.algorithms *
-            prevGameState.algorithmMultiplier *
-            (prevGameState.executables === 0
-              ? 1
-              : Math.log(1 + prevGameState.executables * 0.75 + 1) *
-                5 *
-                prevGameState.executablesMultiplier);
-
-          const newProcessingCoresTotal =
-            prevGameState.processingCores + processingCoreProductionTotal;
-
-          const dataProductionTotal =
-            config.dataProductionBase *
-            prevGameState.algorithms *
-            prevGameState.algorithmMultiplier *
-            (prevGameState.executables === 0
-              ? 1
-              : Math.log(1 + prevGameState.executables * 0.75 + 1) *
-                5 *
-                prevGameState.executablesMultiplier);
-
-          const newDataTotal = prevGameState.totalData + dataProductionTotal;
-
-          const integrationBandwidthTotal = Math.max(
-            prevGameState.integrationBandwidth - dataProductionTotal / 2000,
-            0,
-          );
-
-          checkNetworkMilestones(setGameState, gameState);
-
-          return {
-            ...prevGameState,
-            totalData: newDataTotal,
-            processingCores: newProcessingCoresTotal,
-            integrationSpeed: dataProductionTotal,
-            integrationBandwidth: integrationBandwidthTotal,
-          };
-        } else if (
-          prevGameState.autoBandwidthReplenishment &&
-          prevGameState.integrationBandwidth < 1
-        ) {
-          const addBandwidth =
-            prevGameState.integrationBandwidth +
-            750 * prevGameState.bandwidthMultiplier;
-          if (prevGameState.processingCores >= 50) {
-            return {
-              ...prevGameState,
-              integrationBandwidth: addBandwidth,
-            };
-          }
-        }
-
-        return { ...prevGameState };
-      });
+      setGameState((prevGameState) =>
+        updateGameState(prevGameState, setGameState, config),
+      );
     }, 10);
 
     return () => clearInterval(intervalID);
