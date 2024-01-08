@@ -148,9 +148,6 @@ const App: React.FC = () => {
 
   const allocateToStorage = networkHelpers.allocateToStorage;
 
-  const purchaseWalletDecryption =
-    walletDecryptionHelpers.purchaseWalletDecryption;
-
   const incrementWallets = walletDecryptionHelpers.incrementWallets;
 
   const receiveCognitumPrize = walletDecryptionHelpers.receiveCognitumPrize;
@@ -194,7 +191,6 @@ const App: React.FC = () => {
         handleUpgradeClick={handleUpgradeClick}
         incrementWallets={incrementWallets}
         receiveCognitumPrize={receiveCognitumPrize}
-        purchaseWalletDecryption={purchaseWalletDecryption}
         receiveMemoryShardsPrize={receiveMemoryShardsPrize}
       />
 

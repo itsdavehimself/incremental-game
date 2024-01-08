@@ -41,10 +41,6 @@ interface GameUIProps {
     prize: number,
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   ) => void;
-  purchaseWalletDecryption: (
-    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
-    gameState: GameState,
-  ) => void;
   receiveMemoryShardsPrize: (
     prize: number,
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -63,7 +59,6 @@ const GameUI: React.FC<GameUIProps> = ({
   handleUpgradeClick,
   incrementWallets,
   receiveCognitumPrize,
-  purchaseWalletDecryption,
   receiveMemoryShardsPrize,
 }) => {
   return (
@@ -104,7 +99,6 @@ const GameUI: React.FC<GameUIProps> = ({
           setGameState={setGameState}
           incrementWallets={incrementWallets}
           receiveCognitumPrize={receiveCognitumPrize}
-          purchaseWalletDecryption={purchaseWalletDecryption}
           receiveMemoryShardsPrize={receiveMemoryShardsPrize}
         ></WalletDecryption>
       )}
