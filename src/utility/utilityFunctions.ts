@@ -29,4 +29,15 @@ const formatData = (bytes: number): string => {
   }
 };
 
-export { formatData };
+const formatTimeElapsed = (totalSeconds: number) => {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${
+    seconds < 10 ? '0' : ''
+  }${seconds}`;
+  return formattedTime;
+};
+
+export { formatData, formatTimeElapsed };

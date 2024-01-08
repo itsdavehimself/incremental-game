@@ -5,63 +5,51 @@ import Upgrades from '../../components/Upgrades/Upgrades';
 import FileViewer from '../../components/FileViewer/FileViewer';
 import WalletDecryption from '../../components/WalletDecryption/WalletDecryption';
 import { Upgrade } from '../../data/upgrades';
+import { Config, GameState } from '../../App';
 
 interface GameUIProps {
-  gameState: {
-    totalData: number;
-    processingCores: number;
-    integrationSpeed: number;
-    integrationBandwidth: number;
-    algorithms: number;
-    executables: number;
-    executablesCost: number;
-    algorithmCost: number;
-    algorithmMultiplier: number;
-    bandwidthMultiplier: number;
-    autoBandwidthReplenishment: boolean;
-    networksActivated: boolean;
-    networks: number;
-    networksAvailable: number;
-    GPUFarms: number;
-    storageFacilities: number;
-    nodesCurrent: number;
-    nodesTotal: number;
-    cognitum: number;
-    networkMilestones: Array<number>;
-    networkMilestonesIndex: number;
-    upgrades: object;
-    integrationAlgorithmIndex: number;
-    bandwidthIndex: number;
-    networksIndex: number;
-    executablesIndex: number;
-    filesActivated: boolean;
-    filesIndex: number;
-    walletDecryptionActivated: boolean;
-    walletsDecrypted: number;
-    walletsBricked: number;
-    walletDecryptionCost: number;
-    walletDecryptionIndex: number;
-    fractionalMemoryShards: number;
-    memoryShardsProbability: number;
-    memoryShardIndex: number;
-  };
-  config: {
-    bandwidthReplenishmentCost: number;
-  };
-  synthesizeAlgorithm: () => void;
-  createExecutable: () => void;
-  replenishBandwidth: () => void;
-  allocateToGPU: () => void;
-  allocateToStorage: () => void;
+  gameState: GameState;
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>;
+  config: Config;
+  synthesizeAlgorithm: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+    config: Config,
+  ) => void;
+  createExecutable: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
+  replenishBandwidth: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+    config: Config,
+  ) => void;
+  allocateToGPU: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
+  allocateToStorage: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
   handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
-  incrementWallets: (decrypted: boolean) => void;
-  receiveCognitumPrize: (prize: number) => void;
-  purchaseWalletDecryption: () => void;
-  receiveMemoryShardsPrize: (prize: number) => void;
+  incrementWallets: (
+    decrypted: boolean,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
+  receiveCognitumPrize: (
+    prize: number,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
+  purchaseWalletDecryption: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+    gameState: GameState,
+  ) => void;
+  receiveMemoryShardsPrize: (
+    prize: number,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
 }
 
 const GameUI: React.FC<GameUIProps> = ({
   gameState,
+  setGameState,
   config,
   synthesizeAlgorithm,
   createExecutable,
@@ -78,17 +66,17 @@ const GameUI: React.FC<GameUIProps> = ({
     <div>
       <ResourceDisplay gameState={gameState} />
       <Button
-        onClick={synthesizeAlgorithm}
+        onClick={() => synthesizeAlgorithm(setGameState, config)}
         label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
       ></Button>
       {!gameState.autoBandwidthReplenishment && (
         <Button
-          onClick={replenishBandwidth}
+          onClick={() => replenishBandwidth(setGameState, config)}
           label={`Replenish Bandwidth (${config.bandwidthReplenishmentCost} Processing Cores)`}
         ></Button>
       )}
       <Button
-        onClick={createExecutable}
+        onClick={() => createExecutable(setGameState)}
         label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
       ></Button>
       <Upgrades gameState={gameState} handleUpgradeClick={handleUpgradeClick} />
@@ -98,13 +86,14 @@ const GameUI: React.FC<GameUIProps> = ({
       {gameState.networksActivated && (
         <Network
           gameState={gameState}
-          allocateToGPU={allocateToGPU}
-          allocateToStorage={allocateToStorage}
+          allocateToGPU={() => allocateToGPU(setGameState)}
+          allocateToStorage={() => allocateToStorage(setGameState)}
         />
       )}
       {gameState.walletDecryptionActivated && (
         <WalletDecryption
           gameState={gameState}
+          setGameState={setGameState}
           incrementWallets={incrementWallets}
           receiveCognitumPrize={receiveCognitumPrize}
           purchaseWalletDecryption={purchaseWalletDecryption}

@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 import GameUI from './containers/GameUI/GameUI';
 import './app.scss';
-import upgrades, { Upgrade, CostBreakdown } from './data/upgrades';
+import upgrades, { Upgrade } from './data/upgrades';
+import { formatTimeElapsed } from './utility/utilityFunctions';
+import * as integrationAlgorithmHelpers from './helpers/integrationAlgorithmHelpers';
+import * as bandwidthHelpers from './helpers/bandwidthHelpers';
+import * as executablesHelpers from './helpers/executablesHelpers';
+import * as networkHelpers from './helpers/networkHelpers';
+import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
+import * as saveGameHelpers from './helpers/saveGameHelpers';
 
 interface GameState {
   totalData: number;
@@ -43,6 +50,16 @@ interface GameState {
   memoryShardsProbability: number;
   memoryShardIndex: number;
   timeElapsed: number;
+  gameOver: boolean;
+}
+
+interface Config {
+  algorithmCostBase: number;
+  algorithmCostRateGrowth: number;
+  executablesCostBase: number;
+  processingCoreProductionBase: number;
+  dataProductionBase: number;
+  bandwidthReplenishmentCost: number;
 }
 
 const App: React.FC = () => {
@@ -103,9 +120,10 @@ const App: React.FC = () => {
     memoryShardsProbability: 0.25,
     memoryShardIndex: 0,
     timeElapsed: 0,
+    gameOver: false,
   });
 
-  const config = {
+  const config: Config = {
     algorithmCostBase: 6,
     algorithmCostRateGrowth: 1.07,
     executablesCostBase: 10000,
@@ -117,17 +135,51 @@ const App: React.FC = () => {
         : 50 + 50 * (gameState.bandwidthIndex - 1),
   };
 
-  const getUpgradeCost = (currency: string, costs: CostBreakdown[]) => {
-    const costObject = costs.find((cost) => cost.currency === currency);
-    return costObject ? costObject.amount : 0;
-  };
+  const upgradeIntegrationAlgorithm =
+    integrationAlgorithmHelpers.upgradeIntegrationAlgorithm;
 
-  const newAlgorithmCost = (currentNumberAlgorithms: number) => {
-    const newCost =
-      config.algorithmCostBase *
-      config.algorithmCostRateGrowth ** currentNumberAlgorithms;
-    return Math.ceil(newCost);
-  };
+  const synthesizeAlgorithm = integrationAlgorithmHelpers.synthesizeAlgorithm;
+
+  const upgradeBandwidthReplenishment =
+    bandwidthHelpers.upgradeBandwidthReplenishment;
+
+  const replenishBandwidth = bandwidthHelpers.replenishBandwidth;
+
+  const upgradeExecutables = executablesHelpers.upgradeExecutables;
+
+  const createExecutable = executablesHelpers.createExecutable;
+
+  const buyNetwork = networkHelpers.buyNetwork;
+
+  const checkNetworkMilestones = networkHelpers.checkNetworkMilestones;
+
+  const allocateToGPU = networkHelpers.allocateToGPU;
+
+  const allocateToStorage = networkHelpers.allocateToStorage;
+
+  const incrementActiveNodes = networkHelpers.incrementActiveNodes;
+
+  const incrementCognitum = networkHelpers.incrementCognitum;
+
+  const upgradeWalletDecryption =
+    walletDecryptionHelpers.upgradeWalletDecryption;
+
+  const purchaseWalletDecryption =
+    walletDecryptionHelpers.purchaseWalletDecryption;
+
+  const upgradeMemoryShardsProbability =
+    walletDecryptionHelpers.upgradeMemoryShardsProbability;
+
+  const incrementWallets = walletDecryptionHelpers.incrementWallets;
+
+  const receiveCognitumPrize = walletDecryptionHelpers.receiveCognitumPrize;
+
+  const receiveMemoryShardsPrize =
+    walletDecryptionHelpers.receiveMemoryShardsPrize;
+
+  const saveGameState = saveGameHelpers.saveGameState;
+
+  const decodeGameState = saveGameHelpers.decodeGameState;
 
   const incrementTime = () => {
     setGameState((prevGameState) => {
@@ -138,371 +190,40 @@ const App: React.FC = () => {
     });
   };
 
-  const synthesizeAlgorithm = () => {
-    setGameState((prevGameState) => {
-      if (prevGameState.processingCores >= prevGameState.algorithmCost) {
-        return {
-          ...prevGameState,
-          algorithms: prevGameState.algorithms + 1,
-          processingCores:
-            prevGameState.processingCores - prevGameState.algorithmCost,
-          algorithmCost: newAlgorithmCost(prevGameState.algorithms + 1),
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const createExecutable = () => {
-    setGameState((prevGameState) => {
-      if (prevGameState.processingCores >= prevGameState.executablesCost) {
-        return {
-          ...prevGameState,
-          executables: prevGameState.executables + 1,
-          processingCores:
-            prevGameState.processingCores - prevGameState.executablesCost,
-          executablesCost: prevGameState.executablesCost * 10,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const upgradeIntegrationAlgorithm = (
-    multiplierPercentage: number | null,
-    costs: CostBreakdown[],
-  ) => {
-    setGameState((prevGameState) => {
-      const updatedMultiplier =
-        multiplierPercentage !== null
-          ? prevGameState.algorithmMultiplier * (1 + multiplierPercentage)
-          : prevGameState.algorithmMultiplier;
-
-      const updatedNodes =
-        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
-      const updatedCognitum =
-        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
-
-      return {
-        ...prevGameState,
-        algorithmMultiplier: updatedMultiplier,
-        nodesCurrent: updatedNodes,
-        cognitum: updatedCognitum,
-        integrationAlgorithmIndex: prevGameState.integrationAlgorithmIndex + 1,
-      };
-    });
-  };
-
-  const upgradeBandwidthReplenishment = (
-    multiplierPercentage: number | null,
-    costs: CostBreakdown[],
-  ) => {
-    setGameState((prevGameState) => {
-      const updatedMultiplier =
-        multiplierPercentage !== null
-          ? prevGameState.bandwidthMultiplier * (1 + multiplierPercentage)
-          : prevGameState.bandwidthMultiplier;
-
-      const updatedNodes =
-        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
-      const updatedCognitum =
-        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
-
-      return {
-        ...prevGameState,
-        bandwidthMultiplier: updatedMultiplier,
-        nodesCurrent: updatedNodes,
-        cognitum: updatedCognitum,
-        bandwidthIndex: prevGameState.bandwidthIndex + 1,
-        autoBandwidthReplenishment: multiplierPercentage === null,
-      };
-    });
-  };
-
-  const upgradeExecutables = (
-    multiplierPercentage: number | null,
-    costs: CostBreakdown[],
-  ) => {
-    setGameState((prevGameState) => {
-      const updatedMultiplier =
-        multiplierPercentage !== null
-          ? prevGameState.executablesMultiplier * (1 + multiplierPercentage)
-          : prevGameState.executablesMultiplier;
-
-      const updatedNodes =
-        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
-      const updatedCognitum =
-        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
-      const updatedMemoryShards =
-        prevGameState.fractionalMemoryShards -
-        getUpgradeCost('Fractional Memory Shards', costs);
-
-      return {
-        ...prevGameState,
-        executablesMultiplier: updatedMultiplier,
-        nodesCurrent: updatedNodes,
-        cognitum: updatedCognitum,
-        executablesIndex: prevGameState.executablesIndex + 1,
-        fractionalMemoryShards: updatedMemoryShards,
-      };
-    });
-  };
-
-  const replenishBandwidth = () => {
-    setGameState((prevGameState) => {
-      const addBandwidth =
-        prevGameState.integrationBandwidth +
-        750 * prevGameState.bandwidthMultiplier;
-      if (prevGameState.processingCores >= config.bandwidthReplenishmentCost) {
-        return {
-          ...prevGameState,
-          integrationBandwidth: addBandwidth,
-          processingCores:
-            prevGameState.processingCores - config.bandwidthReplenishmentCost,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const buyNetwork = (costs: CostBreakdown[]) => {
-    setGameState((prevGameState) => {
-      const updatedNodes =
-        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
-      const updatedCognitum =
-        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
-      const updatedMemoryShards =
-        prevGameState.fractionalMemoryShards -
-        getUpgradeCost('Fractional Memory Shards', costs);
-      const updatedProcessingCores =
-        prevGameState.processingCores -
-        getUpgradeCost('Processing Cores', costs);
-      return {
-        ...prevGameState,
-        networksAvailable: prevGameState.networksAvailable + 1,
-        cognitum: updatedCognitum,
-        nodesCurrent: updatedNodes,
-        networksIndex: prevGameState.networksIndex + 1,
-        fractionalMemoryShards: updatedMemoryShards,
-        processingCores: updatedProcessingCores,
-      };
-    });
-  };
-
-  const upgradeWalletDecryption = (costs: CostBreakdown[]) => {
-    setGameState((prevGameState) => {
-      const updatedNodes =
-        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
-      const updatedCognitum =
-        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
-      const updatedMemoryShards =
-        prevGameState.fractionalMemoryShards -
-        getUpgradeCost('Fractional Memory Shards', costs);
-      const updatedProcessingCores =
-        prevGameState.processingCores -
-        getUpgradeCost('Processing Cores', costs);
-      return {
-        ...prevGameState,
-        walletDecryptionActivated: true,
-        nodesCurrent: updatedNodes,
-        cognitum: updatedCognitum,
-        fractionalMemoryShards: updatedMemoryShards,
-        processingCores: updatedProcessingCores,
-        walletDecryptionIndex: prevGameState.walletDecryptionIndex + 1,
-      };
-    });
-  };
-
-  const upgradeMemoryShardsProbability = (
-    newProbability: number | null,
-    costs: CostBreakdown[],
-  ) => {
-    setGameState((prevGameState) => {
-      const updatedProbability =
-        newProbability !== null
-          ? newProbability
-          : prevGameState.memoryShardsProbability;
-      const updatedNodes =
-        prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
-      const updatedCognitum =
-        prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
-      const updatedProcessingCores =
-        prevGameState.processingCores -
-        getUpgradeCost('Processing Cores', costs);
-      return {
-        ...prevGameState,
-        nodesCurrent: updatedNodes,
-        cognitum: updatedCognitum,
-        processingCores: updatedProcessingCores,
-        memoryShardsProbability: updatedProbability,
-        memoryShardIndex: prevGameState.memoryShardIndex + 1,
-      };
-    });
-  };
-
-  const activateNetworks = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        networksActivated: true,
-        networks: 2,
-        nodesTotal: 1000,
-        GPUFarms: 1,
-        storageFacilities: 1,
-      };
-    });
-  };
-
-  const earnNetworks = () => {
-    setGameState((prevGameState) => ({
-      ...prevGameState,
-      networks: prevGameState.networks + 1,
-      networksAvailable: prevGameState.networksAvailable + 1,
-    }));
-  };
-
-  const checkNetworkMilestones = () => {
-    setGameState((prevGameState) => {
-      const currentTotalData = prevGameState.totalData;
-
-      if (currentTotalData >= 2.097152e6 && !prevGameState.networksActivated) {
-        activateNetworks();
-      }
-
-      if (
-        currentTotalData >=
-        gameState.networkMilestones[prevGameState.networkMilestonesIndex]
-      ) {
-        earnNetworks();
-        return {
-          ...prevGameState,
-          networkMilestonesIndex: prevGameState.networkMilestonesIndex + 1,
-        };
-      }
-
-      return prevGameState;
-    });
-  };
-
-  const allocateToGPU = () => {
-    setGameState((prevGameState) => {
-      if (prevGameState.networksAvailable > 0) {
-        return {
-          ...prevGameState,
-          networksAvailable: prevGameState.networksAvailable - 1,
-          GPUFarms: prevGameState.GPUFarms + 1,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const allocateToStorage = () => {
-    setGameState((prevGameState) => {
-      if (prevGameState.networksAvailable > 0) {
-        return {
-          ...prevGameState,
-          networksAvailable: prevGameState.networksAvailable - 1,
-          storageFacilities: prevGameState.storageFacilities + 1,
-          nodesTotal: prevGameState.nodesTotal + 1000,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const incrementActiveNodes = () => {
-    setGameState((prevGameState) => {
-      if (
-        prevGameState.networksActivated &&
-        prevGameState.nodesCurrent < prevGameState.nodesTotal
-      ) {
-        const incrementedNodes =
-          prevGameState.nodesCurrent + (1 / 5) * prevGameState.GPUFarms;
-        const updatedNodesCurrent = Math.min(
-          incrementedNodes,
-          prevGameState.nodesTotal,
-        );
-
-        return {
-          ...prevGameState,
-          nodesCurrent: updatedNodesCurrent,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const incrementCognitum = () => {
-    setGameState((prevGameState) => {
-      if (
-        prevGameState.networksActivated &&
-        prevGameState.nodesCurrent === prevGameState.nodesTotal
-      ) {
-        const incrementedCognitum = prevGameState.cognitum + 1 / 500;
-
-        return {
-          ...prevGameState,
-          cognitum: incrementedCognitum,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
-  const purchaseWalletDecryption = () => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        nodesCurrent:
-          prevGameState.nodesCurrent - gameState.walletDecryptionCost,
-      };
-    });
-  };
-
   const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
     if (!upgrade.purchased) {
       upgrade.purchased = true;
 
       switch (category) {
         case 'integration':
-          upgradeIntegrationAlgorithm(upgrade.multiplier, upgrade.cost);
+          upgradeIntegrationAlgorithm(
+            upgrade.multiplier,
+            upgrade.cost,
+            setGameState,
+          );
           break;
         case 'bandwidth':
-          upgradeBandwidthReplenishment(upgrade.multiplier, upgrade.cost);
+          upgradeBandwidthReplenishment(
+            upgrade.multiplier,
+            upgrade.cost,
+            setGameState,
+          );
           break;
         case 'networks':
-          buyNetwork(upgrade.cost);
+          buyNetwork(upgrade.cost, setGameState);
           break;
         case 'wallets':
-          upgradeWalletDecryption(upgrade.cost);
+          upgradeWalletDecryption(upgrade.cost, setGameState);
           break;
         case 'executables':
-          upgradeExecutables(upgrade.multiplier, upgrade.cost);
+          upgradeExecutables(upgrade.multiplier, upgrade.cost, setGameState);
           break;
         case 'shards':
-          upgradeMemoryShardsProbability(upgrade.multiplier, upgrade.cost);
+          upgradeMemoryShardsProbability(
+            upgrade.multiplier,
+            upgrade.cost,
+            setGameState,
+          );
           break;
       }
     }
@@ -535,67 +256,9 @@ const App: React.FC = () => {
     });
   };
 
-  const incrementWallets = (decrypted: boolean) => {
-    setGameState((prevGameState) => {
-      const updatedDecryptionCost = Math.min(
-        5000,
-        prevGameState.walletDecryptionCost + 250,
-      );
-      if (decrypted) {
-        return {
-          ...prevGameState,
-          walletsDecrypted: prevGameState.walletsDecrypted + 1,
-          walletDecryptionCost: updatedDecryptionCost,
-        };
-      } else {
-        return {
-          ...prevGameState,
-          walletsBricked: prevGameState.walletsBricked + 1,
-        };
-      }
-    });
-  };
-
-  const receiveCognitumPrize = (prize: number) => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        cognitum: prevGameState.cognitum + prize,
-      };
-    });
-  };
-
-  const receiveMemoryShardsPrize = (prize: number) => {
-    setGameState((prevGameState) => {
-      return {
-        ...prevGameState,
-        fractionalMemoryShards: prevGameState.fractionalMemoryShards + prize,
-      };
-    });
-  };
-
-  const encodeGameState = (state: GameState): string => {
-    const jsonString = JSON.stringify(state);
-    return btoa(jsonString);
-  };
-
-  const decodeGameState = (code: string): GameState | null => {
-    try {
-      const jsonString = atob(code);
-      return JSON.parse(jsonString);
-    } catch (error) {
-      console.error('Error decoding game state:', error);
-      return null;
-    }
-  };
-
-  const saveGameState = () => {
-    const code = encodeGameState(gameState);
-    localStorage.setItem('gameStateCode', code);
-    setGeneratedCode(code);
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLoadInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setInputCode(event.target.value);
   };
 
@@ -608,23 +271,12 @@ const App: React.FC = () => {
     }
   };
 
-  const formatTime = (totalSeconds: number) => {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = Math.floor(totalSeconds % 60);
-
-    const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${
-      seconds < 10 ? '0' : ''
-    }${seconds}`;
-    return formattedTime;
-  };
-
   useEffect(() => {
     const intervalID = setInterval(() => {
       setGameState((prevGameState) => {
         incrementTime();
-        incrementActiveNodes();
-        incrementCognitum();
+        incrementActiveNodes(setGameState);
+        incrementCognitum(setGameState);
         checkDecryptedFileMilestones();
         if (prevGameState.integrationBandwidth > 0) {
           const processingCoreProductionTotal =
@@ -657,7 +309,7 @@ const App: React.FC = () => {
             0,
           );
 
-          checkNetworkMilestones();
+          checkNetworkMilestones(setGameState, gameState);
 
           return {
             ...prevGameState,
@@ -692,6 +344,7 @@ const App: React.FC = () => {
     <div className="app">
       <GameUI
         gameState={gameState}
+        setGameState={setGameState}
         config={config}
         synthesizeAlgorithm={synthesizeAlgorithm}
         createExecutable={createExecutable}
@@ -705,8 +358,9 @@ const App: React.FC = () => {
         receiveMemoryShardsPrize={receiveMemoryShardsPrize}
       />
 
-      <button onClick={saveGameState}>Save Game</button>
-
+      <button onClick={() => saveGameState(gameState, setGeneratedCode)}>
+        Save Game
+      </button>
       <div>
         <p>Generated Code:</p>
         <code>{generatedCode}</code>
@@ -715,14 +369,15 @@ const App: React.FC = () => {
         <input
           type="text"
           value={inputCode}
-          onChange={handleInputChange}
+          onChange={handleLoadInputChange}
           placeholder="Enter game state code"
         />
         <button onClick={handleLoadButtonClick}>Load Game</button>
       </div>
-      <div>{formatTime(gameState.timeElapsed)} elapsed</div>
+      <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div>
     </div>
   );
 };
 
 export default App;
+export type { GameState, Config };

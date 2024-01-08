@@ -1,20 +1,26 @@
 import styles from './WalletDecryption.module.scss';
 import { useState, useEffect } from 'react';
+import { GameState } from '../../App';
 
 interface WalletDecryptionProps {
-  gameState: {
-    nodesCurrent: number;
-    walletsDecrypted: number;
-    walletsBricked: number;
-    walletDecryptionCost: number;
-    walletDecryptionIndex: number;
-    fractionalMemoryShards: number;
-    memoryShardsProbability: number;
-  };
-  incrementWallets: (decrypted: boolean) => void;
-  receiveCognitumPrize: (prize: number) => void;
-  receiveMemoryShardsPrize: (prize: number) => void;
-  purchaseWalletDecryption: () => void;
+  gameState: GameState;
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>;
+  incrementWallets: (
+    decrypted: boolean,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
+  receiveCognitumPrize: (
+    prize: number,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
+  purchaseWalletDecryption: (
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+    gameState: GameState,
+  ) => void;
+  receiveMemoryShardsPrize: (
+    prize: number,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
 }
 
 interface BtnInfo {
@@ -31,6 +37,7 @@ interface BtnColors {
 
 const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   gameState,
+  setGameState,
   incrementWallets,
   receiveCognitumPrize,
   purchaseWalletDecryption,
@@ -115,7 +122,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
     if (gameState.walletsDecrypted > 14) {
       generateMemoryShards();
     }
-    purchaseWalletDecryption();
+    purchaseWalletDecryption(setGameState, gameState);
     createSequence();
   };
 
@@ -182,9 +189,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           if (shouldShowSolution) {
             showSolution();
           }
-          if (gameState.walletDecryptionIndex >= 4) {
-            autoDecryption(gameSequence);
-          }
         }, 1000);
       }
     }, 1000);
@@ -195,7 +199,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       for (let i = 0; i < playerSequence.length; i++) {
         if (playerSequence[i] !== gameSequence[i]) {
           setPlayerSequence([]);
-          incrementWallets(false);
+          incrementWallets(false, setGameState);
           setIsGameRunning(false);
           return;
         }
@@ -207,11 +211,11 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         !isShowingPrize
       ) {
         setIsShowingPrize(true);
-        incrementWallets(true);
+        incrementWallets(true, setGameState);
         console.log('yo this is triggering me');
         setPlayerSequence([]);
-        receiveCognitumPrize(cognitumPrize);
-        receiveMemoryShardsPrize(memoryShardsPrize);
+        receiveCognitumPrize(cognitumPrize, setGameState);
+        receiveMemoryShardsPrize(memoryShardsPrize, setGameState);
         setTimeout(() => {
           setIsShowingPrize(false);
         }, 3000);
