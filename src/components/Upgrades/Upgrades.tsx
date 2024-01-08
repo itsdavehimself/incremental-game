@@ -5,7 +5,7 @@ import { GameState } from '../../App';
 interface UpgradesProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
-  handleUpgradeClick: (
+  initiateUpgrade: (
     upgrade: Upgrade,
     category: string,
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -15,7 +15,7 @@ interface UpgradesProps {
 const Upgrades: React.FC<UpgradesProps> = ({
   gameState,
   setGameState,
-  handleUpgradeClick,
+  initiateUpgrade,
 }) => {
   const renderUpgradeButton = (
     upgrade: Upgrade,
@@ -24,7 +24,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
   ) => (
     <UpgradeButton
       key={index}
-      onClick={() => handleUpgradeClick(upgrade, category, setGameState)}
+      onClick={() => initiateUpgrade(upgrade, category, setGameState)}
       upgradeName={upgrade.name}
       upgradeDescription={upgrade.description}
       upgradeCost={upgrade.cost}
@@ -44,6 +44,13 @@ const Upgrades: React.FC<UpgradesProps> = ({
           if (
             currency === 'Processing Cores' &&
             gameState.processingCores < amount
+          ) {
+            return true;
+          }
+
+          if (
+            currency === 'Fractional Memory Shards' &&
+            gameState.fractionalMemoryShards < amount
           ) {
             return true;
           }

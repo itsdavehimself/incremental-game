@@ -157,7 +157,7 @@ const App: React.FC = () => {
 
   const saveGameState = saveGameHelpers.saveGameState;
 
-  const handleUpgradeClick = utilityFunctions.handleUpgradeClick;
+  const initiateUpgrade = utilityFunctions.initiateUpgrade;
 
   const handleLoadButtonClick = utilityFunctions.handleLoadButtonClick;
 
@@ -188,7 +188,7 @@ const App: React.FC = () => {
         replenishBandwidth={replenishBandwidth}
         allocateToGPU={allocateToGPU}
         allocateToStorage={allocateToStorage}
-        handleUpgradeClick={handleUpgradeClick}
+        initiateUpgrade={initiateUpgrade}
         incrementWallets={incrementWallets}
         receiveCognitumPrize={receiveCognitumPrize}
         receiveMemoryShardsPrize={receiveMemoryShardsPrize}

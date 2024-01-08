@@ -4,6 +4,7 @@ import Network from '../../components/Network/Network';
 import Upgrades from '../../components/Upgrades/Upgrades';
 import FileViewer from '../../components/FileViewer/FileViewer';
 import WalletDecryption from '../../components/WalletDecryption/WalletDecryption';
+import Log from '../../components/Log/Log';
 import { Upgrade } from '../../data/upgrades';
 import { Config, GameState } from '../../App';
 
@@ -28,7 +29,7 @@ interface GameUIProps {
   allocateToStorage: (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   ) => void;
-  handleUpgradeClick: (
+  initiateUpgrade: (
     upgrade: Upgrade,
     category: string,
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -56,13 +57,14 @@ const GameUI: React.FC<GameUIProps> = ({
   replenishBandwidth,
   allocateToGPU,
   allocateToStorage,
-  handleUpgradeClick,
+  initiateUpgrade,
   incrementWallets,
   receiveCognitumPrize,
   receiveMemoryShardsPrize,
 }) => {
   return (
     <div>
+      <Log />
       <ResourceDisplay gameState={gameState} />
       <Button
         onClick={() => synthesizeAlgorithm(setGameState, config)}
@@ -81,7 +83,7 @@ const GameUI: React.FC<GameUIProps> = ({
       <Upgrades
         gameState={gameState}
         setGameState={setGameState}
-        handleUpgradeClick={handleUpgradeClick}
+        initiateUpgrade={initiateUpgrade}
       />
       {gameState.filesActivated && (
         <FileViewer gamestate={gameState}></FileViewer>

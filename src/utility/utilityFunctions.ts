@@ -8,7 +8,7 @@ import { upgradeExecutables } from '../helpers/executablesHelpers';
 import { upgradeMemoryShardsProbability } from '../helpers/walletDecryptionHelpers';
 import { decodeGameState } from '../helpers/saveGameHelpers';
 
-const handleUpgradeClick = (
+const initiateUpgrade = (
   upgrade: Upgrade,
   category: string,
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -63,4 +63,4 @@ const handleLoadButtonClick = (
   }
 };
 
-export { handleUpgradeClick, handleLoadButtonClick };
+export { initiateUpgrade, handleLoadButtonClick };
