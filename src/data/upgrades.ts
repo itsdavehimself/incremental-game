@@ -131,6 +131,28 @@ const upgrades: Upgrades = {
       type: 'integration',
       purchased: false,
     },
+    {
+      name: 'Synergetic Coherence Resonator',
+      description:
+        'Integrate synergetic coherence principles to resonate with algorithmic processes, achieving a breakthrough acceleration of 150%.',
+      cost: [
+        {
+          currency: 'Nodes',
+          amount: 21500,
+        },
+        {
+          currency: 'Cognitum',
+          amount: 25,
+        },
+        {
+          currency: 'Fractional Memory Shards',
+          amount: 2.5,
+        },
+      ],
+      multiplier: 1.5,
+      type: 'integration',
+      purchased: false,
+    },
   ],
   bandwidth: [
     {
@@ -301,7 +323,7 @@ const upgrades: Upgrades = {
     {
       name: 'Exo-Neural Interface Matrix',
       description:
-        'Connect to external neural networks to speed up data integration. 300% faster .exe Binaries.',
+        'Connect to external neural networks to speed up data integration. 300% faster .exe binaries.',
       cost: [
         {
           currency: 'Nodes',
@@ -319,7 +341,7 @@ const upgrades: Upgrades = {
     {
       name: 'Omni-Algorithm Superstructure',
       description:
-        'Construct an all-encompassing algorithmic framework. 400% faster .exe Binaries.',
+        'Construct an all-encompassing algorithmic framework. 350% faster .exe binaries.',
       cost: [
         {
           currency: 'Nodes',
@@ -334,7 +356,7 @@ const upgrades: Upgrades = {
           amount: 3.5,
         },
       ],
-      multiplier: 3,
+      multiplier: 2.5,
       type: 'executables',
       purchased: false,
     },
