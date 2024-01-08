@@ -1,4 +1,4 @@
-import { formatData } from '../../utility/utilityFunctions';
+import { formatData } from '../../helpers/formatHelpers';
 
 interface ResourceDisplayProps {
   gameState: {

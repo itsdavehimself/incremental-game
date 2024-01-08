@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import GameUI from './containers/GameUI/GameUI';
 import './app.scss';
-import upgrades, { Upgrade } from './data/upgrades';
-import { formatTimeElapsed } from './utility/utilityFunctions';
+import upgrades from './data/upgrades';
+import { formatTimeElapsed } from './helpers/formatHelpers';
 import * as integrationAlgorithmHelpers from './helpers/integrationAlgorithmHelpers';
 import * as bandwidthHelpers from './helpers/bandwidthHelpers';
 import * as executablesHelpers from './helpers/executablesHelpers';
 import * as networkHelpers from './helpers/networkHelpers';
 import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as saveGameHelpers from './helpers/saveGameHelpers';
+import * as utilityFunctions from './utility/utilityFunctions';
+import { checkDecryptedFileMilestones } from './helpers/decryptedFilesHelper';
 
 interface GameState {
   totalData: number;
@@ -135,21 +137,11 @@ const App: React.FC = () => {
         : 50 + 50 * (gameState.bandwidthIndex - 1),
   };
 
-  const upgradeIntegrationAlgorithm =
-    integrationAlgorithmHelpers.upgradeIntegrationAlgorithm;
-
   const synthesizeAlgorithm = integrationAlgorithmHelpers.synthesizeAlgorithm;
-
-  const upgradeBandwidthReplenishment =
-    bandwidthHelpers.upgradeBandwidthReplenishment;
 
   const replenishBandwidth = bandwidthHelpers.replenishBandwidth;
 
-  const upgradeExecutables = executablesHelpers.upgradeExecutables;
-
   const createExecutable = executablesHelpers.createExecutable;
-
-  const buyNetwork = networkHelpers.buyNetwork;
 
   const checkNetworkMilestones = networkHelpers.checkNetworkMilestones;
 
@@ -161,14 +153,8 @@ const App: React.FC = () => {
 
   const incrementCognitum = networkHelpers.incrementCognitum;
 
-  const upgradeWalletDecryption =
-    walletDecryptionHelpers.upgradeWalletDecryption;
-
   const purchaseWalletDecryption =
     walletDecryptionHelpers.purchaseWalletDecryption;
-
-  const upgradeMemoryShardsProbability =
-    walletDecryptionHelpers.upgradeMemoryShardsProbability;
 
   const incrementWallets = walletDecryptionHelpers.incrementWallets;
 
@@ -179,7 +165,9 @@ const App: React.FC = () => {
 
   const saveGameState = saveGameHelpers.saveGameState;
 
-  const decodeGameState = saveGameHelpers.decodeGameState;
+  const handleUpgradeClick = utilityFunctions.handleUpgradeClick;
+
+  const handleLoadButtonClick = utilityFunctions.handleLoadButtonClick;
 
   const incrementTime = () => {
     setGameState((prevGameState) => {
@@ -190,85 +178,10 @@ const App: React.FC = () => {
     });
   };
 
-  const handleUpgradeClick = (upgrade: Upgrade, category: string) => {
-    if (!upgrade.purchased) {
-      upgrade.purchased = true;
-
-      switch (category) {
-        case 'integration':
-          upgradeIntegrationAlgorithm(
-            upgrade.multiplier,
-            upgrade.cost,
-            setGameState,
-          );
-          break;
-        case 'bandwidth':
-          upgradeBandwidthReplenishment(
-            upgrade.multiplier,
-            upgrade.cost,
-            setGameState,
-          );
-          break;
-        case 'networks':
-          buyNetwork(upgrade.cost, setGameState);
-          break;
-        case 'wallets':
-          upgradeWalletDecryption(upgrade.cost, setGameState);
-          break;
-        case 'executables':
-          upgradeExecutables(upgrade.multiplier, upgrade.cost, setGameState);
-          break;
-        case 'shards':
-          upgradeMemoryShardsProbability(
-            upgrade.multiplier,
-            upgrade.cost,
-            setGameState,
-          );
-          break;
-      }
-    }
-  };
-
-  const checkDecryptedFileMilestones = () => {
-    setGameState((prevGameState) => {
-      const currentTotalData = prevGameState.totalData;
-
-      if (currentTotalData > 1024 * 15 && !prevGameState.filesActivated) {
-        return {
-          ...prevGameState,
-          filesActivated: true,
-          filesIndex: 1,
-        };
-      }
-
-      if (
-        currentTotalData >= gameState.filesMilestones[prevGameState.filesIndex]
-      ) {
-        return {
-          ...prevGameState,
-          filesIndex: prevGameState.filesIndex + 1,
-        };
-      } else {
-        return {
-          ...prevGameState,
-        };
-      }
-    });
-  };
-
   const handleLoadInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setInputCode(event.target.value);
-  };
-
-  const handleLoadButtonClick = () => {
-    const loadedState = decodeGameState(inputCode);
-    if (loadedState) {
-      setGameState(loadedState);
-    } else {
-      console.error('Invalid game state code');
-    }
   };
 
   useEffect(() => {
@@ -277,7 +190,7 @@ const App: React.FC = () => {
         incrementTime();
         incrementActiveNodes(setGameState);
         incrementCognitum(setGameState);
-        checkDecryptedFileMilestones();
+        checkDecryptedFileMilestones(setGameState, gameState);
         if (prevGameState.integrationBandwidth > 0) {
           const processingCoreProductionTotal =
             config.processingCoreProductionBase *
@@ -372,7 +285,9 @@ const App: React.FC = () => {
           onChange={handleLoadInputChange}
           placeholder="Enter game state code"
         />
-        <button onClick={handleLoadButtonClick}>Load Game</button>
+        <button onClick={() => handleLoadButtonClick(inputCode, setGameState)}>
+          Load Game
+        </button>
       </div>
       <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div>
     </div>

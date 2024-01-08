@@ -1,5 +1,5 @@
 import Button from '../Button/Button';
-import { formatData } from '../../utility/utilityFunctions';
+import { formatData } from '../../helpers/formatHelpers';
 
 interface NetworkProps {
   gameState: {

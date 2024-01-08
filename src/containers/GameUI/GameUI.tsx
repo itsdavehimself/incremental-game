@@ -28,7 +28,11 @@ interface GameUIProps {
   allocateToStorage: (
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   ) => void;
-  handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
+  handleUpgradeClick: (
+    upgrade: Upgrade,
+    category: string,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
   incrementWallets: (
     decrypted: boolean,
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -79,7 +83,11 @@ const GameUI: React.FC<GameUIProps> = ({
         onClick={() => createExecutable(setGameState)}
         label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
       ></Button>
-      <Upgrades gameState={gameState} handleUpgradeClick={handleUpgradeClick} />
+      <Upgrades
+        gameState={gameState}
+        setGameState={setGameState}
+        handleUpgradeClick={handleUpgradeClick}
+      />
       {gameState.filesActivated && (
         <FileViewer gamestate={gameState}></FileViewer>
       )}

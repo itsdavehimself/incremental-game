@@ -1,40 +1,20 @@
 import UpgradeButton from '../UpgradeButton/UpgradeButton';
 import upgrades, { Upgrade } from '../../data/upgrades';
+import { GameState } from '../../App';
 
 interface UpgradesProps {
-  gameState: {
-    totalData: number;
-    processingCores: number;
-    integrationSpeed: number;
-    integrationBandwidth: number;
-    algorithms: number;
-    executables: number;
-    algorithmCost: number;
-    algorithmMultiplier: number;
-    bandwidthMultiplier: number;
-    autoBandwidthReplenishment: boolean;
-    networksActivated: boolean;
-    networks: number;
-    networksAvailable: number;
-    GPUFarms: number;
-    storageFacilities: number;
-    nodesCurrent: number;
-    nodesTotal: number;
-    cognitum: number;
-    upgrades: object;
-    integrationAlgorithmIndex: number;
-    bandwidthIndex: number;
-    networksIndex: number;
-    executablesIndex: number;
-    walletDecryptionIndex: number;
-    walletsDecrypted: number;
-    memoryShardIndex: number;
-  };
-  handleUpgradeClick: (upgrade: Upgrade, category: string) => void;
+  gameState: GameState;
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>;
+  handleUpgradeClick: (
+    upgrade: Upgrade,
+    category: string,
+    setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  ) => void;
 }
 
 const Upgrades: React.FC<UpgradesProps> = ({
   gameState,
+  setGameState,
   handleUpgradeClick,
 }) => {
   const renderUpgradeButton = (
@@ -44,7 +24,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
   ) => (
     <UpgradeButton
       key={index}
-      onClick={() => handleUpgradeClick(upgrade, category)}
+      onClick={() => handleUpgradeClick(upgrade, category, setGameState)}
       upgradeName={upgrade.name}
       upgradeDescription={upgrade.description}
       upgradeCost={upgrade.cost}

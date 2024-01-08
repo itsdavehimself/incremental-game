@@ -1,43 +1,66 @@
-const formatData = (bytes: number): string => {
-  if (bytes < 1024) {
-    return bytes.toFixed(0) + 'B';
-  } else if (bytes < 1024 * 1024) {
-    return (bytes / 1024).toFixed(2) + 'KB';
-  } else if (bytes < 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024)).toFixed(2) + 'MB';
-  } else if (bytes < 1024 * 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024 * 1024)).toFixed(2) + 'GB';
-  } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024 * 1024 * 1024)).toFixed(2) + 'TB';
-  } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'PB';
-  } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
-    return (
-      (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'EB'
-    );
-  } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
-    return (
-      (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) +
-      'ZB'
-    );
-  } else {
-    return (
-      (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(
-        2,
-      ) + 'YB'
-    );
+import { Upgrade } from '../data/upgrades';
+import { GameState } from '../App';
+import { upgradeIntegrationAlgorithm } from '../helpers/integrationAlgorithmHelpers';
+import { upgradeBandwidthReplenishment } from '../helpers/bandwidthHelpers';
+import { buyNetwork } from '../helpers/networkHelpers';
+import { upgradeWalletDecryption } from '../helpers/walletDecryptionHelpers';
+import { upgradeExecutables } from '../helpers/executablesHelpers';
+import { upgradeMemoryShardsProbability } from '../helpers/walletDecryptionHelpers';
+import { decodeGameState } from '../helpers/saveGameHelpers';
+
+const handleUpgradeClick = (
+  upgrade: Upgrade,
+  category: string,
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  if (!upgrade.purchased) {
+    upgrade.purchased = true;
+
+    switch (category) {
+      case 'integration':
+        upgradeIntegrationAlgorithm(
+          upgrade.multiplier,
+          upgrade.cost,
+          setGameState,
+        );
+        break;
+      case 'bandwidth':
+        upgradeBandwidthReplenishment(
+          upgrade.multiplier,
+          upgrade.cost,
+          setGameState,
+        );
+        break;
+      case 'networks':
+        buyNetwork(upgrade.cost, setGameState);
+        break;
+      case 'wallets':
+        upgradeWalletDecryption(upgrade.cost, setGameState);
+        break;
+      case 'executables':
+        upgradeExecutables(upgrade.multiplier, upgrade.cost, setGameState);
+        break;
+      case 'shards':
+        upgradeMemoryShardsProbability(
+          upgrade.multiplier,
+          upgrade.cost,
+          setGameState,
+        );
+        break;
+    }
   }
 };
 
-const formatTimeElapsed = (totalSeconds: number) => {
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = Math.floor(totalSeconds % 60);
-
-  const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${
-    seconds < 10 ? '0' : ''
-  }${seconds}`;
-  return formattedTime;
+const handleLoadButtonClick = (
+  inputCode: string,
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  const loadedState = decodeGameState(inputCode);
+  if (loadedState) {
+    setGameState(loadedState);
+  } else {
+    console.error('Invalid game state code');
+  }
 };
 
-export { formatData, formatTimeElapsed };
+export { handleUpgradeClick, handleLoadButtonClick };
