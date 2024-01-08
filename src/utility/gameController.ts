@@ -1,4 +1,5 @@
-import { Config, GameState } from '../App';
+import { GameState } from '../App';
+import { createConfig } from '../data/config';
 import * as mainLoopHelpers from '../helpers/mainLoopHelpers';
 import * as networkHelpers from '../helpers/networkHelpers';
 import * as decryptedFilesHelper from '../helpers/decryptedFilesHelper';
