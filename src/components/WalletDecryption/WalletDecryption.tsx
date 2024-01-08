@@ -1,6 +1,8 @@
 import styles from './WalletDecryption.module.scss';
 import { useState, useEffect } from 'react';
 import { GameState } from '../../App';
+import * as walletHelpers from './walletHelpers';
+import { BtnColors } from './walletHelpers';
 
 interface WalletDecryptionProps {
   gameState: GameState;
@@ -21,18 +23,6 @@ interface WalletDecryptionProps {
     prize: number,
     setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   ) => void;
-}
-
-interface BtnInfo {
-  highlighted: boolean;
-}
-
-interface BtnColors {
-  [key: string]: BtnInfo;
-  btnOne: BtnInfo;
-  btnTwo: BtnInfo;
-  btnThree: BtnInfo;
-  btnFour: BtnInfo;
 }
 
 const WalletDecryption: React.FC<WalletDecryptionProps> = ({
@@ -70,44 +60,17 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   const [memoryShardsPrize, setMemoryShardsPrize] = useState<number>(0);
   const [isShowingSolution, setIsShowingSolution] = useState(false);
 
-  const createSequence = () => {
-    const btns = ['btnOne', 'btnTwo', 'btnThree', 'btnFour'];
-    const randomSequence = Array.from(
-      { length: Math.floor(4 + gameState.walletsDecrypted / 3) },
-      () => btns[Math.floor(Math.random() * btns.length)],
-    );
-    setGameSequence([...randomSequence]);
-    return randomSequence;
-  };
+  const generatePrize = walletHelpers.generatePrize;
+  const createSequence = walletHelpers.createSequence;
+  const generateMemoryShards = walletHelpers.generateMemoryShards;
+  const playSequence = walletHelpers.playSequence;
+  const autoDecryption = walletHelpers.autoDecryption;
 
-  const generatePrize = (decrypted: number, bricked: number) => {
-    const randomInteger = Math.floor(Math.random() * (31 + decrypted / 1.3));
-
-    const basePrize = randomInteger + 10 + decrypted / 2;
-
-    const brickPenalty = bricked;
-
-    const finalPrize = Math.ceil(Math.max(1, basePrize - brickPenalty));
-
-    return finalPrize;
-  };
-
-  const calculateMemoryShards = (decrypted: number) => {
-    const baseShardsAmount = Math.round((Math.random() * decrypted) / 3) / 10;
-    const shardsPrize =
-      Math.round((baseShardsAmount + decrypted / 45) * 10) / 10;
-    setMemoryShardsPrize(shardsPrize);
-
-    return shardsPrize;
-  };
-
-  const generateMemoryShards = () => {
-    const randomNumber = Math.random();
-    if (randomNumber < gameState.memoryShardsProbability) {
-      calculateMemoryShards(gameState.walletsDecrypted);
-    } else {
-      return;
-    }
+  const ButtonMapping: Record<string, number> = {
+    btnOne: 1,
+    btnTwo: 2,
+    btnThree: 3,
+    btnFour: 4,
   };
 
   const startRound = () => {
@@ -120,10 +83,18 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
     );
     if (gameState.walletsDecrypted > 14) {
-      generateMemoryShards();
+      generateMemoryShards(gameState, setMemoryShardsPrize);
     }
     purchaseWalletDecryption(setGameState, gameState);
-    createSequence();
+    const randomSequence = createSequence(gameState, setGameSequence);
+    playSequence(
+      true,
+      randomSequence,
+      setBtnColors,
+      setIsShowingSequence,
+      gameState,
+      setIsShowingSolution,
+    );
   };
 
   const handleButtonClick = (btnName: string) => {
@@ -131,67 +102,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       return;
     }
     setPlayerSequence((prevSequence) => [...prevSequence, btnName]);
-  };
-
-  const ButtonMapping: Record<string, number> = {
-    btnOne: 1,
-    btnTwo: 2,
-    btnThree: 3,
-    btnFour: 4,
-  };
-
-  const showSolution = () => {
-    setIsShowingSolution(true);
-    setTimeout(
-      () => setIsShowingSolution(false),
-      350 * gameState.walletsDecrypted,
-    );
-  };
-
-  const autoDecryption = () => {
-    setTimeout(() => setPlayerSequence(createSequence()), 2000);
-  };
-
-  const playSequence = (shouldShowSolution: boolean = true) => {
-    setIsShowingSequence(true);
-
-    let i = 0;
-    const interval = setInterval(() => {
-      const currentButton = gameSequence[i];
-
-      setBtnColors((prevColors) => {
-        const updatedColors: BtnColors = {
-          ...prevColors,
-          [currentButton]: {
-            highlighted: true,
-          },
-        };
-        return updatedColors;
-      });
-
-      setTimeout(() => {
-        setBtnColors((prevColors) => {
-          const updatedColors: BtnColors = {
-            ...prevColors,
-            [currentButton]: {
-              highlighted: false,
-            },
-          };
-          return updatedColors;
-        });
-      }, 500);
-
-      i++;
-      if (i >= gameSequence.length) {
-        setTimeout(() => {
-          clearInterval(interval);
-          setIsShowingSequence(false);
-          if (shouldShowSolution) {
-            showSolution();
-          }
-        }, 1000);
-      }
-    }, 1000);
   };
 
   useEffect(() => {
@@ -212,7 +122,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
       ) {
         setIsShowingPrize(true);
         incrementWallets(true, setGameState);
-        console.log('yo this is triggering me');
         setPlayerSequence([]);
         receiveCognitumPrize(cognitumPrize, setGameState);
         receiveMemoryShardsPrize(memoryShardsPrize, setGameState);
@@ -227,12 +136,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
 
     checkSequence();
   }, [playerSequence]);
-
-  useEffect(() => {
-    if (isGameRunning) {
-      playSequence();
-    }
-  }, [gameSequence, isGameRunning]);
 
   return (
     <div>
@@ -286,7 +189,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         <button
           onClick={() => {
             if (gameState.walletDecryptionIndex >= 4) {
-              autoDecryption();
+              autoDecryption(setPlayerSequence, gameState, setGameSequence);
             } else {
               startRound();
             }
@@ -301,7 +204,19 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
         </button>
       </div>
       {gameState.walletDecryptionIndex >= 2 && (
-        <button onClick={() => playSequence(false)} disabled={!isGameRunning}>
+        <button
+          onClick={() =>
+            playSequence(
+              false,
+              gameSequence,
+              setBtnColors,
+              setIsShowingSequence,
+              gameState,
+              setIsShowingSolution,
+            )
+          }
+          disabled={!isGameRunning}
+        >
           Replay Sequence
         </button>
       )}
