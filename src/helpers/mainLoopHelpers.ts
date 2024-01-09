@@ -132,6 +132,17 @@ const checkIfUnableToPurchaseBandwidth = (
   });
 };
 
+const addFirstAlgorithm = (
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    return {
+      ...prevGameState,
+      algorithms: 1,
+    };
+  });
+};
+
 export {
   calculateProcessingCoreProduction,
   calculateDataProduction,
@@ -141,4 +152,5 @@ export {
   incrementTime,
   checkDataMilestones,
   checkIfUnableToPurchaseBandwidth,
+  addFirstAlgorithm,
 };

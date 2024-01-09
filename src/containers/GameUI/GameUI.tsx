@@ -67,47 +67,51 @@ const GameUI: React.FC<GameUIProps> = ({
   return (
     <div>
       <Log gameState={gameState} />
-      <ResourceDisplay gameState={gameState} />
-      <Button
-        onClick={() => synthesizeAlgorithm(setGameState, config)}
-        label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
-      ></Button>
-      {!gameState.autoBandwidthReplenishment && (
-        <Button
-          onClick={() => replenishBandwidth(setGameState, gameState)}
-          label={`Replenish Bandwidth (${gameState.bandwidthReplenishmentCost} Processing Cores)`}
-        ></Button>
+      <ResourceDisplay gameState={gameState} setGameState={setGameState} />
+      {gameState.algorithms >= 1 && (
+        <>
+          <Button
+            onClick={() => synthesizeAlgorithm(setGameState, config)}
+            label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
+          ></Button>
+          {!gameState.autoBandwidthReplenishment && (
+            <Button
+              onClick={() => replenishBandwidth(setGameState, gameState)}
+              label={`Replenish Bandwidth (${gameState.bandwidthReplenishmentCost} Processing Cores)`}
+            ></Button>
+          )}
+          <Button
+            onClick={() => createExecutable(setGameState)}
+            label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
+          ></Button>
+          <Upgrades
+            gameState={gameState}
+            setGameState={setGameState}
+            initiateUpgrade={initiateUpgrade}
+          />
+          {gameState.filesActivated && (
+            <FileViewer gamestate={gameState}></FileViewer>
+          )}
+          {gameState.networksActivated && (
+            <Network
+              gameState={gameState}
+              allocateToGPU={() => allocateToGPU(setGameState)}
+              allocateToStorage={() => allocateToStorage(setGameState)}
+            />
+          )}
+          {gameState.walletDecryptionActivated && (
+            <WalletDecryption
+              gameState={gameState}
+              setGameState={setGameState}
+              incrementWallets={incrementWallets}
+              receiveCognitumPrize={receiveCognitumPrize}
+              receiveMemoryShardsPrize={receiveMemoryShardsPrize}
+            ></WalletDecryption>
+          )}
+          <SaveLoad gameState={gameState} setGameState={setGameState} />
+          <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div>
+        </>
       )}
-      <Button
-        onClick={() => createExecutable(setGameState)}
-        label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
-      ></Button>
-      <Upgrades
-        gameState={gameState}
-        setGameState={setGameState}
-        initiateUpgrade={initiateUpgrade}
-      />
-      {gameState.filesActivated && (
-        <FileViewer gamestate={gameState}></FileViewer>
-      )}
-      {gameState.networksActivated && (
-        <Network
-          gameState={gameState}
-          allocateToGPU={() => allocateToGPU(setGameState)}
-          allocateToStorage={() => allocateToStorage(setGameState)}
-        />
-      )}
-      {gameState.walletDecryptionActivated && (
-        <WalletDecryption
-          gameState={gameState}
-          setGameState={setGameState}
-          incrementWallets={incrementWallets}
-          receiveCognitumPrize={receiveCognitumPrize}
-          receiveMemoryShardsPrize={receiveMemoryShardsPrize}
-        ></WalletDecryption>
-      )}
-      <SaveLoad gameState={gameState} setGameState={setGameState} />
-      <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div>
     </div>
   );
 };
