@@ -1,4 +1,5 @@
 import { GameState } from '../../App';
+import styles from './Log.module.scss';
 
 interface LogProps {
   gameState: GameState;
@@ -6,7 +7,7 @@ interface LogProps {
 
 const Log: React.FC<LogProps> = ({ gameState }) => {
   return (
-    <div>
+    <div className={styles['log-container']}>
       {gameState.logMessages.map((message) => (
         <p>{message}</p>
       ))}
