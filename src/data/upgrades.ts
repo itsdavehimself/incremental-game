@@ -85,7 +85,7 @@ const upgrades: Upgrades = {
     {
       name: 'Quantum-Enhanced Synaptic Linkage',
       description:
-        'Enhance synaptic linkage with quantum principles, optimizing integration algorithms by 175%.',
+        'Enhance synaptic linkage with quantum principles, optimizing integration algorithms by 275%.',
       cost: [
         {
           currency: 'Nodes',
@@ -99,7 +99,7 @@ const upgrades: Upgrades = {
     {
       name: 'Synergetic Neural Recursive Engine',
       description:
-        'Power integration with a synergetic neural recursive engine, advancing integration algorithms by another 200%.',
+        'Power integration with a synergetic neural recursive engine, advancing integration algorithms by another 300%.',
       cost: [
         {
           currency: 'Nodes',
