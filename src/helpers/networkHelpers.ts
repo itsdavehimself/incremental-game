@@ -45,7 +45,7 @@ const activateNetworks = (
       storageFacilities: 1,
       logMessages: [
         ...prevGameState.logMessages,
-        'Network expansion initiated. Nodes firing up.',
+        'Network expansion initiated. Mining nodes begin firing up.',
       ],
     };
   });
