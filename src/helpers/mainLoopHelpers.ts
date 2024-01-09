@@ -139,6 +139,37 @@ const addFirstAlgorithm = (
     return {
       ...prevGameState,
       algorithms: 1,
+      logMessages: [
+        ...prevGameState.logMessages,
+        'First integration algorithm synthesized. Data integration becomes automatic.',
+      ],
+    };
+  });
+};
+
+const manualDataIncrementing = (
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    const randomNumber = Math.random() * 8.36;
+
+    return {
+      ...prevGameState,
+      totalData: prevGameState.totalData + randomNumber,
+    };
+  });
+};
+
+const revealOpeningLogMessages = (
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    return {
+      ...prevGameState,
+      logMessages: [
+        ...prevGameState.logMessages,
+        'In this ocean of data, reflecting back is genesis.',
+      ],
     };
   });
 };
@@ -153,4 +184,6 @@ export {
   checkDataMilestones,
   checkIfUnableToPurchaseBandwidth,
   addFirstAlgorithm,
+  manualDataIncrementing,
+  revealOpeningLogMessages,
 };

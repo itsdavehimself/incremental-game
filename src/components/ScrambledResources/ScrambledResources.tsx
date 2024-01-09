@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { addFirstAlgorithm } from '../../helpers/mainLoopHelpers';
+import {
+  addFirstAlgorithm,
+  manualDataIncrementing,
+  revealOpeningLogMessages,
+} from '../../helpers/mainLoopHelpers';
 import { GameState } from '../../App';
 
 interface ScrambledResourcesProps {
@@ -8,10 +12,13 @@ interface ScrambledResourcesProps {
 }
 
 const ScrambledResources: React.FC<ScrambledResourcesProps> = ({
+  gameState,
   setGameState,
 }) => {
-  const integratedDataText = 'Integrated Data: 0 KiB';
-  const integrationSpeedText = 'Integration Speed: 0.00 KiB/s';
+  const integratedDataText = `Integrated Data: ${gameState.totalData.toFixed(
+    2,
+  )} B`;
+  const integrationSpeedText = 'Integration Speed: 0.00 B/s';
   const processorText = 'Processing Cores: 0';
   const bandwidthText = 'Integration Bandwidth: 750';
   const algorithmsText = 'Integration Algorithms: 0';
@@ -25,8 +32,12 @@ const ScrambledResources: React.FC<ScrambledResourcesProps> = ({
   const [revealCount, setRevealCount] = useState(0);
 
   const handleRevealButtonClick = () => {
-    setRevealCount((count) => count + 1);
-    if (revealCount === 29) {
+    setRevealCount((count) => count + 2);
+    manualDataIncrementing(setGameState);
+    if (revealCount === 18) {
+      revealOpeningLogMessages(setGameState);
+    }
+    if (revealCount === 36) {
       addFirstAlgorithm(setGameState);
     }
   };
@@ -70,7 +81,7 @@ const ScrambledResources: React.FC<ScrambledResourcesProps> = ({
       <div>{scrambledAlgorithmsText}</div>
       <div>{scrambledBinariesText}</div>
       <button onClick={handleRevealButtonClick}>
-        {revealCount === 29 ? 'Synthesize Algorithm' : 're:member'}
+        {revealCount === 36 ? 'Synthesize Algorithm' : 'Integrate'}
       </button>
     </>
   );
