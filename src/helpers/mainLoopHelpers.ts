@@ -74,7 +74,7 @@ const createDataMilestoneLogMessage = (
   const dataString = formatData(dataMilestone);
 
   const removeTrailingZeros = (dataString: string) => {
-    const formattedData = dataString.replace(/\.00\s/, ' ');
+    const formattedData = dataString.replace(/\.\d{2}\s/g, ' ');
 
     return formattedData;
   };
