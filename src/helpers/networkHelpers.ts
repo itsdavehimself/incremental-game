@@ -24,6 +24,10 @@ const buyNetwork = (
       networksIndex: prevGameState.networksIndex + 1,
       fractionalMemoryShards: updatedMemoryShards,
       processingCores: updatedProcessingCores,
+      logMessages: [
+        ...prevGameState.logMessages,
+        'Network expansion continues. A new network has been added to your aresenal. Ready for allocation.',
+      ],
     };
   });
 };
@@ -39,6 +43,10 @@ const activateNetworks = (
       nodesTotal: 1000,
       GPUFarms: 1,
       storageFacilities: 1,
+      logMessages: [
+        ...prevGameState.logMessages,
+        'Network expansion initiated. Nodes firing up.',
+      ],
     };
   });
 };
@@ -50,6 +58,10 @@ const earnNetworks = (
     ...prevGameState,
     networks: prevGameState.networks + 1,
     networksAvailable: prevGameState.networksAvailable + 1,
+    logMessages: [
+      ...prevGameState.logMessages,
+      'A new network has been assimilated and is ready to be allocated.',
+    ],
   }));
 };
 
