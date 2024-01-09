@@ -33,6 +33,7 @@ const checkDecryptedFileMilestones = (
     if (
       currentTotalData >= gameState.filesMilestones[prevGameState.filesIndex]
     ) {
+      createFileLogMessages(setGameState);
       return {
         ...prevGameState,
         filesIndex: prevGameState.filesIndex + 1,
