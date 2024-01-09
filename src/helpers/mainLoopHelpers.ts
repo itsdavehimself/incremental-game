@@ -1,4 +1,5 @@
 import { Config, GameState } from '../App';
+import { formatData, formatTimeElapsed } from './formatHelpers';
 
 const calculateProcessingCoreProduction = (
   state: GameState,
@@ -65,6 +66,46 @@ const incrementTime = (
   });
 };
 
+const createDataMilestoneLogMessage = (
+  dataMilestone: number,
+  timeElapsed: number,
+) => {
+  const formattedData = formatData(dataMilestone);
+
+  const formattedTime = formatTimeElapsed(timeElapsed);
+
+  const logMessage = `${formattedData} of data integrated in ${formattedTime}`;
+
+  return logMessage;
+};
+
+const checkDataMilestones = (
+  gameState: GameState,
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    const currentTotalData = prevGameState.totalData;
+    if (
+      currentTotalData >=
+      gameState.dataMilestones[prevGameState.dataMilestonesIndex]
+    ) {
+      const dataMilestone =
+        gameState.dataMilestones[prevGameState.dataMilestonesIndex];
+
+      const timeElapsed = gameState.timeElapsed;
+
+      const message = createDataMilestoneLogMessage(dataMilestone, timeElapsed);
+
+      return {
+        ...prevGameState,
+        dataMilestonesIndex: prevGameState.dataMilestonesIndex + 1,
+        logMessages: [...prevGameState.logMessages, message],
+      };
+    }
+    return prevGameState;
+  });
+};
+
 export {
   calculateProcessingCoreProduction,
   calculateDataProduction,
@@ -72,4 +113,5 @@ export {
   calculateNewDataTotal,
   handleIntegrationBandwidth,
   incrementTime,
+  checkDataMilestones,
 };

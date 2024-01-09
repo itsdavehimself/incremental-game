@@ -15,6 +15,8 @@ import { useMemo } from 'react';
 
 interface GameState {
   totalData: number;
+  dataMilestones: Array<number>;
+  dataMilestonesIndex: number;
   processingCores: number;
   integrationSpeed: number;
   integrationBandwidth: number;
@@ -71,6 +73,10 @@ const App: React.FC = () => {
   const [generatedCode, setGeneratedCode] = useState<string>('');
   const [gameState, setGameState] = useState<GameState>({
     totalData: 0,
+    dataMilestones: [
+      1.049e6, 1.049e7, 1.049e8, 1.074e9, 1.074e10, 1.074e11, 1.1e12,
+    ],
+    dataMilestonesIndex: 0,
     processingCores: 0,
     integrationSpeed: 0,
     integrationBandwidth: 750,

@@ -3,21 +3,20 @@ import * as mainLoopHelpers from '../helpers/mainLoopHelpers';
 import * as networkHelpers from '../helpers/networkHelpers';
 import * as decryptedFilesHelper from '../helpers/decryptedFilesHelper';
 
-const calculateProcessingCoreProduction =
-  mainLoopHelpers.calculateProcessingCoreProduction;
-const calculateDataProduction = mainLoopHelpers.calculateDataProduction;
-const calculateIntegrationBandwidth =
-  mainLoopHelpers.calculateIntegrationBandwidth;
-const calculateNewDataTotal = mainLoopHelpers.calculateNewDataTotal;
-const handleIntegrationBandwidth = mainLoopHelpers.handleIntegrationBandwidth;
-const incrementTime = mainLoopHelpers.incrementTime;
+const {
+  calculateProcessingCoreProduction,
+  calculateDataProduction,
+  calculateIntegrationBandwidth,
+  calculateNewDataTotal,
+  handleIntegrationBandwidth,
+  incrementTime,
+  checkDataMilestones,
+} = mainLoopHelpers;
 
-const incrementActiveNodes = networkHelpers.incrementActiveNodes;
-const incrementCognitum = networkHelpers.incrementCognitum;
-const checkNetworkMilestones = networkHelpers.checkNetworkMilestones;
+const { incrementActiveNodes, incrementCognitum, checkNetworkMilestones } =
+  networkHelpers;
 
-const checkDecryptedFileMilestones =
-  decryptedFilesHelper.checkDecryptedFileMilestones;
+const { checkDecryptedFileMilestones } = decryptedFilesHelper;
 
 const updateGameState = (
   prevGameState: GameState,
@@ -28,6 +27,7 @@ const updateGameState = (
   incrementActiveNodes(setGameState);
   incrementCognitum(setGameState);
   checkDecryptedFileMilestones(setGameState, prevGameState);
+  checkDataMilestones(prevGameState, setGameState);
 
   if (prevGameState.integrationBandwidth > 0) {
     const processingCoreProductionTotal = calculateProcessingCoreProduction(
