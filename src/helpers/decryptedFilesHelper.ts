@@ -1,5 +1,19 @@
 import { GameState } from '../App';
 
+const createFileLogMessages = (
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    return {
+      ...prevGameState,
+      logMessages: [
+        ...prevGameState.logMessages,
+        'New files revealed in explorer',
+      ],
+    };
+  });
+};
+
 const checkDecryptedFileMilestones = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   gameState: GameState,
@@ -8,6 +22,7 @@ const checkDecryptedFileMilestones = (
     const currentTotalData = prevGameState.totalData;
 
     if (currentTotalData > 1024 * 15 && !prevGameState.filesActivated) {
+      createFileLogMessages(setGameState);
       return {
         ...prevGameState,
         filesActivated: true,
