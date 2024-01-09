@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import GameUI from './containers/GameUI/GameUI';
 import './app.scss';
 import upgrades from './data/upgrades';
-import { formatTimeElapsed } from './helpers/formatHelpers';
 import * as integrationAlgorithmHelpers from './helpers/integrationAlgorithmHelpers';
 import * as bandwidthHelpers from './helpers/bandwidthHelpers';
 import * as executablesHelpers from './helpers/executablesHelpers';
 import * as networkHelpers from './helpers/networkHelpers';
 import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
-import * as saveGameHelpers from './helpers/saveGameHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
 import { updateGameState } from './utility/gameController';
 import { useMemo } from 'react';
@@ -71,8 +69,6 @@ interface Config {
 }
 
 const App: React.FC = () => {
-  const [inputCode, setInputCode] = useState<string>('');
-  const [generatedCode, setGeneratedCode] = useState<string>('');
   const [gameState, setGameState] = useState<GameState>({
     totalData: 0,
     dataMilestones: [
@@ -84,7 +80,7 @@ const App: React.FC = () => {
     integrationBandwidth: 750,
     replenishmentFailed: false,
     replenishmentFailureIndex: 0,
-    algorithms: 1,
+    algorithms: 0,
     executables: 0,
     executablesCost: 100000,
     executablesMultiplier: 1,
@@ -167,17 +163,7 @@ const App: React.FC = () => {
   const receiveMemoryShardsPrize =
     walletDecryptionHelpers.receiveMemoryShardsPrize;
 
-  const saveGameState = saveGameHelpers.saveGameState;
-
   const initiateUpgrade = utilityFunctions.initiateUpgrade;
-
-  const handleLoadButtonClick = utilityFunctions.handleLoadButtonClick;
-
-  const handleLoadInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setInputCode(event.target.value);
-  };
 
   useEffect(() => {
     const intervalID = setInterval(() => {
@@ -205,26 +191,6 @@ const App: React.FC = () => {
         receiveCognitumPrize={receiveCognitumPrize}
         receiveMemoryShardsPrize={receiveMemoryShardsPrize}
       />
-
-      <button onClick={() => saveGameState(gameState, setGeneratedCode)}>
-        Save Game
-      </button>
-      <div>
-        <p>Generated Code:</p>
-        <code>{generatedCode}</code>
-      </div>
-      <div>
-        <input
-          type="text"
-          value={inputCode}
-          onChange={handleLoadInputChange}
-          placeholder="Enter game state code"
-        />
-        <button onClick={() => handleLoadButtonClick(inputCode, setGameState)}>
-          Load Game
-        </button>
-      </div>
-      <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div>
     </div>
   );
 };

@@ -7,6 +7,8 @@ import WalletDecryption from '../../components/WalletDecryption/WalletDecryption
 import Log from '../../components/Log/Log';
 import { Upgrade } from '../../data/upgrades';
 import { Config, GameState } from '../../App';
+import SaveLoad from '../../components/SaveLoad/SaveLoad';
+import { formatTimeElapsed } from '../../helpers/formatHelpers';
 
 interface GameUIProps {
   gameState: GameState;
@@ -104,6 +106,8 @@ const GameUI: React.FC<GameUIProps> = ({
           receiveMemoryShardsPrize={receiveMemoryShardsPrize}
         ></WalletDecryption>
       )}
+      <SaveLoad gameState={gameState} setGameState={setGameState} />
+      <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div>
     </div>
   );
 };
