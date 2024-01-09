@@ -70,11 +70,19 @@ const createDataMilestoneLogMessage = (
   dataMilestone: number,
   timeElapsed: number,
 ) => {
-  const formattedData = formatData(dataMilestone);
+  const dataString = formatData(dataMilestone);
+
+  const removeTrailingZeros = (dataString: string) => {
+    const formattedData = dataString.replace(/\.00\s/, ' ');
+
+    return formattedData;
+  };
 
   const formattedTime = formatTimeElapsed(timeElapsed);
 
-  const logMessage = `${formattedData} of data integrated in ${formattedTime}`;
+  const logMessage = `${removeTrailingZeros(
+    dataString,
+  )} of data integrated in ${formattedTime}`;
 
   return logMessage;
 };
