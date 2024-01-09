@@ -2,29 +2,29 @@ const formatData = (bytes: number): string => {
   if (bytes < 1024) {
     return bytes.toFixed(0) + 'B';
   } else if (bytes < 1024 * 1024) {
-    return (bytes / 1024).toFixed(2) + 'KB';
+    return (bytes / 1024).toFixed(2) + 'KiB';
   } else if (bytes < 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024)).toFixed(2) + 'MB';
+    return (bytes / (1024 * 1024)).toFixed(2) + 'MiB';
   } else if (bytes < 1024 * 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024 * 1024)).toFixed(2) + 'GB';
+    return (bytes / (1024 * 1024 * 1024)).toFixed(2) + 'GiB';
   } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024 * 1024 * 1024)).toFixed(2) + 'TB';
+    return (bytes / (1024 * 1024 * 1024 * 1024)).toFixed(2) + 'TiB';
   } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'PB';
+    return (bytes / (1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'PiB';
   } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
     return (
-      (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'EB'
+      (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) + 'EiB'
     );
   } else if (bytes < 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024) {
     return (
       (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(2) +
-      'ZB'
+      'ZiB'
     );
   } else {
     return (
       (bytes / (1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024)).toFixed(
         2,
-      ) + 'YB'
+      ) + 'YiB'
     );
   }
 };
