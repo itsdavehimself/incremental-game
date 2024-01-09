@@ -18,8 +18,8 @@ const Log: React.FC<LogProps> = ({ gameState }) => {
   }, [gameState.logMessages]);
   return (
     <div ref={containerRef} className={styles['log-container']}>
-      {gameState.logMessages.map((message) => (
-        <p>{message}</p>
+      {gameState.logMessages.map((message, index) => (
+        <p key={index}>{message}</p>
       ))}
     </div>
   );
