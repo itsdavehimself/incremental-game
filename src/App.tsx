@@ -20,6 +20,8 @@ interface GameState {
   processingCores: number;
   integrationSpeed: number;
   integrationBandwidth: number;
+  replenishmentFailed: boolean;
+  replenishmentFailureIndex: number;
   algorithms: number;
   executables: number;
   executablesCost: number;
@@ -80,6 +82,8 @@ const App: React.FC = () => {
     processingCores: 0,
     integrationSpeed: 0,
     integrationBandwidth: 750,
+    replenishmentFailed: false,
+    replenishmentFailureIndex: 0,
     algorithms: 1,
     executables: 0,
     executablesCost: 100000,

@@ -138,6 +138,11 @@ const Upgrades: React.FC<UpgradesProps> = ({
               .map((upgrade, index) =>
                 renderUpgradeButton(upgrade, 'shards', index),
               )}
+
+          {gameState.replenishmentFailed &&
+            upgrades.compromise.map((upgrade, index) =>
+              renderUpgradeButton(upgrade, 'compromise', index),
+            )}
         </div>
       )}
     </>

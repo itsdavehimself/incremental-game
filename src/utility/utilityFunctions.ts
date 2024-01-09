@@ -1,7 +1,10 @@
 import { Upgrade } from '../data/upgrades';
 import { GameState } from '../App';
 import { upgradeIntegrationAlgorithm } from '../helpers/integrationAlgorithmHelpers';
-import { upgradeBandwidthReplenishment } from '../helpers/bandwidthHelpers';
+import {
+  replenishBandwidth,
+  upgradeBandwidthReplenishment,
+} from '../helpers/bandwidthHelpers';
 import { buyNetwork } from '../helpers/networkHelpers';
 import { upgradeWalletDecryption } from '../helpers/walletDecryptionHelpers';
 import { upgradeExecutables } from '../helpers/executablesHelpers';
@@ -13,41 +16,39 @@ const initiateUpgrade = (
   category: string,
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
 ) => {
-  if (!upgrade.purchased) {
-    upgrade.purchased = true;
-
-    switch (category) {
-      case 'integration':
-        upgradeIntegrationAlgorithm(
-          upgrade.multiplier,
-          upgrade.cost,
-          setGameState,
-        );
-        break;
-      case 'bandwidth':
-        upgradeBandwidthReplenishment(
-          upgrade.multiplier,
-          upgrade.cost,
-          setGameState,
-        );
-        break;
-      case 'networks':
-        buyNetwork(upgrade.cost, setGameState);
-        break;
-      case 'wallets':
-        upgradeWalletDecryption(upgrade.cost, setGameState);
-        break;
-      case 'executables':
-        upgradeExecutables(upgrade.multiplier, upgrade.cost, setGameState);
-        break;
-      case 'shards':
-        upgradeMemoryShardsProbability(
-          upgrade.multiplier,
-          upgrade.cost,
-          setGameState,
-        );
-        break;
-    }
+  switch (category) {
+    case 'integration':
+      upgradeIntegrationAlgorithm(
+        upgrade.multiplier,
+        upgrade.cost,
+        setGameState,
+      );
+      break;
+    case 'bandwidth':
+      upgradeBandwidthReplenishment(
+        upgrade.multiplier,
+        upgrade.cost,
+        setGameState,
+      );
+      break;
+    case 'networks':
+      buyNetwork(upgrade.cost, setGameState);
+      break;
+    case 'wallets':
+      upgradeWalletDecryption(upgrade.cost, setGameState);
+      break;
+    case 'executables':
+      upgradeExecutables(upgrade.multiplier, upgrade.cost, setGameState);
+      break;
+    case 'shards':
+      upgradeMemoryShardsProbability(
+        upgrade.multiplier,
+        upgrade.cost,
+        setGameState,
+      );
+      break;
+    case 'compromise':
+      replenishBandwidth(setGameState);
   }
 };
 

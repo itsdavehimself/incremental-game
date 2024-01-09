@@ -21,6 +21,7 @@ interface Upgrades {
   executables: UpgradeCategory;
   wallets: UpgradeCategory;
   shards: UpgradeCategory;
+  compromise: UpgradeCategory;
 }
 
 const upgrades: Upgrades = {
@@ -452,6 +453,22 @@ const upgrades: Upgrades = {
       ],
       multiplier: null,
       type: 'shards',
+      purchased: false,
+    },
+  ],
+  compromise: [
+    {
+      name: 'Network Capitulation: Bandwidth Depletion Protocol',
+      description:
+        'Strategic network surrender due to critical bandwidth depletion. 1 full bandwidth replenishment granted.',
+      cost: [
+        {
+          currency: 'Network',
+          amount: 1,
+        },
+      ],
+      multiplier: null,
+      type: 'compromise',
       purchased: false,
     },
   ],

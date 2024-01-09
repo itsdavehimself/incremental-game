@@ -1,5 +1,6 @@
 import { Config, GameState } from '../App';
 import { formatData, formatTimeElapsed } from './formatHelpers';
+import { failedReplenishment } from './networkHelpers';
 
 const calculateProcessingCoreProduction = (
   state: GameState,
@@ -114,6 +115,23 @@ const checkDataMilestones = (
   });
 };
 
+const checkIfUnableToPurchaseBandwidth = (
+  gameState: GameState,
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    if (
+      gameState.integrationBandwidth === 0 &&
+      gameState.bandwidthReplenishmentCost > gameState.processingCores &&
+      !prevGameState.replenishmentFailed
+    ) {
+      failedReplenishment(setGameState);
+      return prevGameState;
+    }
+    return prevGameState;
+  });
+};
+
 export {
   calculateProcessingCoreProduction,
   calculateDataProduction,
@@ -122,4 +140,5 @@ export {
   handleIntegrationBandwidth,
   incrementTime,
   checkDataMilestones,
+  checkIfUnableToPurchaseBandwidth,
 };

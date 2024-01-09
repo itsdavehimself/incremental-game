@@ -51,18 +51,63 @@ const activateNetworks = (
   });
 };
 
+const failedReplenishment = (
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    if (prevGameState.replenishmentFailureIndex === 0) {
+      return {
+        ...prevGameState,
+        networksActivated: true,
+        replenishmentFailed: true,
+        networks: 2,
+        nodesTotal: 1000,
+        GPUFarms: 1,
+        storageFacilities: 1,
+        logMessages: [
+          ...prevGameState.logMessages,
+          'Lack of processing cores renders bandwidth replenishment unattainable. Continue data integration by compromising a network...',
+        ],
+        replenishmentFailureIndex: prevGameState.replenishmentFailureIndex + 1,
+      };
+    } else {
+      return {
+        ...prevGameState,
+        replenishmentFailed: true,
+        logMessages: [
+          ...prevGameState.logMessages,
+          'Lack of processing cores renders bandwidth replenishment unattainable. Continue data integration by compromising a network...',
+        ],
+        replenishmentFailureIndex: prevGameState.replenishmentFailureIndex + 1,
+      };
+    }
+  });
+};
+
 const earnNetworks = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
 ) => {
-  setGameState((prevGameState) => ({
-    ...prevGameState,
-    networks: prevGameState.networks + 1,
-    networksAvailable: prevGameState.networksAvailable + 1,
-    logMessages: [
-      ...prevGameState.logMessages,
-      'A new network has been assimilated and is ready to be allocated.',
-    ],
-  }));
+  setGameState((prevGameState) => {
+    if (prevGameState.networks < 2) {
+      return {
+        ...prevGameState,
+        networks: prevGameState.networks + 1,
+        logMessages: [
+          ...prevGameState.logMessages,
+          'A new network has been assimilated, need at least 3 networks to begin allocations.',
+        ],
+      };
+    }
+    return {
+      ...prevGameState,
+      networks: prevGameState.networks + 1,
+      networksAvailable: prevGameState.networksAvailable + 1,
+      logMessages: [
+        ...prevGameState.logMessages,
+        'A new network has been assimilated and is ready to be allocated.',
+      ],
+    };
+  });
 };
 
 const checkNetworkMilestones = (
@@ -184,4 +229,5 @@ export {
   allocateToStorage,
   incrementActiveNodes,
   incrementCognitum,
+  failedReplenishment,
 };

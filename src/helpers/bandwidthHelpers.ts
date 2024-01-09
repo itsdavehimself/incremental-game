@@ -33,18 +33,30 @@ const upgradeBandwidthReplenishment = (
 
 const replenishBandwidth = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
-  gameState: GameState,
 ) => {
   setGameState((prevGameState) => {
     const addBandwidth =
       prevGameState.integrationBandwidth +
       750 * prevGameState.bandwidthMultiplier;
-    if (prevGameState.processingCores >= gameState.bandwidthReplenishmentCost) {
+    if (prevGameState.replenishmentFailed) {
+      const updatedNetworks =
+        prevGameState.networks > 1 ? prevGameState.networks - 1 : 1;
+      return {
+        ...prevGameState,
+        integrationBandwidth: addBandwidth,
+        networks: updatedNetworks,
+        replenishmentFailed: false,
+      };
+    }
+    if (
+      prevGameState.processingCores >= prevGameState.bandwidthReplenishmentCost
+    ) {
       return {
         ...prevGameState,
         integrationBandwidth: addBandwidth,
         processingCores:
-          prevGameState.processingCores - gameState.bandwidthReplenishmentCost,
+          prevGameState.processingCores -
+          prevGameState.bandwidthReplenishmentCost,
       };
     } else {
       return {

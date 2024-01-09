@@ -11,6 +11,7 @@ const {
   handleIntegrationBandwidth,
   incrementTime,
   checkDataMilestones,
+  checkIfUnableToPurchaseBandwidth,
 } = mainLoopHelpers;
 
 const { incrementActiveNodes, incrementCognitum, checkNetworkMilestones } =
@@ -24,6 +25,7 @@ const updateGameState = (
   config: Config,
 ) => {
   incrementTime(setGameState);
+  checkIfUnableToPurchaseBandwidth(prevGameState, setGameState);
   incrementActiveNodes(setGameState);
   incrementCognitum(setGameState);
   checkDecryptedFileMilestones(setGameState, prevGameState);
