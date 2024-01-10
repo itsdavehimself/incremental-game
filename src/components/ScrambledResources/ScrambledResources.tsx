@@ -18,8 +18,9 @@ const ScrambledResources: React.FC<ScrambledResourcesProps> = ({
   const integratedDataText = `Integrated Data: ${gameState.totalData.toFixed(
     2,
   )} B`;
+  const [processingCores, setProcessingCores] = useState(0);
   const integrationSpeedText = 'Integration Speed: 0.00 B/s';
-  const processorText = 'Processing Cores: 0';
+  const processorText = `Processing Cores: ${processingCores}`;
   const bandwidthText = 'Integration Bandwidth: 750';
   const algorithmsText = 'Integration Algorithms: 0';
   const binariesText = '.exe Binaries: 0';
@@ -36,6 +37,9 @@ const ScrambledResources: React.FC<ScrambledResourcesProps> = ({
     manualDataIncrementing(setGameState);
     if (revealCount === 18) {
       revealOpeningLogMessages(setGameState);
+    }
+    if (revealCount > 32) {
+      setProcessingCores(1);
     }
     if (revealCount === 36) {
       addFirstAlgorithm(setGameState);
@@ -81,7 +85,9 @@ const ScrambledResources: React.FC<ScrambledResourcesProps> = ({
       <div>{scrambledAlgorithmsText}</div>
       <div>{scrambledBinariesText}</div>
       <button onClick={handleRevealButtonClick}>
-        {revealCount === 36 ? 'Synthesize Algorithm' : 'Integrate'}
+        {revealCount === 36
+          ? 'Synthesize Algorithm (1 Processing Core)'
+          : 'Integrate'}
       </button>
     </>
   );
