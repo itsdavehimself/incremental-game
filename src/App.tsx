@@ -121,7 +121,7 @@ const App: React.FC = () => {
     executablesIndex: 0,
     filesActivated: false,
     filesIndex: 0,
-    filesMilestones: [15360, 81920, 102400, 1258291, 1672864, 2097152],
+    filesMilestones: [15360, 81920, 758291, 1672864, 2097152],
     walletDecryptionActivated: false,
     walletsDecrypted: 0,
     walletsBricked: 0,
