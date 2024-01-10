@@ -18,6 +18,8 @@ const upgradeIntegrationAlgorithm = (
       prevGameState.nodesCurrent - getUpgradeCost('Nodes', costs);
     const updatedCognitum =
       prevGameState.cognitum - getUpgradeCost('Cognitum', costs);
+    const updatedProcessingCores =
+      prevGameState.processingCores - getUpgradeCost('Processing Cores', costs);
 
     return {
       ...prevGameState,
@@ -25,6 +27,7 @@ const upgradeIntegrationAlgorithm = (
       nodesCurrent: updatedNodes,
       cognitum: updatedCognitum,
       integrationAlgorithmIndex: prevGameState.integrationAlgorithmIndex + 1,
+      processingCores: updatedProcessingCores,
     };
   });
 };
