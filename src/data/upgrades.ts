@@ -97,6 +97,24 @@ const upgrades: Upgrades = {
       purchased: false,
     },
     {
+      name: 'Digital Apex Convergence',
+      description:
+        'Converge toward a digital apex, achieving unparalleled integration capabilities boosting integration algorithms by 200%.',
+      cost: [
+        {
+          currency: 'Processing Cores',
+          amount: 20000,
+        },
+        {
+          currency: 'Nodes',
+          amount: 2500,
+        },
+      ],
+      multiplier: 1,
+      type: 'integration',
+      purchased: false,
+    },
+    {
       name: 'Synergetic Neural Recursive Engine',
       description:
         'Power integration with a synergetic neural recursive engine, advancing integration algorithms by another 300%.',
@@ -107,7 +125,7 @@ const upgrades: Upgrades = {
         },
         {
           currency: 'Cognitum',
-          amount: 15,
+          amount: 5,
         },
       ],
       multiplier: 2,
@@ -121,7 +139,7 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 17500,
+          amount: 13000,
         },
         {
           currency: 'Cognitum',
@@ -420,11 +438,11 @@ const upgrades: Upgrades = {
       cost: [
         {
           currency: 'Nodes',
-          amount: 25000,
+          amount: 22000,
         },
         {
           currency: 'Processing Cores',
-          amount: 20000000,
+          amount: 2500000,
         },
         {
           currency: 'Fractional Memory Shards',
