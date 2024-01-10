@@ -79,7 +79,9 @@ const GameUI: React.FC<GameUIProps> = ({
             <Button
               onClick={() => replenishBandwidth(setGameState, gameState)}
               label={`Replenish Bandwidth (${gameState.bandwidthReplenishmentCost} Processing Cores)`}
-              disabled={gameState.algorithmCost > gameState.processingCores}
+              disabled={
+                gameState.bandwidthReplenishmentCost > gameState.processingCores
+              }
             ></Button>
           )}
           <Button
