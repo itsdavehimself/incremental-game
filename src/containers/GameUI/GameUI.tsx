@@ -73,16 +73,19 @@ const GameUI: React.FC<GameUIProps> = ({
           <Button
             onClick={() => synthesizeAlgorithm(setGameState, config)}
             label={`Synthesize Algorithm (${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
+            disabled={gameState.algorithmCost > gameState.processingCores}
           ></Button>
           {!gameState.autoBandwidthReplenishment && (
             <Button
               onClick={() => replenishBandwidth(setGameState, gameState)}
               label={`Replenish Bandwidth (${gameState.bandwidthReplenishmentCost} Processing Cores)`}
+              disabled={gameState.algorithmCost > gameState.processingCores}
             ></Button>
           )}
           <Button
             onClick={() => createExecutable(setGameState)}
             label={`Create .exe Binary (${gameState.executablesCost.toLocaleString()} Processing Cores)`}
+            disabled={gameState.executablesCost > gameState.processingCores}
           ></Button>
           <Upgrades
             gameState={gameState}
