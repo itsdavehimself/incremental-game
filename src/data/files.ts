@@ -47,8 +47,6 @@ const allFiles: Files = [
       },
       fileType: 'log',
     },
-  ],
-  [
     {
       fileName: 'note2self_1-12-92.txt',
       fileContents: {
