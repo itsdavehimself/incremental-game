@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import styles from './FileViewer.module.scss';
 import { allFiles } from '../../data/files';
+import { GameState } from '../../App';
 
 interface FileViewerProps {
-  gamestate: {
-    filesIndex: number;
-  };
+  gamestate: GameState;
 }
 
 const FileViewer: React.FC<FileViewerProps> = ({ gamestate }) => {
