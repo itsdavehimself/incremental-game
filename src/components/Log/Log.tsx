@@ -13,14 +13,19 @@ const Log: React.FC<LogProps> = ({ gameState }) => {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   };
+
   useEffect(() => {
     scrollToBottom();
   }, [gameState.logMessages]);
+
   return (
-    <div ref={containerRef} className={styles['log-container']}>
-      {gameState.logMessages.map((message, index) => (
-        <p key={index}>{message}</p>
-      ))}
+    <div className={styles['log-container']}>
+      <div className={styles['log-header']}>LOG</div>
+      <div ref={containerRef} className={styles['log-messages']}>
+        {gameState.logMessages.map((message, index) => (
+          <p key={index}>{message.toUpperCase()}</p>
+        ))}
+      </div>
     </div>
   );
 };

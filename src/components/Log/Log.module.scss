@@ -1,4 +1,26 @@
+@use '../../app.scss';
+
 .log-container {
-  height: 12rem;
+  border: 1.5px app.$white solid;
+  margin: 0 1rem;
+}
+
+.log-messages {
+  color: app.$white;
   overflow-y: scroll;
+  padding: 0 0.5rem;
+  height: 8rem;
+  font-size: 0.9rem;
+}
+
+.log-header {
+  background-color: app.$white;
+  color: app.$black;
+  font-weight: app.$font-black;
+  padding: 0 0.5rem;
+}
+
+p {
+  margin: 0;
+  padding: 0.35rem 0;
 }
