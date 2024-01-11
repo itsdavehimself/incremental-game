@@ -1,4 +1,23 @@
+@import url('https://use.typekit.net/dwk2esv.css');
+
+$font-stack: 'eurostile', sans-serif;
+$font-regular: 400;
+$font-medium: 500;
+$font-bold: 700;
+$font-heavy: 800;
+$font-black: 900;
+$white: #f0f0f0;
+$black: #111111;
+$blue: #0cd8d5;
+
 body {
-  background-color: #181818;
-  color: #f0f0f0;
+  background-color: $black;
+  color: $white;
+  font: 100% $font-stack;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
