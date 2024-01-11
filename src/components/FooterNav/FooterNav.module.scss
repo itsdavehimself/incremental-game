@@ -1,0 +1,10 @@
+@use '../../app.scss';
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  height: 4rem;
+  background-color: app.$black;
+  margin-top: auto;
+  padding: 0 0.5rem;
+}

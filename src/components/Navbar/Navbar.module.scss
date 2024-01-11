@@ -1,0 +1,11 @@
+@use '../../app.scss';
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: app.$black;
+  color: app.$white;
+  height: 4rem;
+  padding: 0 1rem;
+}

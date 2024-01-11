@@ -10,6 +10,8 @@ import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
 import { updateGameState } from './utility/gameController';
 import { useMemo } from 'react';
+import Navbar from './components/Navbar/Navbar';
+import FooterNav from './components/FooterNav/FooterNav';
 
 interface GameState {
   totalData: number;
@@ -177,6 +179,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
+      <Navbar gameState={gameState} />
       <GameUI
         gameState={gameState}
         setGameState={setGameState}
@@ -191,6 +194,7 @@ const App: React.FC = () => {
         receiveCognitumPrize={receiveCognitumPrize}
         receiveMemoryShardsPrize={receiveMemoryShardsPrize}
       />
+      <FooterNav />
     </div>
   );
 };
