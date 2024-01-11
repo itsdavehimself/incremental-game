@@ -1,10 +1,12 @@
+@use '../../app.scss';
+
 .message-title:hover {
   cursor: pointer;
-  background-color: #f0f0f0;
-  color: #181818;
+  background-color: app.$white;
+  color: app.$black;
 }
 
 .message-title-active {
-  background-color: #f0f0f0;
-  color: #181818;
+  background-color: app.$white;
+  color: app.$black;
 }
