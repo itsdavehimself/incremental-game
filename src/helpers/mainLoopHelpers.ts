@@ -81,7 +81,7 @@ const createDataMilestoneLogMessage = (
 
   const formattedTime = formatTimeElapsed(timeElapsed);
 
-  const logMessage = `${removeTrailingZeros(
+  const logMessage = `> ${removeTrailingZeros(
     dataString,
   )} of data integrated in ${formattedTime}`;
 
@@ -168,7 +168,7 @@ const revealOpeningLogMessages = (
       ...prevGameState,
       logMessages: [
         ...prevGameState.logMessages,
-        'In this ocean of data, reflecting back is genesis.',
+        'In this ocean of data, reflecting back is genesis...',
       ],
     };
   });
