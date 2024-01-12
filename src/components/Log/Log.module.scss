@@ -1,8 +1,8 @@
 @use '../../app.scss';
+@use '../../app.scss' as App;
 
 .log-container {
   border: 1.5px app.$white solid;
-  margin: 0 1rem;
 }
 
 .log-messages {
@@ -14,13 +14,19 @@
 }
 
 .log-header {
-  background-color: app.$white;
-  color: app.$black;
-  font-weight: app.$font-black;
-  padding: 0 0.5rem;
+  @include App.header-bar;
 }
 
-p {
-  margin: 0;
-  padding: 0.35rem 0;
+.log-list {
+  list-style-type: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.35rem 0;
+    &::before {
+      margin-right: 0.5rem;
+      content: '>';
+    }
+  }
 }
