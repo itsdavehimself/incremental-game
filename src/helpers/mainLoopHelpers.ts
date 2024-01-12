@@ -81,7 +81,7 @@ const createDataMilestoneLogMessage = (
 
   const formattedTime = formatTimeElapsed(timeElapsed);
 
-  const logMessage = `> ${removeTrailingZeros(
+  const logMessage = `${removeTrailingZeros(
     dataString,
   )} of data integrated in ${formattedTime}`;
 
