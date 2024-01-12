@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
-import GameUI from './containers/GameUI/GameUI';
+import Button from './components/Button/Button';
+import ResourceDisplay from './components/ResourceDisplay/ResourceDisplay';
+import Network from './components/Network/Network';
+import Upgrades from './components/Upgrades/Upgrades';
+import FileViewer from './components/FileViewer/FileViewer';
+import WalletDecryption from './components/WalletDecryption/WalletDecryption';
+import Log from './components/Log/Log';
+import SaveLoad from './components/SaveLoad/SaveLoad';
+import { formatTimeElapsed } from './helpers/formatHelpers';
 import './app.scss';
 import upgrades from './data/upgrades';
 import * as integrationAlgorithmHelpers from './helpers/integrationAlgorithmHelpers';
@@ -180,20 +188,73 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <Navbar gameState={gameState} />
-      <GameUI
-        gameState={gameState}
-        setGameState={setGameState}
-        config={config}
-        synthesizeAlgorithm={synthesizeAlgorithm}
-        createExecutable={createExecutable}
-        replenishBandwidth={replenishBandwidth}
-        allocateToGPU={allocateToGPU}
-        allocateToStorage={allocateToStorage}
-        initiateUpgrade={initiateUpgrade}
-        incrementWallets={incrementWallets}
-        receiveCognitumPrize={receiveCognitumPrize}
-        receiveMemoryShardsPrize={receiveMemoryShardsPrize}
-      />
+      <Log gameState={gameState} />
+      <ResourceDisplay gameState={gameState} setGameState={setGameState} />
+      {gameState.algorithms >= 1 && (
+        <>
+          <div className="main-btn-container">
+            <div className="accents-container">
+              <div className="squares-container">
+                <div className="square"></div>
+                <div className="square"></div>
+                <div className="square"></div>
+              </div>
+              <div className="arrow"></div>
+            </div>
+            <div className="buttons">
+              <Button
+                onClick={() => synthesizeAlgorithm(setGameState, config)}
+                upgradeName={'SYNTHESIZE ALGORITHM'}
+                upgradeCost={`(${gameState.algorithmCost.toLocaleString()} PROCESSING CORES)`}
+                disabled={gameState.algorithmCost > gameState.processingCores}
+              ></Button>
+              {!gameState.autoBandwidthReplenishment && (
+                <Button
+                  onClick={() => replenishBandwidth(setGameState)}
+                  upgradeName={'REPLENISH BANDWIDTH'}
+                  upgradeCost={`(${gameState.bandwidthReplenishmentCost} PROCESSING CORES)`}
+                  disabled={
+                    gameState.bandwidthReplenishmentCost >
+                    gameState.processingCores
+                  }
+                ></Button>
+              )}
+              <Button
+                onClick={() => createExecutable(setGameState)}
+                upgradeName={'CREATE .EXE BINARY'}
+                upgradeCost={`(${gameState.executablesCost.toLocaleString()} PROCESSING CORES)`}
+                disabled={gameState.executablesCost > gameState.processingCores}
+              ></Button>
+            </div>
+          </div>
+          {/* <Upgrades
+            gameState={gameState}
+            setGameState={setGameState}
+            initiateUpgrade={initiateUpgrade}
+          />
+          {gameState.filesActivated && (
+            <FileViewer gamestate={gameState}></FileViewer>
+          )}
+          {gameState.networksActivated && (
+            <Network
+              gameState={gameState}
+              allocateToGPU={() => allocateToGPU(setGameState)}
+              allocateToStorage={() => allocateToStorage(setGameState)}
+            />
+          )}
+          {gameState.walletDecryptionActivated && (
+            <WalletDecryption
+              gameState={gameState}
+              setGameState={setGameState}
+              incrementWallets={incrementWallets}
+              receiveCognitumPrize={receiveCognitumPrize}
+              receiveMemoryShardsPrize={receiveMemoryShardsPrize}
+            ></WalletDecryption>
+          )}
+          <SaveLoad gameState={gameState} setGameState={setGameState} />
+          <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
+        </>
+      )}
       <FooterNav />
     </div>
   );
