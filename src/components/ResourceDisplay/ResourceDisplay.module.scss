@@ -1,0 +1,52 @@
+@use '../../app.scss';
+@use '../../app.scss' as App;
+
+$line-height: 1rem;
+
+.resource-container {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px app.$white solid;
+  margin: 1rem 0 0 0;
+  height: 14rem;
+}
+
+.resource-header {
+  @include App.header-bar;
+}
+
+.resource-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  margin: 0.5rem 0;
+}
+
+.data-block {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  margin-left: 1.2rem;
+}
+
+.rectangle {
+  height: 2.5rem;
+  width: 0.15rem;
+  background-color: app.$white;
+}
+
+.data-pair {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: $line-height;
+  margin-bottom: 0.5rem;
+  h3 {
+    font-size: 0.7rem;
+    font-weight: app.$font-weight-regular;
+  }
+  p {
+    font-size: 1.6rem;
+    font-weight: app.$font-weight-bold;
+  }
+}
