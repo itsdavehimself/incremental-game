@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './FileViewer.module.scss';
 import { allFiles } from '../../data/files';
 import { GameState } from '../../App';
 
 interface FileViewerProps {
-  gamestate: GameState;
+  gameState: GameState;
 }
 
-const FileViewer: React.FC<FileViewerProps> = ({ gamestate }) => {
+const FileViewer: React.FC<FileViewerProps> = ({ gameState }) => {
   const [isContentShowing, setIsContentShowing] = useState(false);
   const [activeFile, setActiveFile] = useState<number | null>(null);
   const [contentType, setContentType] = useState('');
@@ -40,46 +40,81 @@ const FileViewer: React.FC<FileViewerProps> = ({ gamestate }) => {
   };
 
   const filesToRender = allFiles
-    .slice(0, gamestate.filesIndex)
+    .slice(0, gameState.filesIndex)
     .flatMap((fileGroup) => fileGroup);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollToBottom = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [gameState.filesIndex]);
+
   return (
-    <div>
-      <div>
-        <h3>File Explorer:</h3>
+    <>
+      <div className={styles['explorer-container']}>
+        <div className={styles['explorer-header']}>
+          <h5>FILE EXPLORER</h5>
+          <div className={styles.square}></div>
+        </div>
+        <div className={styles['file-list']}>
+          {filesToRender.map((file, index) => (
+            <li
+              className={`${styles['message-title']} ${
+                activeFile === index ? styles['message-title-active'] : ''
+              }`}
+              onClick={() =>
+                showMessage(file.fileContents, index, file.fileType)
+              }
+              key={index}
+            >
+              {file.fileName}
+            </li>
+          ))}
+        </div>
       </div>
-      {filesToRender.map((file, index) => (
-        <li
-          className={`${styles['message-title']} ${
-            activeFile === index ? styles['message-title-active'] : ''
-          }`}
-          onClick={() => showMessage(file.fileContents, index, file.fileType)}
-          key={index}
-        >
-          {file.fileName}
-        </li>
-      ))}
       {isContentShowing && (
-        <div>
-          {contentType === 'message' && (
-            <>
-              <p>From: {content.from}</p>
-              <p>To: {content.to}</p>
-            </>
-          )}
-          <p>{content.date}</p>
-          <p>{content.message}</p>
+        <div className={styles['message-container']}>
+          <div className={styles.message}>
+            {contentType === 'message' && (
+              <div className={styles.communicators}>
+                <div>
+                  <h5>From: </h5>
+                  <p>{content.from}</p>
+                </div>
+                <div>
+                  <h5>To:</h5>
+                  <p>{content.to}</p>
+                </div>
+              </div>
+            )}
+            <p className={styles['message-date']}>{content.date}</p>
+            <p
+              className={`${
+                contentType === 'log'
+                  ? styles['message-log-contents']
+                  : styles['message-contents']
+              }`}
+            >
+              {content.message}
+            </p>
+          </div>
+          <button
+            className={styles['message-close-btn']}
+            onClick={() => {
+              setIsContentShowing(false);
+              setActiveFile(null);
+            }}
+          >
+            Close Message
+          </button>
         </div>
       )}
-      <button
-        onClick={() => {
-          setIsContentShowing(false);
-          setActiveFile(null);
-        }}
-      >
-        Hide Messages
-      </button>
-    </div>
+    </>
   );
 };
 

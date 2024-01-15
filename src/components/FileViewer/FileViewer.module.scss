@@ -1,4 +1,70 @@
 @use '../../app.scss';
+@use '../../app.scss' as App;
+
+.explorer-container {
+  border: 1.5px app.$white solid;
+  margin: 1rem 0 0;
+}
+
+.explorer-header {
+  @include App.header-bar;
+}
+
+.file-list {
+  color: app.$white;
+  overflow-y: scroll;
+  padding: 0 0.7rem;
+  height: 10rem;
+  font-size: 0.9rem;
+  word-break: break-all;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.35rem 0;
+    &::before {
+      margin-right: 0.5rem;
+      content: '>';
+    }
+  }
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 2rem;
+  padding: 0 0.7rem;
+  margin: 1rem 0 0;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.communicators {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  h5 {
+    font-weight: app.$font-weight-black;
+  }
+}
+
+.message-date {
+  font-weight: app.$font-weight-black;
+  font-size: 0.9rem;
+}
+
+.message-contents {
+  font-size: 1rem;
+}
+
+.message-log-contents {
+  word-break: break-all;
+}
 
 .message-title:hover {
   cursor: pointer;
@@ -9,4 +75,19 @@
 .message-title-active {
   background-color: app.$white;
   color: app.$black;
+}
+
+.message-close-btn {
+  border: 2px app.$white solid;
+  padding: 0.5rem;
+  background-color: app.$black;
+  color: app.$white;
+  transition: all 0.2s ease-in-out;
+}
+
+.message-close-btn:hover {
+  cursor: pointer;
+  background-color: app.$white;
+  color: app.$black;
+  transition: all 0.2s ease-in-out;
 }
