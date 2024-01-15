@@ -27,7 +27,7 @@ const Log: React.FC<LogProps> = ({ gameState }) => {
       <div ref={containerRef} className={styles['log-messages']}>
         {gameState.logMessages.map((message, index) => (
           <ul className={styles['log-list']}>
-            <li key={index}>{message.toUpperCase()}</li>
+            <li key={index}>{message}</li>
           </ul>
         ))}
       </div>
