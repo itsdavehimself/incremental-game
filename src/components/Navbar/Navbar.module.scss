@@ -7,5 +7,19 @@
   background-color: app.$black;
   color: app.$white;
   height: 4rem;
-  padding: 0 1rem;
+}
+
+.data {
+  font-weight: app.$font-weight-heavy;
+}
+
+.save {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    font-weight: app.$font-weight-heavy;
+    font-size: 0.8rem;
+  }
 }
