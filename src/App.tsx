@@ -205,7 +205,7 @@ const App: React.FC = () => {
         </>
       )}
       {gameState.filesActivated && (currentView as string) === 'files' && (
-        <FileViewer gamestate={gameState}></FileViewer>
+        <FileViewer gameState={gameState}></FileViewer>
       )}
       {gameState.networksActivated &&
         (currentView as string) === 'networks' && (
