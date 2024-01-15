@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Button from './components/Button/Button';
 import ResourceDisplay from './components/ResourceDisplay/ResourceDisplay';
 import Network from './components/Network/Network';
 import Upgrades from './components/Upgrades/Upgrades';
@@ -10,9 +9,6 @@ import SaveLoad from './components/SaveLoad/SaveLoad';
 import { formatTimeElapsed } from './helpers/formatHelpers';
 import './app.scss';
 import upgrades from './data/upgrades';
-import * as integrationAlgorithmHelpers from './helpers/integrationAlgorithmHelpers';
-import * as bandwidthHelpers from './helpers/bandwidthHelpers';
-import * as executablesHelpers from './helpers/executablesHelpers';
 import * as networkHelpers from './helpers/networkHelpers';
 import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
@@ -20,6 +16,7 @@ import { updateGameState } from './utility/gameController';
 import { useMemo } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import FooterNav from './components/FooterNav/FooterNav';
+import PurchaseButtons from './components/PurchaseButtons/PurchaseButtons';
 
 interface GameState {
   totalData: number;
@@ -145,6 +142,12 @@ const App: React.FC = () => {
     gameOver: false,
   });
 
+  const [currentView, setCurrentView] = useState<
+    'home' | 'files' | 'upgrades' | 'networks' | 'upgrades' | 'wallet'
+  >('home');
+  const [revealCount, setRevealCount] = useState(0);
+  const [processingCores, setProcessingCores] = useState(0);
+
   const config = useMemo<Config>(
     () => ({
       algorithmCostBase: 6,
@@ -155,12 +158,6 @@ const App: React.FC = () => {
     }),
     [],
   );
-
-  const synthesizeAlgorithm = integrationAlgorithmHelpers.synthesizeAlgorithm;
-
-  const replenishBandwidth = bandwidthHelpers.replenishBandwidth;
-
-  const createExecutable = executablesHelpers.createExecutable;
 
   const allocateToGPU = networkHelpers.allocateToGPU;
 
@@ -187,75 +184,61 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <Navbar gameState={gameState} />
+      <Navbar gameState={gameState} currentView={currentView} />
       <Log gameState={gameState} />
-      <ResourceDisplay gameState={gameState} setGameState={setGameState} />
-      {gameState.algorithms >= 1 && (
+      {currentView === 'home' && (
         <>
-          <div className="main-btn-container">
-            <div className="accents-container">
-              <div className="squares-container">
-                <div className="square"></div>
-                <div className="square"></div>
-                <div className="square"></div>
-              </div>
-              <div className="arrow"></div>
-            </div>
-            <div className="buttons">
-              <Button
-                onClick={() => synthesizeAlgorithm(setGameState, config)}
-                upgradeName={'SYNTHESIZE ALGORITHM'}
-                upgradeCost={`(${gameState.algorithmCost.toLocaleString()} PROCESSING CORES)`}
-                disabled={gameState.algorithmCost > gameState.processingCores}
-              ></Button>
-              {!gameState.autoBandwidthReplenishment && (
-                <Button
-                  onClick={() => replenishBandwidth(setGameState)}
-                  upgradeName={'REPLENISH BANDWIDTH'}
-                  upgradeCost={`(${gameState.bandwidthReplenishmentCost} PROCESSING CORES)`}
-                  disabled={
-                    gameState.bandwidthReplenishmentCost >
-                    gameState.processingCores
-                  }
-                ></Button>
-              )}
-              <Button
-                onClick={() => createExecutable(setGameState)}
-                upgradeName={'CREATE .EXE BINARY'}
-                upgradeCost={`(${gameState.executablesCost.toLocaleString()} PROCESSING CORES)`}
-                disabled={gameState.executablesCost > gameState.processingCores}
-              ></Button>
-            </div>
-          </div>
-          {/* <Upgrades
+          <ResourceDisplay
+            gameState={gameState}
+            setGameState={setGameState}
+            revealCount={revealCount}
+            processingCores={processingCores}
+          />
+          <PurchaseButtons
+            gameState={gameState}
+            setGameState={setGameState}
+            config={config}
+            setRevealCount={setRevealCount}
+            revealCount={revealCount}
+            setProcessingCores={setProcessingCores}
+          />
+        </>
+      )}
+      {gameState.filesActivated && (currentView as string) === 'files' && (
+        <FileViewer gamestate={gameState}></FileViewer>
+      )}
+      {gameState.networksActivated &&
+        (currentView as string) === 'networks' && (
+          <Network
+            gameState={gameState}
+            allocateToGPU={() => allocateToGPU(setGameState)}
+            allocateToStorage={() => allocateToStorage(setGameState)}
+          />
+        )}
+      {gameState.networksActivated &&
+        (currentView as string) === 'upgrades' && (
+          <Upgrades
             gameState={gameState}
             setGameState={setGameState}
             initiateUpgrade={initiateUpgrade}
           />
-          {gameState.filesActivated && (
-            <FileViewer gamestate={gameState}></FileViewer>
-          )}
-          {gameState.networksActivated && (
-            <Network
-              gameState={gameState}
-              allocateToGPU={() => allocateToGPU(setGameState)}
-              allocateToStorage={() => allocateToStorage(setGameState)}
-            />
-          )}
-          {gameState.walletDecryptionActivated && (
-            <WalletDecryption
-              gameState={gameState}
-              setGameState={setGameState}
-              incrementWallets={incrementWallets}
-              receiveCognitumPrize={receiveCognitumPrize}
-              receiveMemoryShardsPrize={receiveMemoryShardsPrize}
-            ></WalletDecryption>
-          )}
-          <SaveLoad gameState={gameState} setGameState={setGameState} />
-          <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
-        </>
+        )}
+      {gameState.walletDecryptionActivated && (
+        <WalletDecryption
+          gameState={gameState}
+          setGameState={setGameState}
+          incrementWallets={incrementWallets}
+          receiveCognitumPrize={receiveCognitumPrize}
+          receiveMemoryShardsPrize={receiveMemoryShardsPrize}
+        ></WalletDecryption>
       )}
-      <FooterNav />
+      {/* <SaveLoad gameState={gameState} setGameState={setGameState} />
+          <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
+      <FooterNav
+        gameState={gameState}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+      />
     </div>
   );
 };
