@@ -1,0 +1,75 @@
+@use '../../app.scss';
+
+@mixin main-btn {
+  background-color: app.$white;
+  color: app.$black;
+  width: 100%;
+  border: 1.5px app.$white solid;
+  padding: 0.8rem 0.5rem;
+  transition: all 0.2s ease-in-out;
+
+  .btn-text {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+    h4 {
+      font-size: 1.2rem;
+      font-weight: app.$font-weight-medium;
+      transition: all 0.2s ease-in-out;
+    }
+
+    p {
+      font-size: 1rem;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+}
+
+.main-btn {
+  @include main-btn;
+}
+
+.main-btn:disabled {
+  background-color: app.$button-disabled;
+  color: app.$button-disabled-font;
+  border: 1.5px app.$button-border solid;
+  border-color: app.$button-disabled-border;
+  transition: all 0.2s ease-in-out;
+
+  .btn-text {
+    transform: scale(0.9);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.main-btn:hover {
+  box-shadow: 0 0 10px 0.5px rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.main-btn:hover:disabled {
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  cursor: default;
+}
+
+.upgrade-cost {
+  font-weight: app.$font-weight-bold;
+}
+
+.line-container {
+  margin: -0.6rem 3rem 0 -0.8rem;
+}
+
+.line {
+  height: 1px;
+  background-color: app.$white;
+}
+
+.rectangle {
+  height: 4px;
+  background-color: app.$white;
+  width: 2.5rem;
+}

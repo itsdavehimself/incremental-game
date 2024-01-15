@@ -17,19 +17,29 @@ const UpgradeButton: React.FC<UpgradeButtonProps> = ({
   disabled,
 }) => {
   return (
-    <button
-      className={styles['main-btn']}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      <h3>{upgradeName}</h3>
-      <p>{upgradeDescription}</p>
-      {upgradeCost.map((cost, index) => (
-        <div key={index}>
-          {cost.amount.toLocaleString()} {cost.currency}
+    <>
+      <button
+        className={styles['main-btn']}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        <div className={styles['btn-text']}>
+          <h4>{upgradeName.toUpperCase()}</h4>
+          <p>{upgradeDescription}</p>
+          <div>
+            {upgradeCost.map((cost, index) => (
+              <div key={index} className={styles['upgrade-cost']}>
+                {cost.amount.toLocaleString()} {cost.currency}
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </button>
+      </button>
+      <div className={styles['line-container']}>
+        <div className={styles.line}></div>
+        <div className={styles.rectangle}></div>
+      </div>
+    </>
   );
 };
 
