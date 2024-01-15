@@ -60,14 +60,14 @@ const PurchaseButtons: React.FC<PurchaseButtonsProps> = ({
             <Button
               onClick={() => synthesizeAlgorithm(setGameState, config)}
               upgradeName={'SYNTHESIZE ALGORITHM'}
-              upgradeCost={`(${gameState.algorithmCost.toLocaleString()} PROCESSING CORES)`}
+              upgradeCost={`(${gameState.algorithmCost.toLocaleString()} Processing Cores)`}
               disabled={gameState.algorithmCost > gameState.processingCores}
             ></Button>
             {!gameState.autoBandwidthReplenishment && (
               <Button
                 onClick={() => replenishBandwidth(setGameState)}
                 upgradeName={'REPLENISH BANDWIDTH'}
-                upgradeCost={`(${gameState.bandwidthReplenishmentCost} PROCESSING CORES)`}
+                upgradeCost={`(${gameState.bandwidthReplenishmentCost} Processing Cores)`}
                 disabled={
                   gameState.bandwidthReplenishmentCost >
                   gameState.processingCores
@@ -77,7 +77,7 @@ const PurchaseButtons: React.FC<PurchaseButtonsProps> = ({
             <Button
               onClick={() => createExecutable(setGameState)}
               upgradeName={'CREATE .EXE BINARY'}
-              upgradeCost={`(${gameState.executablesCost.toLocaleString()} PROCESSING CORES)`}
+              upgradeCost={`(${gameState.executablesCost.toLocaleString()} Processing Cores)`}
               disabled={gameState.executablesCost > gameState.processingCores}
             ></Button>
           </>
