@@ -1,6 +1,7 @@
 import UpgradeButton from '../UpgradeButton/UpgradeButton';
 import upgrades, { Upgrade } from '../../data/upgrades';
 import { GameState } from '../../App';
+import styles from './Upgrades.module.scss';
 
 interface UpgradesProps {
   gameState: GameState;
@@ -77,9 +78,9 @@ const Upgrades: React.FC<UpgradesProps> = ({
   );
 
   return (
-    <>
+    <div>
       {gameState.networksActivated && (
-        <div>
+        <div className={styles.upgrades}>
           {upgrades.integrationAlgorithms
             .filter(
               (upgrade, index) =>
@@ -145,7 +146,7 @@ const Upgrades: React.FC<UpgradesProps> = ({
             )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
