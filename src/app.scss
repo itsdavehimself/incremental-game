@@ -159,6 +159,7 @@ button {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  row-gap: 0.5rem;
 }
 
 .main-btn-container {
@@ -174,7 +175,8 @@ button {
 .accents-container {
   display: flex;
   align-items: center;
-  margin: 1rem 0;
+  justify-content: space-between;
+  margin: 0.5rem 0;
 }
 
 .squares-container {
