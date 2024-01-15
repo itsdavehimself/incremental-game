@@ -20,41 +20,52 @@ const FooterNav: React.FC<FooterNavProps> = ({ setCurrentView, gameState }) => {
   return (
     <nav className={styles.footer}>
       <button onClick={() => setCurrentView('home')}>
-        <div className={styles['nav-icon']}>
-          <ProcessorIcon />
-        </div>
+        {gameState.algorithms >= 1 && (
+          <div className={styles['nav-icon']}>
+            <ProcessorIcon />
+          </div>
+        )}
       </button>
+
       <button
         onClick={() => setCurrentView('files')}
         disabled={!gameState.filesActivated}
       >
-        <div className={styles['nav-icon']}>
-          <ExplorerIcon />
-        </div>
+        {gameState.filesActivated && (
+          <div className={styles['nav-icon']}>
+            <ExplorerIcon />
+          </div>
+        )}
       </button>
       <button
         onClick={() => setCurrentView('networks')}
         disabled={!gameState.networksActivated}
       >
-        <div className={styles['nav-icon']}>
-          <NetworkIcon />
-        </div>
+        {gameState.networksActivated && (
+          <div className={styles['nav-icon']}>
+            <NetworkIcon />
+          </div>
+        )}
       </button>
       <button
         onClick={() => setCurrentView('upgrades')}
         disabled={!gameState.networksActivated}
       >
-        <div className={styles['nav-icon']}>
-          <UpgradeIcon />
-        </div>
+        {gameState.networksActivated && (
+          <div className={styles['nav-icon']}>
+            <UpgradeIcon />
+          </div>
+        )}
       </button>
       <button
         onClick={() => setCurrentView('wallet')}
         disabled={!gameState.walletDecryptionActivated}
       >
-        <div className={styles['nav-icon']}>
-          <DecryptIcon />
-        </div>
+        {gameState.walletDecryptionActivated && (
+          <div className={styles['nav-icon']}>
+            <DecryptIcon />
+          </div>
+        )}
       </button>
     </nav>
   );

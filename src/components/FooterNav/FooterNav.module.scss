@@ -7,32 +7,21 @@
   background-color: app.$black;
   margin-top: auto;
   padding-bottom: 1rem;
-}
 
-.placeholder {
-  height: 3rem;
-  width: 3rem;
-  background-color: app.$black;
-  border: 2px app.$white solid;
-  transition: all 0.2s ease-in-out;
-}
+  button {
+    height: 3rem;
+    width: 3rem;
 
-.placeholder:hover {
-  background-color: app.$white;
-  border: 2px app.$white solid;
-  transition: all 0.2s ease-in-out;
-}
-
-button {
-  .nav-icon {
-    transform: scale(1);
-    transition: all 0.2s ease-in-out;
+    .nav-icon {
+      transform: scale(1);
+      transition: all 0.2s ease-in-out;
+    }
   }
-}
 
-button:hover {
-  .nav-icon {
-    transform: scale(0.9);
-    transition: all 0.2s ease-in-out;
+  button:hover {
+    .nav-icon {
+      transform: scale(0.9);
+      transition: all 0.2s ease-in-out;
+    }
   }
 }
