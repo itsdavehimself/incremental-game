@@ -41,6 +41,9 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   const [scrambledBinariesTitle, setScrambledBinariesTitle] = useState('');
   const [scrambledBinariesText, setScrambledBinariesText] = useState('');
 
+  const speedRegex = /^\d{4}(\.\d+)?$/;
+  const integrationSpeed = formatData(gameState.integrationSpeed * 100);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setScrambledDataTitle(
@@ -103,10 +106,15 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
             {gameState.algorithms > 0 ? (
               <>
                 <h3>SPEED</h3>
-                <p>
-                  {formatData(gameState.integrationSpeed * 100)}
-                  /s
-                </p>
+                <p
+                  className={`${
+                    speedRegex.test(integrationSpeed)
+                      ? styles['']
+                      : styles['speed-long']
+                  }`}
+                >
+                  {integrationSpeed}/s
+                </p>{' '}
               </>
             ) : (
               <>
