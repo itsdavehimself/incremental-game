@@ -1,0 +1,40 @@
+@use '../../app.scss';
+@use '../../app.scss' as App;
+
+.networks-container {
+  border: 1.5px app.$white solid;
+  margin: 1rem 0;
+}
+
+.network-header {
+  @include App.header-bar;
+}
+
+.next-network {
+  margin: 1rem 1rem;
+  font-weight: app.$font-weight-medium;
+}
+
+.network-data {
+  @include App.data-layout;
+  margin: 1rem 0;
+  row-gap: 1rem;
+}
+
+.allocation-btn-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.6rem;
+}
+
+.data-block {
+  @include App.data-block;
+}
+
+.rectangle {
+  @include App.rectangle;
+}
+
+.data-pair {
+  @include App.data-pair;
+}
