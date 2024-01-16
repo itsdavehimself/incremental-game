@@ -17,16 +17,22 @@
   height: 10rem;
   font-size: 0.9rem;
   word-break: break-all;
+  margin-top: 0.3rem;
 
   li {
     display: flex;
     align-items: flex-start;
-    padding: 0.35rem 0;
+    padding: 0.35rem 0 0.35rem 0.5rem;
     &::before {
       margin-right: 0.5rem;
-      content: '>';
+      content: '\1F4C4';
     }
   }
+}
+
+.message-type {
+  font-weight: app.$font-weight-heavy;
+  margin-right: 0.25rem;
 }
 
 .message-container {

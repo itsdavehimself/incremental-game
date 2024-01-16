@@ -72,6 +72,15 @@ const FileViewer: React.FC<FileViewerProps> = ({ gameState }) => {
               }
               key={index}
             >
+              {file.fileType !== 'log' && (
+                <span className={styles['message-type']}>
+                  {file.fileType === 'message'
+                    ? 'msg: '
+                    : file.fileType === 'note'
+                      ? 'note: '
+                      : ''}
+                </span>
+              )}
               {file.fileName}
             </li>
           ))}
