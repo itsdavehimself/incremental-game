@@ -61,7 +61,7 @@ const FileViewer: React.FC<FileViewerProps> = ({ gameState }) => {
           <h5>FILE EXPLORER</h5>
           <div className={styles.square}></div>
         </div>
-        <div className={styles['file-list']}>
+        <div ref={containerRef} className={styles['file-list']}>
           {filesToRender.map((file, index) => (
             <li
               className={`${styles['message-title']} ${
