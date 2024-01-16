@@ -1,3 +1,63 @@
+@use '../../app.scss';
+@use '../../app.scss' as App;
+
+.wallet-container {
+  border: 1.5px app.$white solid;
+  margin-top: 1rem;
+}
+
+.wallet-header {
+  @include App.header-bar;
+}
+
+.wallet-data {
+  @include App.data-layout;
+  margin: 1rem 0;
+  row-gap: 1rem;
+}
+
+.data-block {
+  @include App.data-block;
+}
+
+.rectangle {
+  @include App.rectangle;
+}
+
+.data-pair {
+  @include App.data-pair;
+}
+
+.wallet-buttons {
+  border: 1.5px app.$white solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  max-width: fit-content;
+}
+
+.wallet-controls {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.7rem;
+}
+
+.solution-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4rem;
+}
+
+.solution {
+  font-size: 2rem;
+  font-weight: app.$font-weight-bold;
+}
+
 .highlighted {
   animation: highlight 0.5s ease-in-out;
 }

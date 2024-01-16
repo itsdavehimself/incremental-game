@@ -1,9 +1,10 @@
 import styles from './WalletDecryption.module.scss';
 import { useState, useEffect } from 'react';
 import { GameState } from '../../App';
-import { BtnColors } from './walletHelpers';
+import { BtnColors, logWinnings } from './walletHelpers';
 import DecryptionButton from '../DecryptionButton/DecryptionButton';
 import * as utilityFunctions from './walletUtilityFunctions';
+import Button from '../Button/Button';
 
 interface WalletDecryptionProps {
   gameState: GameState;
@@ -51,7 +52,6 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
 
   const [isGameRunning, setIsGameRunning] = useState<boolean>(false);
   const [isShowingSequence, setIsShowingSequence] = useState<boolean>(false);
-  const [isShowingPrize, setIsShowingPrize] = useState(false);
   const [cognitumPrize, setCognitumPrize] = useState<number>(0);
   const [memoryShardsPrize, setMemoryShardsPrize] = useState<number>(0);
   const [isShowingSolution, setIsShowingSolution] = useState(false);
@@ -81,20 +81,14 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
 
       if (
         playerSequence.length === gameSequence.length &&
-        playerSequence.length > 0 &&
-        !isShowingPrize
+        playerSequence.length > 0
       ) {
-        setIsShowingPrize(true);
         incrementWallets(true, setGameState);
         setPlayerSequence([]);
         receiveCognitumPrize(cognitumPrize, setGameState);
         receiveMemoryShardsPrize(memoryShardsPrize, setGameState);
-        setTimeout(() => {
-          setIsShowingPrize(false);
-        }, 3000);
-        setTimeout(() => {
-          setIsGameRunning(false);
-        }, 3500);
+        logWinnings(cognitumPrize, memoryShardsPrize, gameState, setGameState);
+        setIsGameRunning(false);
       }
     };
 
@@ -102,71 +96,97 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
   }, [playerSequence]);
 
   return (
-    <div>
-      <h3>Dead Wallet Decryption</h3>
-      <div> Wallets Decrypted: {gameState.walletsDecrypted}</div>
-      <div> Wallets Bricked: {gameState.walletsBricked}</div>
-      {gameState.walletsDecrypted >= 15 && (
-        <div>
-          Fractional Memory Shards:{' '}
-          {gameState.fractionalMemoryShards.toFixed(1)}
+    <>
+      <div className={styles['wallet-container']}>
+        <div className={styles['wallet-header']}>
+          <h3>DEAD WALLET DECRYPTION</h3>
+          <div className={styles.square}></div>
+        </div>
+        <div className={styles['wallet-data']}>
+          <div className={styles['data-block']}>
+            <div className={styles.rectangle}></div>
+            <div className={styles['data-pair']}>
+              <h3>WALLETS DECRYPTED</h3>
+              <p>{gameState.walletsDecrypted}</p>
+            </div>
+          </div>
+          <div className={styles['data-block']}>
+            <div className={styles.rectangle}></div>
+            <div className={styles['data-pair']}>
+              <h3>WALLETS BRICKED</h3>
+              <p>{gameState.walletsBricked}</p>
+            </div>
+          </div>
+          {gameState.walletsDecrypted >= 15 && (
+            <div className={styles['data-block']}>
+              <div className={styles.rectangle}></div>
+              <div className={styles['data-pair']}>
+                <h3>FRACTIONAL MEMORY SHARDS</h3>
+                <p>{gameState.fractionalMemoryShards.toFixed(1)}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {gameState.walletDecryptionIndex === 3 && (
+        <div className={styles['solution-container']}>
+          {isShowingSolution && (
+            <div className={styles['solution']}>
+              {gameSequence.map((btn, index) => (
+                <span key={index}>{ButtonMapping[btn]} </span>
+              ))}
+            </div>
+          )}
         </div>
       )}
-      <DecryptionButton
-        onClick={() =>
-          handleDecryptionButtonClick(
-            'btnOne',
-            isShowingSequence,
-            isGameRunning,
-            setPlayerSequence,
-          )
-        }
-        className={btnColors.btnOne.highlighted ? styles.highlighted : ''}
-      />{' '}
-      <DecryptionButton
-        onClick={() =>
-          handleDecryptionButtonClick(
-            'btnTwo',
-            isShowingSequence,
-            isGameRunning,
-            setPlayerSequence,
-          )
-        }
-        className={btnColors.btnTwo.highlighted ? styles.highlighted : ''}
-      />{' '}
-      <DecryptionButton
-        onClick={() =>
-          handleDecryptionButtonClick(
-            'btnThree',
-            isShowingSequence,
-            isGameRunning,
-            setPlayerSequence,
-          )
-        }
-        className={btnColors.btnThree.highlighted ? styles.highlighted : ''}
-      />{' '}
-      <DecryptionButton
-        onClick={() =>
-          handleDecryptionButtonClick(
-            'btnFour',
-            isShowingSequence,
-            isGameRunning,
-            setPlayerSequence,
-          )
-        }
-        className={btnColors.btnFour.highlighted ? styles.highlighted : ''}
-      />{' '}
-      <div>
-        {isShowingSolution && gameState.walletDecryptionIndex === 3 && (
-          <div>
-            {gameSequence.map((btn, index) => (
-              <span key={index}>{ButtonMapping[btn]} </span>
-            ))}
-          </div>
-        )}
+      <div className={styles['wallet-buttons']}>
+        <DecryptionButton
+          onClick={() =>
+            handleDecryptionButtonClick(
+              'btnOne',
+              isShowingSequence,
+              isGameRunning,
+              setPlayerSequence,
+            )
+          }
+          className={btnColors.btnOne.highlighted ? styles.highlighted : ''}
+        />
+        <DecryptionButton
+          onClick={() =>
+            handleDecryptionButtonClick(
+              'btnTwo',
+              isShowingSequence,
+              isGameRunning,
+              setPlayerSequence,
+            )
+          }
+          className={btnColors.btnTwo.highlighted ? styles.highlighted : ''}
+        />
+        <DecryptionButton
+          onClick={() =>
+            handleDecryptionButtonClick(
+              'btnThree',
+              isShowingSequence,
+              isGameRunning,
+              setPlayerSequence,
+            )
+          }
+          className={btnColors.btnThree.highlighted ? styles.highlighted : ''}
+        />
+        <DecryptionButton
+          onClick={() =>
+            handleDecryptionButtonClick(
+              'btnFour',
+              isShowingSequence,
+              isGameRunning,
+              setPlayerSequence,
+            )
+          }
+          className={btnColors.btnFour.highlighted ? styles.highlighted : ''}
+        />
       </div>
-      <div>
-        <button
+      <div className={styles['wallet-controls']}>
+        <Button
           onClick={() =>
             handleStartButtonClick(
               gameState,
@@ -182,42 +202,31 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
               setPlayerSequence,
             )
           }
+          upgradeName="START DECRYPTION"
+          upgradeCost={`${gameState.walletDecryptionCost.toLocaleString()} Nodes`}
           disabled={
             gameState.walletDecryptionCost > gameState.nodesCurrent ||
             isGameRunning
           }
-        >
-          Start Decryption ({gameState.walletDecryptionCost.toLocaleString()}{' '}
-          Nodes)
-        </button>
+        ></Button>
+        {gameState.walletDecryptionIndex >= 0 && (
+          <Button
+            onClick={() =>
+              handleReplayButtonClick(
+                gameState,
+                gameSequence,
+                setIsShowingSolution,
+                setBtnColors,
+                setIsShowingSequence,
+              )
+            }
+            upgradeName="REPLAY SEQUENCE"
+            upgradeCost=""
+            disabled={!isGameRunning || isShowingSequence}
+          ></Button>
+        )}
       </div>
-      {gameState.walletDecryptionIndex >= 2 && (
-        <button
-          onClick={() =>
-            handleReplayButtonClick(
-              gameState,
-              gameSequence,
-              setIsShowingSolution,
-              setBtnColors,
-              setIsShowingSequence,
-            )
-          }
-          disabled={!isGameRunning}
-        >
-          Replay Sequence
-        </button>
-      )}
-      {isShowingPrize && (
-        <>
-          <div>Recovered {cognitumPrize} cognitum</div>
-          {gameState.walletsDecrypted > 14 && (
-            <div>
-              Recovered {memoryShardsPrize.toFixed(1)} fractional memory shards
-            </div>
-          )}
-        </>
-      )}
-    </div>
+    </>
   );
 };
 
