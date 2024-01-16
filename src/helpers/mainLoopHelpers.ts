@@ -46,6 +46,13 @@ const handleIntegrationBandwidth = (state: GameState) => {
   const addBandwidth =
     state.integrationBandwidth + 750 * state.bandwidthMultiplier;
 
+  if (state.autoBandwidthReplenishment) {
+    return {
+      ...state,
+      integrationBandwidth: addBandwidth,
+    };
+  }
+
   if (state.processingCores >= 50) {
     return {
       ...state,

@@ -25,7 +25,9 @@ const updateGameState = (
   config: Config,
 ) => {
   incrementTime(setGameState);
-  checkIfUnableToPurchaseBandwidth(prevGameState, setGameState);
+  if (!prevGameState.autoBandwidthReplenishment) {
+    checkIfUnableToPurchaseBandwidth(prevGameState, setGameState);
+  }
   incrementActiveNodes(setGameState);
   incrementCognitum(setGameState);
   checkDecryptedFileMilestones(setGameState, prevGameState);
