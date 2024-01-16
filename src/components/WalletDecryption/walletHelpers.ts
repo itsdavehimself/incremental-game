@@ -129,6 +129,33 @@ const autoDecryption = (
   );
 };
 
+const logWinnings = (
+  cognitumWinnings: number,
+  memoryShardsWinnings: number,
+  gameState: GameState,
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    if (gameState.walletsDecrypted > 14) {
+      return {
+        ...prevGameState,
+        logMessages: [
+          ...prevGameState.logMessages,
+          `Wallet Decryption Successful: ${cognitumWinnings} cognitum & ${memoryShardsWinnings} memory shards recovered`,
+        ],
+      };
+    } else {
+      return {
+        ...prevGameState,
+        logMessages: [
+          ...prevGameState.logMessages,
+          `Wallet Decryption Successful: ${cognitumWinnings} Cognitum Recovered`,
+        ],
+      };
+    }
+  });
+};
+
 export {
   generatePrize,
   createSequence,
@@ -138,6 +165,7 @@ export {
   updateButtonColors,
   playSequence,
   autoDecryption,
+  logWinnings,
 };
 
 export type { BtnColors };
