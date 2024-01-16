@@ -1,8 +1,6 @@
 @use '../../app.scss';
 @use '../../app.scss' as App;
 
-$line-height: 1rem;
-
 .resource-container {
   display: flex;
   flex-direction: column;
@@ -16,40 +14,17 @@ $line-height: 1rem;
 }
 
 .resource-data {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  flex: 1;
-  margin: 0.5rem 0;
+  @include App.data-layout;
 }
 
 .data-block {
-  display: flex;
-  align-items: center;
-  column-gap: 0.5rem;
-  margin-left: 1.2rem;
+  @include App.data-block;
 }
 
 .rectangle {
-  height: 2.5rem;
-  width: 0.15rem;
-  background-color: app.$white;
+  @include App.rectangle;
 }
 
 .data-pair {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: $line-height;
-  margin-bottom: 0.5rem;
-  h3 {
-    font-size: 0.7rem;
-    font-weight: app.$font-weight-regular;
-  }
-  p {
-    font-size: 1.6rem;
-    font-weight: app.$font-weight-bold;
-  }
-  .speed-long {
-    font-size: 1.3rem;
-  }
+  @include App.data-pair;
 }
