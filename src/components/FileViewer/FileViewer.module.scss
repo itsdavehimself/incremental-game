@@ -22,11 +22,7 @@
   li {
     display: flex;
     align-items: flex-start;
-    padding: 0.35rem 0 0.35rem 0.5rem;
-    &::before {
-      margin-right: 0.5rem;
-      content: '\1F4C4';
-    }
+    padding: 0.35rem 0;
   }
 }
 
