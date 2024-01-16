@@ -25,11 +25,11 @@ const Log: React.FC<LogProps> = ({ gameState }) => {
         <div className={styles.square}></div>
       </div>
       <div ref={containerRef} className={styles['log-messages']}>
-        {gameState.logMessages.map((message, index) => (
-          <ul className={styles['log-list']}>
+        <ul className={styles['log-list']}>
+          {gameState.logMessages.map((message, index) => (
             <li key={index}>{message}</li>
-          </ul>
-        ))}
+          ))}
+        </ul>
       </div>
     </div>
   );
