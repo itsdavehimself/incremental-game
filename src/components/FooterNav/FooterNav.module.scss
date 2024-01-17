@@ -1,12 +1,20 @@
 @use '../../app.scss';
 
 .footer {
-  display: flex;
-  justify-content: space-between;
-  height: 4rem;
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  padding: 0.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: space-evenly;
+  justify-items: center;
+  align-content: space-evenly;
+  align-items: center;
+  height: 3rem;
+  width: 100vw;
   background-color: app.$black;
-  margin-top: auto;
-  padding-bottom: 1rem;
+  z-index: 1;
 
   button {
     height: 3rem;

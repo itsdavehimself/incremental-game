@@ -10,13 +10,13 @@
 }
 
 .save-modal {
+  height: 100%;
+  width: 100%;
   display: grid;
   align-items: center;
   grid-template-rows: 5rem 1fr;
   position: absolute;
   background-color: app.$black;
-  height: 100%;
-  width: 100%;
   z-index: 10;
   margin: 0 -1.4rem;
 }

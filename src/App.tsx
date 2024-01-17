@@ -197,54 +197,56 @@ const App: React.FC = () => {
         isShowingSaveModal={isShowingSaveModal}
         setIsShowingSaveModal={setIsShowingSaveModal}
       />
-      <Log gameState={gameState} />
-      {currentView === 'home' && (
-        <>
-          <ResourceDisplay
-            gameState={gameState}
-            setGameState={setGameState}
-            revealCount={revealCount}
-            processingCores={processingCores}
-          />
-          <PurchaseButtons
-            gameState={gameState}
-            setGameState={setGameState}
-            config={config}
-            setRevealCount={setRevealCount}
-            revealCount={revealCount}
-            setProcessingCores={setProcessingCores}
-          />
-        </>
-      )}
-      {gameState.filesActivated && (currentView as string) === 'files' && (
-        <FileViewer gameState={gameState}></FileViewer>
-      )}
-      {gameState.networksActivated &&
-        (currentView as string) === 'networks' && (
-          <Network
-            gameState={gameState}
-            allocateToGPU={() => allocateToGPU(setGameState)}
-            allocateToStorage={() => allocateToStorage(setGameState)}
-          />
+      <div className="main-content">
+        <Log gameState={gameState} />
+        {currentView === 'home' && (
+          <>
+            <ResourceDisplay
+              gameState={gameState}
+              setGameState={setGameState}
+              revealCount={revealCount}
+              processingCores={processingCores}
+            />
+            <PurchaseButtons
+              gameState={gameState}
+              setGameState={setGameState}
+              config={config}
+              setRevealCount={setRevealCount}
+              revealCount={revealCount}
+              setProcessingCores={setProcessingCores}
+            />
+          </>
         )}
-      {gameState.networksActivated &&
-        (currentView as string) === 'upgrades' && (
-          <Upgrades
-            gameState={gameState}
-            setGameState={setGameState}
-            initiateUpgrade={initiateUpgrade}
-          />
+        {gameState.filesActivated && (currentView as string) === 'files' && (
+          <FileViewer gameState={gameState}></FileViewer>
         )}
-      {gameState.walletDecryptionActivated &&
-        (currentView as string) === 'wallet' && (
-          <WalletDecryption
-            gameState={gameState}
-            setGameState={setGameState}
-            incrementWallets={incrementWallets}
-            receiveCognitumPrize={receiveCognitumPrize}
-            receiveMemoryShardsPrize={receiveMemoryShardsPrize}
-          ></WalletDecryption>
-        )}
+        {gameState.networksActivated &&
+          (currentView as string) === 'networks' && (
+            <Network
+              gameState={gameState}
+              allocateToGPU={() => allocateToGPU(setGameState)}
+              allocateToStorage={() => allocateToStorage(setGameState)}
+            />
+          )}
+        {gameState.networksActivated &&
+          (currentView as string) === 'upgrades' && (
+            <Upgrades
+              gameState={gameState}
+              setGameState={setGameState}
+              initiateUpgrade={initiateUpgrade}
+            />
+          )}
+        {gameState.walletDecryptionActivated &&
+          (currentView as string) === 'wallet' && (
+            <WalletDecryption
+              gameState={gameState}
+              setGameState={setGameState}
+              incrementWallets={incrementWallets}
+              receiveCognitumPrize={receiveCognitumPrize}
+              receiveMemoryShardsPrize={receiveMemoryShardsPrize}
+            ></WalletDecryption>
+          )}
+      </div>
       <FooterNav
         gameState={gameState}
         currentView={currentView}

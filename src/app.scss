@@ -204,6 +204,12 @@ button {
   row-gap: 0.5rem;
 }
 
+.main-content {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  overflow-y: scroll;
+}
+
 .main-btn-container {
   display: flex;
   flex-direction: column;

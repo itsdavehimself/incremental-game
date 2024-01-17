@@ -1,6 +1,10 @@
 @use '../../app.scss';
 
 .navbar {
+  position: fixed;
+  left: 0%;
+  width: 100%;
+  margin: 0 1.4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,7 +20,7 @@
 .navbar-button {
   height: 3rem;
   width: 3rem;
-  margin-right: -0.6rem;
+  margin-right: 2rem;
 
   .save-icon {
     transform: scale(1);
