@@ -85,6 +85,7 @@
   background-color: app.$black;
   color: app.$white;
   transition: all 0.2s ease-in-out;
+  width: fit-content;
 }
 
 .message-close-btn:hover {
