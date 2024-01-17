@@ -2,6 +2,7 @@ import styles from './Navbar.module.scss';
 import { GameState } from '../../App';
 import { formatData } from '../../helpers/formatHelpers';
 import SaveGameIcon from '../icons/SaveGameIcon';
+import Logo from '../icons/Logo';
 
 interface NavbarProps {
   gameState: GameState;
@@ -23,7 +24,9 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>LOGO</div>
+      <div className={styles.logo}>
+        <Logo />
+      </div>
       {currentView !== 'home' && (
         <div className={styles.data}>{formatData(gameState.totalData)}</div>
       )}
