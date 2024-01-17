@@ -143,7 +143,7 @@ const App: React.FC = () => {
   });
 
   const [currentView, setCurrentView] = useState<
-    'home' | 'files' | 'upgrades' | 'networks' | 'upgrades' | 'wallet'
+    'home' | 'files' | 'networks' | 'upgrades' | 'wallet'
   >('home');
   const [revealCount, setRevealCount] = useState(0);
   const [processingCores, setProcessingCores] = useState(0);
@@ -223,15 +223,16 @@ const App: React.FC = () => {
             initiateUpgrade={initiateUpgrade}
           />
         )}
-      {gameState.walletDecryptionActivated && (
-        <WalletDecryption
-          gameState={gameState}
-          setGameState={setGameState}
-          incrementWallets={incrementWallets}
-          receiveCognitumPrize={receiveCognitumPrize}
-          receiveMemoryShardsPrize={receiveMemoryShardsPrize}
-        ></WalletDecryption>
-      )}
+      {gameState.walletDecryptionActivated &&
+        (currentView as string) === 'wallet' && (
+          <WalletDecryption
+            gameState={gameState}
+            setGameState={setGameState}
+            incrementWallets={incrementWallets}
+            receiveCognitumPrize={receiveCognitumPrize}
+            receiveMemoryShardsPrize={receiveMemoryShardsPrize}
+          ></WalletDecryption>
+        )}
       {/* <SaveLoad gameState={gameState} setGameState={setGameState} />
           <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
       <FooterNav
