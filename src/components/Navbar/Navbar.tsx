@@ -12,9 +12,15 @@ interface NavbarProps {
     | 'networks'
     | 'upgrades'
     | 'wallet';
+  isShowingSaveModal: boolean;
+  setIsShowingSaveModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ gameState, currentView }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  gameState,
+  currentView,
+  setIsShowingSaveModal,
+}) => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>LOGO</div>
@@ -22,9 +28,14 @@ const Navbar: React.FC<NavbarProps> = ({ gameState, currentView }) => {
         <div className={styles.data}>{formatData(gameState.totalData)}</div>
       )}
 
-      <div className={styles.save}>
-        <SaveGameIcon />
-      </div>
+      <button
+        className={styles['navbar-button']}
+        onClick={() => setIsShowingSaveModal(true)}
+      >
+        <div className={styles['save-icon']}>
+          <SaveGameIcon />
+        </div>
+      </button>
     </nav>
   );
 };

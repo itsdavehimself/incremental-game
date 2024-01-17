@@ -13,13 +13,20 @@
   font-weight: app.$font-weight-heavy;
 }
 
-.save {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.navbar-button {
+  height: 3rem;
+  width: 3rem;
 
-  p {
-    font-weight: app.$font-weight-heavy;
-    font-size: 0.8rem;
+  .save-icon {
+    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.navbar-button:hover {
+  .save-icon {
+    transform: scale(0.9);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
   }
 }
