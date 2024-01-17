@@ -1,0 +1,117 @@
+@use '../../app.scss';
+@use '../../app.scss' as App;
+@use '../Button/Button.module.scss' as Button;
+
+@mixin alignment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.save-modal {
+  display: grid;
+  align-items: center;
+  grid-template-rows: 5rem 1fr;
+  position: absolute;
+  background-color: app.$black;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  margin: 0 -1.4rem;
+}
+
+.modal-nav {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -1.2rem;
+  margin-right: 1.4rem;
+}
+
+.save-load-container {
+  @include alignment;
+}
+
+.close-modal {
+  @include alignment;
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
+  font-size: 3rem;
+  font-weight: app.$font-weight-medium;
+}
+
+.close-modal:hover {
+  transform: scale(0.9);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.save-container {
+  @include alignment;
+  width: 90%;
+  row-gap: 1rem;
+}
+
+.generated-container {
+  border: 1.5px app.$white solid;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.generated-header {
+  @include App.header-bar;
+}
+
+.generated-code {
+  word-break: break-all;
+  color: app.$white;
+  overflow-y: scroll;
+  padding: 0 0.7rem;
+  height: 10rem;
+  font-size: 0.9rem;
+  word-break: break-all;
+  margin-top: 0.3rem;
+}
+
+.load-container {
+  @include alignment;
+  width: 90%;
+}
+
+.save-button {
+  @include Button.main-btn;
+  background-color: app.$black;
+  color: app.$white;
+}
+
+.save-button:hover {
+  background-color: app.$white;
+  color: app.$black;
+  box-shadow: 0 0 10px 0.5px rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.copy-button {
+  font-size: 0.8rem;
+  width: fit-content;
+}
+
+.copy-button:hover {
+  cursor: pointer;
+}
+
+.load-input {
+  word-break: break-all;
+  border-style: none;
+  border: 1.5px app.$white solid;
+  background-color: app.$black;
+  color: app.$white;
+  overflow-y: scroll;
+  height: 10rem;
+  font-size: 0.9rem;
+  word-break: break-all;
+  font-family: app.$font-stack;
+  margin-bottom: 1rem;
+  width: 100%;
+}
