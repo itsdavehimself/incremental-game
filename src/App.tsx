@@ -5,7 +5,6 @@ import Upgrades from './components/Upgrades/Upgrades';
 import FileViewer from './components/FileViewer/FileViewer';
 import WalletDecryption from './components/WalletDecryption/WalletDecryption';
 import Log from './components/Log/Log';
-import { formatTimeElapsed } from './helpers/formatHelpers';
 import './app.scss';
 import upgrades from './data/upgrades';
 import * as networkHelpers from './helpers/networkHelpers';
@@ -246,7 +245,6 @@ const App: React.FC = () => {
             receiveMemoryShardsPrize={receiveMemoryShardsPrize}
           ></WalletDecryption>
         )}
-      {/* <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
       <FooterNav
         gameState={gameState}
         currentView={currentView}
