@@ -38,3 +38,10 @@
 .data-pair {
   @include App.data-pair;
 }
+
+.data-pair-nodes {
+  @include App.data-pair;
+  p {
+    font-size: 1.1rem;
+  }
+}

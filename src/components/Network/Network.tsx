@@ -66,7 +66,7 @@ const Network: React.FC<NetworkProps> = ({
           </div>
           <div className={styles['data-block']}>
             <div className={styles.rectangle}></div>
-            <div className={styles['data-pair']}>
+            <div className={styles['data-pair-nodes']}>
               <h3>ACTIVE NODES</h3>
               <p>
                 {Math.floor(gameState.nodesCurrent).toLocaleString()}/
