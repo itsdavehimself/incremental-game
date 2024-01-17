@@ -4,7 +4,10 @@ import ExplorerIcon from '../icons/ExplorerIcon';
 import styles from './FooterNav.module.scss';
 import UpgradeIcon from '../icons/UpgradeIcon';
 import DecryptIcon from '../icons/DecryptIcon';
+import AlertIcon from '../icons/AlertIcon';
 import { GameState } from '../../App';
+import { useState, useEffect, useRef } from 'react';
+import isUpgradeAvailable from './FooterNavHelpers';
 
 interface FooterNavProps {
   currentView: string;
@@ -16,7 +19,45 @@ interface FooterNavProps {
   gameState: GameState;
 }
 
-const FooterNav: React.FC<FooterNavProps> = ({ setCurrentView, gameState }) => {
+const FooterNav: React.FC<FooterNavProps> = ({
+  currentView,
+  setCurrentView,
+  gameState,
+}) => {
+  const prevNetworks = useRef<number>(gameState.networks);
+  const [isFileAlertShowing, setIsFileAlertShowing] = useState<boolean>(false);
+  const [isNetworkAlertShowing, setIsNetworkAlertShowing] =
+    useState<boolean>(false);
+  const [isUpgradeAlertShowing, setIsUpgradeAlertShowing] = useState(false);
+
+  useEffect(() => {
+    if (currentView === 'files') {
+      return;
+    }
+    setIsFileAlertShowing(true);
+  }, [gameState.filesIndex]);
+
+  useEffect(() => {
+    if (
+      currentView === 'networks' ||
+      gameState.networks <= prevNetworks.current
+    ) {
+      return;
+    }
+
+    setIsNetworkAlertShowing(true);
+    prevNetworks.current = gameState.networks;
+  }, [gameState.networks]);
+
+  useEffect(() => {
+    if (isUpgradeAvailable(gameState)) {
+      setIsUpgradeAlertShowing(true);
+      return;
+    }
+
+    setIsUpgradeAlertShowing(false);
+  }, [gameState]);
+
   return (
     <nav className={styles.footer}>
       <button onClick={() => setCurrentView('home')}>
@@ -28,21 +69,39 @@ const FooterNav: React.FC<FooterNavProps> = ({ setCurrentView, gameState }) => {
       </button>
 
       <button
-        onClick={() => setCurrentView('files')}
+        onClick={() => {
+          setCurrentView('files');
+          setIsFileAlertShowing(false);
+        }}
         disabled={!gameState.filesActivated}
       >
         {gameState.filesActivated && (
-          <div className={styles['nav-icon']}>
-            <ExplorerIcon />
-          </div>
+          <>
+            <div className={styles['nav-icon']}>
+              {isFileAlertShowing && (
+                <div className={styles.alert}>
+                  <AlertIcon />
+                </div>
+              )}
+              <ExplorerIcon />
+            </div>
+          </>
         )}
       </button>
       <button
-        onClick={() => setCurrentView('networks')}
+        onClick={() => {
+          setCurrentView('networks');
+          setIsNetworkAlertShowing(false);
+        }}
         disabled={!gameState.networksActivated}
       >
         {gameState.networksActivated && (
           <div className={styles['nav-icon']}>
+            {(isNetworkAlertShowing || gameState.networksAvailable > 0) && (
+              <div className={styles.alert}>
+                <AlertIcon />
+              </div>
+            )}
             <NetworkIcon />
           </div>
         )}
@@ -53,6 +112,11 @@ const FooterNav: React.FC<FooterNavProps> = ({ setCurrentView, gameState }) => {
       >
         {gameState.networksActivated && (
           <div className={styles['nav-icon']}>
+            {isUpgradeAlertShowing && (
+              <div className={styles.alert}>
+                <AlertIcon />
+              </div>
+            )}
             <UpgradeIcon />
           </div>
         )}
