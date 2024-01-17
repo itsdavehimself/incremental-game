@@ -9,17 +9,22 @@ interface SaveModalProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   setIsSaveModalShowing: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentView: React.Dispatch<
+    React.SetStateAction<'home' | 'files' | 'networks' | 'upgrades' | 'wallet'>
+  >;
 }
 
 const SaveModal: React.FC<SaveModalProps> = ({
   gameState,
   setGameState,
   setIsSaveModalShowing,
+  setCurrentView,
 }) => {
   const [inputCode, setInputCode] = useState<string>('');
   const [generatedCode, setGeneratedCode] = useState<string>('');
   const [copyButtonText, setCopyButtonText] = useState<string>('COPY CODE');
   const [isInvalidCodeShowing, setIsInvalidCodeShowing] = useState(false);
+  const [isLoadingShowing, setIsLoadingShowing] = useState(false);
   const codeRef = useRef<HTMLPreElement>(null);
 
   const handleLoadInputChange = (
@@ -43,7 +48,12 @@ const SaveModal: React.FC<SaveModalProps> = ({
     <div className={styles['save-modal']}>
       {isInvalidCodeShowing && (
         <div className={styles.opaque}>
-          <div className={styles['invalid-code']}>INVALID CODE</div>
+          <div className={styles['message-display']}>INVALID CODE</div>
+        </div>
+      )}
+      {isLoadingShowing && (
+        <div className={styles.opaque}>
+          <div className={styles['message-display']}>LOADING...</div>
         </div>
       )}
       <div className={styles['modal-nav']}>
@@ -93,6 +103,8 @@ const SaveModal: React.FC<SaveModalProps> = ({
                 setGameState,
                 setIsSaveModalShowing,
                 setIsInvalidCodeShowing,
+                setIsLoadingShowing,
+                setCurrentView,
               )
             }
             className={styles['save-button']}
