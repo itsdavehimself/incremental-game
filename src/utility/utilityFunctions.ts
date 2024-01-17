@@ -57,11 +57,21 @@ const handleLoadButtonClick = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
   setIsSaveModalShowing: React.Dispatch<React.SetStateAction<boolean>>,
   setIsInvalidCodeShowing: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoadingShowing: React.Dispatch<React.SetStateAction<boolean>>,
+  setCurrentView: React.Dispatch<
+    React.SetStateAction<'home' | 'files' | 'networks' | 'upgrades' | 'wallet'>
+  >,
 ) => {
   const loadedState = decodeGameState(inputCode);
   if (loadedState) {
-    setGameState(loadedState);
-    setIsSaveModalShowing(false);
+    setIsLoadingShowing(true);
+
+    setTimeout(() => {
+      setIsLoadingShowing(false);
+      setGameState(loadedState);
+      setIsSaveModalShowing(false);
+      setCurrentView('home');
+    }, 500);
   } else {
     setIsInvalidCodeShowing(true);
 
