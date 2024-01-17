@@ -37,45 +37,48 @@ const Upgrades: React.FC<UpgradesProps> = ({
     upgrade: Upgrade,
     category: string,
     index: number,
-  ) => (
-    <UpgradeButton
-      key={index}
-      onClick={() => handleUpgradeButtonClick(upgrade, category)}
-      upgradeName={upgrade.name}
-      upgradeDescription={upgrade.description}
-      upgradeCost={upgrade.cost}
-      disabled={(() => {
-        for (let i = 0; i < upgrade.cost.length; i++) {
-          const currency = upgrade.cost[i].currency;
-          const amount = upgrade.cost[i].amount;
+  ) => {
+    const isDisabled = (() => {
+      for (let i = 0; i < upgrade.cost.length; i++) {
+        const currency = upgrade.cost[i].currency;
+        const amount = upgrade.cost[i].amount;
 
-          if (currency === 'Cognitum' && gameState.cognitum < amount) {
-            return true;
-          }
-
-          if (currency === 'Nodes' && gameState.nodesCurrent < amount) {
-            return true;
-          }
-
-          if (
-            currency === 'Processing Cores' &&
-            gameState.processingCores < amount
-          ) {
-            return true;
-          }
-
-          if (
-            currency === 'Fractional Memory Shards' &&
-            gameState.fractionalMemoryShards < amount
-          ) {
-            return true;
-          }
+        if (currency === 'Cognitum' && gameState.cognitum < amount) {
+          return true;
         }
 
-        return false;
-      })()}
-    />
-  );
+        if (currency === 'Nodes' && gameState.nodesCurrent < amount) {
+          return true;
+        }
+
+        if (
+          currency === 'Processing Cores' &&
+          gameState.processingCores < amount
+        ) {
+          return true;
+        }
+
+        if (
+          currency === 'Fractional Memory Shards' &&
+          gameState.fractionalMemoryShards < amount
+        ) {
+          return true;
+        }
+      }
+      return false;
+    })();
+
+    return (
+      <UpgradeButton
+        key={index}
+        onClick={() => handleUpgradeButtonClick(upgrade, category)}
+        upgradeName={upgrade.name}
+        upgradeDescription={upgrade.description}
+        upgradeCost={upgrade.cost}
+        disabled={isDisabled}
+      />
+    );
+  };
 
   return (
     <div>
