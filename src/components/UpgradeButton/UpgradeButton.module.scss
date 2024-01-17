@@ -29,6 +29,7 @@
 
 .main-btn {
   @include main-btn;
+  height: fit-content;
 }
 
 .main-btn:disabled {
