@@ -35,10 +35,10 @@ const UpgradeButton: React.FC<UpgradeButtonProps> = ({
           </div>
         </div>
       </button>
-      <div className={styles['line-container']}>
+      {/* <div className={styles['line-container']}>
         <div className={styles.line}></div>
         <div className={styles.rectangle}></div>
-      </div>
+      </div> */}
     </>
   );
 };
