@@ -209,7 +209,7 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
             isGameRunning
           }
         ></Button>
-        {gameState.walletDecryptionIndex >= 0 && (
+        {gameState.walletDecryptionIndex >= 2 && (
           <Button
             onClick={() =>
               handleReplayButtonClick(
