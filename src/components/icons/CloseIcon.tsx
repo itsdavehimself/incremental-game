@@ -4,8 +4,8 @@ const CloseIcon: React.FC = () => {
   return (
     <svg
       fill="#dedede"
-      height="2rem"
-      width="2rem"
+      height="1.8rem"
+      width="1.8rem"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 455.1 455.1"
     >
