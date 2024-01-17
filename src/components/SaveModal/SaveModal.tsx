@@ -81,7 +81,13 @@ const SaveModal: React.FC<SaveModalProps> = ({
             className={styles['load-input']}
           />
           <button
-            onClick={() => handleLoadButtonClick(inputCode, setGameState)}
+            onClick={() =>
+              handleLoadButtonClick(
+                inputCode,
+                setGameState,
+                setIsSaveModalShowing,
+              )
+            }
             className={styles['save-button']}
           >
             <div className={styles['btn-text']}>

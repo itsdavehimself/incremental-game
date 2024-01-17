@@ -55,10 +55,12 @@ const initiateUpgrade = (
 const handleLoadButtonClick = (
   inputCode: string,
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+  setIsSaveModalShowing: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const loadedState = decodeGameState(inputCode);
   if (loadedState) {
     setGameState(loadedState);
+    setIsSaveModalShowing(false);
   } else {
     console.error('Invalid game state code');
   }
