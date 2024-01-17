@@ -5,7 +5,6 @@ import Upgrades from './components/Upgrades/Upgrades';
 import FileViewer from './components/FileViewer/FileViewer';
 import WalletDecryption from './components/WalletDecryption/WalletDecryption';
 import Log from './components/Log/Log';
-import SaveLoad from './components/SaveLoad/SaveLoad';
 import { formatTimeElapsed } from './helpers/formatHelpers';
 import './app.scss';
 import upgrades from './data/upgrades';
@@ -17,6 +16,7 @@ import { useMemo } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import FooterNav from './components/FooterNav/FooterNav';
 import PurchaseButtons from './components/PurchaseButtons/PurchaseButtons';
+import SaveModal from './components/SaveModal/SaveModal';
 
 interface GameState {
   totalData: number;
@@ -147,6 +147,7 @@ const App: React.FC = () => {
   >('home');
   const [revealCount, setRevealCount] = useState(0);
   const [processingCores, setProcessingCores] = useState(0);
+  const [isShowingSaveModal, setIsShowingSaveModal] = useState(false);
 
   const config = useMemo<Config>(
     () => ({
@@ -184,7 +185,19 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <Navbar gameState={gameState} currentView={currentView} />
+      {isShowingSaveModal && (
+        <SaveModal
+          gameState={gameState}
+          setGameState={setGameState}
+          setIsSaveModalShowing={setIsShowingSaveModal}
+        />
+      )}
+      <Navbar
+        gameState={gameState}
+        currentView={currentView}
+        isShowingSaveModal={isShowingSaveModal}
+        setIsShowingSaveModal={setIsShowingSaveModal}
+      />
       <Log gameState={gameState} />
       {currentView === 'home' && (
         <>
@@ -233,8 +246,7 @@ const App: React.FC = () => {
             receiveMemoryShardsPrize={receiveMemoryShardsPrize}
           ></WalletDecryption>
         )}
-      {/* <SaveLoad gameState={gameState} setGameState={setGameState} />
-          <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
+      {/* <div>{formatTimeElapsed(gameState.timeElapsed)} elapsed</div> */}
       <FooterNav
         gameState={gameState}
         currentView={currentView}
