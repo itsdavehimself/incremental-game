@@ -189,6 +189,7 @@ const App: React.FC = () => {
           gameState={gameState}
           setGameState={setGameState}
           setIsSaveModalShowing={setIsShowingSaveModal}
+          setCurrentView={setCurrentView}
         />
       )}
       <Navbar
