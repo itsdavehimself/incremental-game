@@ -19,6 +19,7 @@ const SaveModal: React.FC<SaveModalProps> = ({
   const [inputCode, setInputCode] = useState<string>('');
   const [generatedCode, setGeneratedCode] = useState<string>('');
   const [copyButtonText, setCopyButtonText] = useState<string>('COPY CODE');
+  const [isInvalidCodeShowing, setIsInvalidCodeShowing] = useState(false);
   const codeRef = useRef<HTMLPreElement>(null);
 
   const handleLoadInputChange = (
@@ -40,6 +41,11 @@ const SaveModal: React.FC<SaveModalProps> = ({
 
   return (
     <div className={styles['save-modal']}>
+      {isInvalidCodeShowing && (
+        <div className={styles.opaque}>
+          <div className={styles['invalid-code']}>INVALID CODE</div>
+        </div>
+      )}
       <div className={styles['modal-nav']}>
         <button
           className={styles['close-modal']}
@@ -86,6 +92,7 @@ const SaveModal: React.FC<SaveModalProps> = ({
                 inputCode,
                 setGameState,
                 setIsSaveModalShowing,
+                setIsInvalidCodeShowing,
               )
             }
             className={styles['save-button']}

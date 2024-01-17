@@ -115,3 +115,26 @@
   margin-bottom: 1rem;
   width: 100%;
 }
+
+.opaque {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  z-index: 9;
+}
+
+.invalid-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: app.$white;
+  color: app.$black;
+  font-size: 1rem;
+  font-weight: app.$font-weight-medium;
+  height: 3rem;
+  width: 10rem;
+}
