@@ -36,7 +36,7 @@ If you'd like to play the game and explore the project, you can do so by visitin
 
 ### Desktop View
 
-<img src="/src/assets/desktop-view.png" alt="Desktop View" width="500" />
+<img src="/src/assets/desktop-view.png" alt="Desktop View" width="800" />
 
 ### Mobile Resources View
 
