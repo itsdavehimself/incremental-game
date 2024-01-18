@@ -2,15 +2,16 @@
 
 .navbar {
   position: fixed;
-  left: 0%;
-  width: 100%;
-  margin: 0 1.4rem;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: app.$black;
   color: app.$white;
   height: 4rem;
+  margin-left: 1.4rem;
+  margin-right: 1.4rem;
 }
 
 .data {
@@ -18,10 +19,6 @@
 }
 
 .navbar-button {
-  height: 3rem;
-  width: 3rem;
-  margin-right: 2rem;
-
   .save-icon {
     transform: scale(1);
     transition: all 0.2s ease-in-out;
@@ -33,5 +30,14 @@
     transform: scale(0.9);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .navbar {
+    max-width: 100rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.4rem;
   }
 }

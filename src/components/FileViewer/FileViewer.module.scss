@@ -94,3 +94,25 @@
   color: app.$black;
   transition: all 0.2s ease-in-out;
 }
+
+@media only screen and (min-width: 1024px) {
+  .explorer-container {
+    margin: 0;
+  }
+
+  .file-list {
+    height: 10rem;
+  }
+
+  .message-container {
+    height: 14rem;
+    overflow-y: scroll;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .message-container {
+    height: 17rem;
+    overflow-y: scroll;
+  }
+}

@@ -4,3 +4,9 @@
   margin: 1rem 0 0;
   row-gap: 1rem;
 }
+
+@media only screen and (min-width: 1024px) {
+  .upgrades {
+    margin: 0;
+  }
+}
