@@ -19,6 +19,20 @@ const { incrementActiveNodes, incrementCognitum, checkNetworkMilestones } =
 
 const { checkDecryptedFileMilestones } = decryptedFilesHelper;
 
+const checkIfGameOver = (
+  gameState: GameState,
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  if (gameState.totalData >= 1099511627776) {
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        gameOver: true,
+      };
+    });
+  }
+};
+
 const updateGameState = (
   prevGameState: GameState,
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,
@@ -32,6 +46,7 @@ const updateGameState = (
   incrementCognitum(setGameState);
   checkDecryptedFileMilestones(setGameState, prevGameState);
   checkDataMilestones(prevGameState, setGameState);
+  checkIfGameOver(prevGameState, setGameState);
 
   if (prevGameState.integrationBandwidth > 0) {
     const processingCoreProductionTotal = calculateProcessingCoreProduction(

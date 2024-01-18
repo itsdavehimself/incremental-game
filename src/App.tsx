@@ -16,6 +16,7 @@ import Navbar from './components/Navbar/Navbar';
 import FooterNav from './components/FooterNav/FooterNav';
 import PurchaseButtons from './components/PurchaseButtons/PurchaseButtons';
 import SaveModal from './components/SaveModal/SaveModal';
+import GameOverModal from './components/GameOverModal/GameOverModal';
 
 interface GameState {
   totalData: number;
@@ -86,15 +87,15 @@ const App: React.FC = () => {
     integrationBandwidth: 750,
     replenishmentFailed: false,
     replenishmentFailureIndex: 0,
-    algorithms: 0,
+    algorithms: 500,
     executables: 0,
     executablesCost: 100000,
     executablesMultiplier: 1,
     algorithmCost: 6,
-    algorithmMultiplier: 1,
+    algorithmMultiplier: 1000000,
     bandwidthReplenishmentCost: 50,
     bandwidthMultiplier: 1,
-    autoBandwidthReplenishment: false,
+    autoBandwidthReplenishment: true,
     networksActivated: false,
     networks: 0,
     networksAvailable: 0,
@@ -184,6 +185,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
+      {gameState.gameOver && <GameOverModal />}
       {isShowingSaveModal && (
         <SaveModal
           gameState={gameState}

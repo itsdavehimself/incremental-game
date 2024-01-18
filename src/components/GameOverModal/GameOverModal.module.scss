@@ -1,0 +1,54 @@
+@use '../SaveModal/SaveModal.module.scss' as SaveModal;
+@use '../../app.scss' as App;
+@use '../../app.scss';
+
+.game-over-modal {
+  @include SaveModal.modal;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-over-message {
+  display: flex;
+  flex-direction: column;
+  color: app.$black;
+  background-color: app.$white;
+  justify-content: center;
+  align-items: center;
+  width: 22rem;
+  row-gap: 1.5rem;
+  padding: 3.5rem 1rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: app.$font-weight-heavy;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: app.$font-weight-medium;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+    font-weight: app.$font-weight-bold;
+  }
+}
+
+.game-over-button {
+  border: 1.5px app.$black solid;
+  background-color: app.$white;
+  color: app.$black;
+  font-weight: app.$font-weight-bold;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.game-over-button:hover {
+  cursor: pointer;
+  background-color: app.$black;
+  color: app.$white;
+  transition: all 0.2s ease-in-out;
+}
