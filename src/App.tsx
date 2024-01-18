@@ -131,9 +131,13 @@ const App: React.FC = () => {
 
     const saveIntervalID = setInterval(() => {
       setGameState((prevGameState) => {
-        saveGameStateToLocal(prevGameState);
-        logSavedGame(setGameState);
-        return prevGameState;
+        if (gameState.algorithms > 0) {
+          saveGameStateToLocal(prevGameState);
+          logSavedGame(setGameState);
+          return prevGameState;
+        } else {
+          return prevGameState;
+        }
       });
     }, 120000);
 
