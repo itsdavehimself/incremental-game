@@ -58,6 +58,13 @@ const handleStartButtonClick = (
   setPlayerSequence: React.Dispatch<React.SetStateAction<string[]>>,
 ) => {
   if (gameState.walletDecryptionIndex >= 4) {
+    setIsGameRunning(true);
+    setCognitumPrize(
+      generatePrize(gameState.walletsDecrypted, gameState.walletsBricked),
+    );
+    if (gameState.walletsDecrypted > 14) {
+      generateMemoryShards(gameState, setMemoryShardsPrize);
+    }
     autoDecryption(setPlayerSequence, gameState, setGameSequence);
   } else {
     startRound(
