@@ -185,7 +185,7 @@ body {
   color: $white;
   font: 100% $font-stack;
   letter-spacing: 0.05rem;
-  margin: 0 1.4rem;
+  padding: 0 1.4rem;
 }
 
 button {
@@ -200,6 +200,8 @@ button {
 .app {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
   height: 100vh;
   row-gap: 0.5rem;
 }
@@ -208,6 +210,7 @@ button {
   margin-top: 4rem;
   margin-bottom: 4rem;
   overflow-y: scroll;
+  width: 100%;
 }
 
 .main-btn-container {
