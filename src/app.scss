@@ -237,13 +237,18 @@ button {
     justify-content: space-between;
   }
   .content-column-2 {
-    display: grid;
-    grid-template-rows: 9rem 30rem 1fr;
+    display: flex;
+    flex-direction: column;
   }
   .content-column-3 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .upgrades {
+    height: 30rem;
+    overflow-y: scroll;
   }
 }
 

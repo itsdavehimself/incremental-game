@@ -42,7 +42,7 @@ const App: React.FC = () => {
     bandwidthMultiplier: 1,
     autoBandwidthReplenishment: false,
     networksActivated: false,
-    networks: 1,
+    networks: 0,
     networksAvailable: 0,
     GPUFarms: 0,
     storageFacilities: 0,
@@ -281,17 +281,6 @@ const App: React.FC = () => {
                 </>
               </div>
             </div>
-            <div className="decryption">
-              {gameState.walletDecryptionActivated && (
-                <WalletDecryption
-                  gameState={gameState}
-                  setGameState={setGameState}
-                  incrementWallets={incrementWallets}
-                  receiveCognitumPrize={receiveCognitumPrize}
-                  receiveMemoryShardsPrize={receiveMemoryShardsPrize}
-                ></WalletDecryption>
-              )}
-            </div>
           </div>
           <div className="content-column-3">
             <div className="upgrades">
@@ -301,6 +290,17 @@ const App: React.FC = () => {
                   setGameState={setGameState}
                   initiateUpgrade={initiateUpgrade}
                 />
+              )}
+            </div>
+            <div className="decryption">
+              {gameState.walletDecryptionActivated && (
+                <WalletDecryption
+                  gameState={gameState}
+                  setGameState={setGameState}
+                  incrementWallets={incrementWallets}
+                  receiveCognitumPrize={receiveCognitumPrize}
+                  receiveMemoryShardsPrize={receiveMemoryShardsPrize}
+                ></WalletDecryption>
               )}
             </div>
           </div>
