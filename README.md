@@ -40,23 +40,23 @@ If you'd like to play the game and explore the project, you can do so by visitin
 
 ### Mobile Resources View
 
-<img src="/src/assets/resources-component.png" alt="Resources View" width="500" />
+<img src="/src/assets/resources-component.png" alt="Resources View" width="300" />
 
 ### Mobile File Explorer View
 
-<img src="/src/assets/explorer-component.png" alt="File Explorer View" width="500"/>
+<img src="/src/assets/explorer-component.png" alt="File Explorer View" width="300"/>
 
 ### Mobile Networks View
 
-<img src="/src/assets/network-component.png" alt="Networks View" width="500" />
+<img src="/src/assets/network-component.png" alt="Networks View" width="300" />
 
 ### Mobile Decryption View
 
-<img src="/src/assets/decryption-component.png" alt="File Explorer View" width="500"/>
+<img src="/src/assets/decryption-component.png" alt="File Explorer View" width="300"/>
 
 ### Mobile Save/Load Game View
 
-<img src="/src/assets/save-game-component.png" alt="File Explorer View" width="500"/>
+<img src="/src/assets/save-game-component.png" alt="File Explorer View" width="300"/>
 
 ## Installation
 
