@@ -219,28 +219,3 @@ button {
   background-color: gray;
   cursor: default;
 }
-
-.accents-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0.5rem 0;
-}
-
-.squares-container {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.square {
-  height: 0.8rem;
-  width: 0.8rem;
-  background-color: $white;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.6rem;
-}

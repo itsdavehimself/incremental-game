@@ -19,6 +19,7 @@
 
 .log-list {
   list-style-type: none;
+  opacity: 1;
 
   li {
     display: flex;
@@ -29,4 +30,12 @@
       content: '>';
     }
   }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }

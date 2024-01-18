@@ -10,6 +10,7 @@ import {
   manualDataIncrementing,
   revealOpeningLogMessages,
 } from '../../helpers/mainLoopHelpers';
+import styles from './PurchaseButtons.module.scss';
 
 interface PurchaseButtonsProps {
   gameState: GameState;
@@ -43,18 +44,20 @@ const PurchaseButtons: React.FC<PurchaseButtonsProps> = ({
   };
 
   return (
-    <div className="main-btn-container">
-      <div className="accents-container">
-        <div className="squares-container">
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
+    <div className={styles['main-btn-container']}>
+      <div className={styles['accents-container']}>
+        <div className={styles['square-container']}>
+          {revealCount >= 4 && <div className={styles.square}></div>}
+          {revealCount >= 14 && <div className={styles.square}></div>}
+          {revealCount >= 20 && <div className={styles.square}></div>}
         </div>
-        <div className="arrow">
-          <Arrow />
-        </div>
+        {gameState.algorithms > 0 && (
+          <div className={styles.arrow}>
+            <Arrow />
+          </div>
+        )}
       </div>
-      <div className="buttons">
+      <div className={styles.buttons}>
         {gameState.algorithms > 0 ? (
           <>
             <Button

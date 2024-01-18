@@ -43,6 +43,7 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
   const speedRegex = /^\d{4}(\.\d+)?$/;
   const integrationSpeed = formatData(gameState.integrationSpeed * 100);
+  const shouldHide = gameState.algorithms < 1;
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -78,12 +79,20 @@ const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   }, [revealCount]);
 
   return (
-    <div className={styles['resource-container']}>
+    <div
+      className={`${styles['resource-container']} ${
+        shouldHide ? styles['hidden'] : ''
+      }`}
+    >
       <div className={styles['resource-header']}>
         <h5>DATA + RESOURCES</h5>
         <div className={styles.square}></div>
       </div>
-      <div className={styles['resource-data']}>
+      <div
+        className={`${styles['resource-data']} ${
+          shouldHide ? styles['visible'] : ''
+        }`}
+      >
         <div className={styles['data-block']}>
           <div className={styles.rectangle}></div>
           <div className={styles['data-pair']}>

@@ -194,12 +194,14 @@ const App: React.FC = () => {
           setCurrentView={setCurrentView}
         />
       )}
-      <Navbar
-        gameState={gameState}
-        currentView={currentView}
-        isShowingSaveModal={isShowingSaveModal}
-        setIsShowingSaveModal={setIsShowingSaveModal}
-      />
+      {gameState.algorithms > 0 && (
+        <Navbar
+          gameState={gameState}
+          currentView={currentView}
+          isShowingSaveModal={isShowingSaveModal}
+          setIsShowingSaveModal={setIsShowingSaveModal}
+        />
+      )}
       <div className="main-content">
         <Log gameState={gameState} />
         {currentView === 'home' && (

@@ -18,14 +18,24 @@ const Log: React.FC<LogProps> = ({ gameState }) => {
     scrollToBottom();
   }, [gameState.logMessages]);
 
+  const shouldHide = gameState.algorithms < 1;
+
   return (
-    <div className={styles['log-container']}>
+    <div
+      className={`${styles['log-container']} ${
+        shouldHide ? styles['hidden'] : ''
+      }`}
+    >
       <div className={styles['log-header']}>
         <h5>LOG</h5>
         <div className={styles.square}></div>
       </div>
       <div ref={containerRef} className={styles['log-messages']}>
-        <ul className={styles['log-list']}>
+        <ul
+          className={`${styles['log-list']} ${
+            shouldHide ? styles['visible'] : ''
+          }`}
+        >
           {gameState.logMessages.map((message, index) => (
             <li key={index}>{message}</li>
           ))}

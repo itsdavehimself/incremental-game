@@ -28,3 +28,11 @@
 .data-pair {
   @include App.data-pair;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
