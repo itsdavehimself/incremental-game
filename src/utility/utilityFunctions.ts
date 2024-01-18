@@ -61,10 +61,12 @@ const handleLoadButtonClick = (
   setCurrentView: React.Dispatch<
     React.SetStateAction<'home' | 'files' | 'networks' | 'upgrades' | 'wallet'>
   >,
+  setIsLoadingSavedGame: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const loadedState = decodeGameState(inputCode);
   if (loadedState) {
     setIsLoadingShowing(true);
+    setIsLoadingSavedGame(true);
 
     setTimeout(() => {
       setIsLoadingShowing(false);

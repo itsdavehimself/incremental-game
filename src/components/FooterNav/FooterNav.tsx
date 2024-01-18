@@ -17,12 +17,16 @@ interface FooterNavProps {
     >
   >;
   gameState: GameState;
+  isLoadingSavedGame: boolean;
+  setIsLoadingSavedGame: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FooterNav: React.FC<FooterNavProps> = ({
   currentView,
   setCurrentView,
   gameState,
+  isLoadingSavedGame,
+  setIsLoadingSavedGame,
 }) => {
   const prevNetworks = useRef<number>(gameState.networks);
   const [isFileAlertShowing, setIsFileAlertShowing] = useState<boolean>(false);
@@ -31,6 +35,11 @@ const FooterNav: React.FC<FooterNavProps> = ({
   const [isUpgradeAlertShowing, setIsUpgradeAlertShowing] = useState(false);
 
   useEffect(() => {
+    if (isLoadingSavedGame) {
+      setIsFileAlertShowing(false);
+      setIsLoadingSavedGame(false);
+      return;
+    }
     if (currentView === 'files') {
       return;
     }
@@ -38,7 +47,12 @@ const FooterNav: React.FC<FooterNavProps> = ({
   }, [gameState.filesIndex]);
 
   useEffect(() => {
+    if (isLoadingSavedGame) {
+      setIsLoadingSavedGame(false);
+      return;
+    }
     if (
+      isLoadingSavedGame ||
       currentView === 'networks' ||
       gameState.networks <= prevNetworks.current
     ) {

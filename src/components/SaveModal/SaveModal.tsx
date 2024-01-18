@@ -12,6 +12,7 @@ interface SaveModalProps {
   setCurrentView: React.Dispatch<
     React.SetStateAction<'home' | 'files' | 'networks' | 'upgrades' | 'wallet'>
   >;
+  setIsLoadingSavedGame: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SaveModal: React.FC<SaveModalProps> = ({
@@ -19,6 +20,7 @@ const SaveModal: React.FC<SaveModalProps> = ({
   setGameState,
   setIsSaveModalShowing,
   setCurrentView,
+  setIsLoadingSavedGame,
 }) => {
   const [inputCode, setInputCode] = useState<string>('');
   const [generatedCode, setGeneratedCode] = useState<string>('');
@@ -105,6 +107,7 @@ const SaveModal: React.FC<SaveModalProps> = ({
                 setIsInvalidCodeShowing,
                 setIsLoadingShowing,
                 setCurrentView,
+                setIsLoadingSavedGame,
               )
             }
             className={styles['save-button']}

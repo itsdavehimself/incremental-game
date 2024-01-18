@@ -93,6 +93,7 @@ const App: React.FC = () => {
   const [revealCount, setRevealCount] = useState(0);
   const [processingCores, setProcessingCores] = useState(0);
   const [isShowingSaveModal, setIsShowingSaveModal] = useState(false);
+  const [isLoadingSavedGame, setIsLoadingSavedGame] = useState(false);
 
   const config = useMemo<Config>(
     () => ({
@@ -157,6 +158,7 @@ const App: React.FC = () => {
           setGameState={setGameState}
           setIsSaveModalShowing={setIsShowingSaveModal}
           setCurrentView={setCurrentView}
+          setIsLoadingSavedGame={setIsLoadingSavedGame}
         />
       )}
       {gameState.algorithms > 0 && (
@@ -221,6 +223,8 @@ const App: React.FC = () => {
         gameState={gameState}
         currentView={currentView}
         setCurrentView={setCurrentView}
+        isLoadingSavedGame={isLoadingSavedGame}
+        setIsLoadingSavedGame={setIsLoadingSavedGame}
       />
     </div>
   );
