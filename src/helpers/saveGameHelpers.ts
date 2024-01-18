@@ -24,4 +24,25 @@ const saveGameState = (
   setGeneratedCode(code);
 };
 
-export { encodeGameState, decodeGameState, saveGameState };
+const saveGameStateToLocal = (state: GameState) => {
+  localStorage.setItem('gameState', JSON.stringify(state));
+};
+
+const logSavedGame = (
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
+) => {
+  setGameState((prevGameState) => {
+    return {
+      ...prevGameState,
+      logMessages: [...prevGameState.logMessages, 'Game saved.'],
+    };
+  });
+};
+
+export {
+  encodeGameState,
+  decodeGameState,
+  saveGameState,
+  saveGameStateToLocal,
+  logSavedGame,
+};

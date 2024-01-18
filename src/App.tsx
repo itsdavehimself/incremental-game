@@ -11,6 +11,7 @@ import * as networkHelpers from './helpers/networkHelpers';
 import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
 import { updateGameState } from './utility/gameController';
+import { saveGameStateToLocal, logSavedGame } from './helpers/saveGameHelpers';
 import { useMemo } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import FooterNav from './components/FooterNav/FooterNav';
@@ -174,13 +175,33 @@ const App: React.FC = () => {
   const initiateUpgrade = utilityFunctions.initiateUpgrade;
 
   useEffect(() => {
-    const intervalID = setInterval(() => {
+    const savedGameState = localStorage.getItem('gameState');
+
+    if (savedGameState) {
+      setGameState((prevGameState) => ({
+        ...prevGameState,
+        ...JSON.parse(savedGameState),
+      }));
+    }
+
+    const saveIntervalID = setInterval(() => {
+      setGameState((prevGameState) => {
+        saveGameStateToLocal(prevGameState);
+        logSavedGame();
+        return prevGameState;
+      });
+    }, 120000);
+
+    const gameUpdateIntervalID = setInterval(() => {
       setGameState((prevGameState) =>
         updateGameState(prevGameState, setGameState, config),
       );
     }, 10);
 
-    return () => clearInterval(intervalID);
+    return () => {
+      clearInterval(saveIntervalID);
+      clearInterval(gameUpdateIntervalID);
+    };
   }, [config]);
 
   return (
