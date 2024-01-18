@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './FileViewer.module.scss';
 import { allFiles } from '../../data/files';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 
 interface FileViewerProps {
   gameState: GameState;

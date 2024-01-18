@@ -18,63 +18,7 @@ import FooterNav from './components/FooterNav/FooterNav';
 import PurchaseButtons from './components/PurchaseButtons/PurchaseButtons';
 import SaveModal from './components/SaveModal/SaveModal';
 import GameOverModal from './components/GameOverModal/GameOverModal';
-
-interface GameState {
-  totalData: number;
-  dataMilestones: Array<number>;
-  dataMilestonesIndex: number;
-  processingCores: number;
-  integrationSpeed: number;
-  integrationBandwidth: number;
-  replenishmentFailed: boolean;
-  replenishmentFailureIndex: number;
-  algorithms: number;
-  executables: number;
-  executablesCost: number;
-  executablesMultiplier: number;
-  algorithmCost: number;
-  algorithmMultiplier: number;
-  bandwidthReplenishmentCost: number;
-  bandwidthMultiplier: number;
-  autoBandwidthReplenishment: boolean;
-  networksActivated: boolean;
-  networks: number;
-  networksAvailable: number;
-  GPUFarms: number;
-  storageFacilities: number;
-  nodesCurrent: number;
-  nodesTotal: number;
-  cognitum: number;
-  networkMilestones: Array<number>;
-  networkMilestonesIndex: number;
-  upgrades: object;
-  integrationAlgorithmIndex: number;
-  bandwidthIndex: number;
-  networksIndex: number;
-  executablesIndex: number;
-  filesActivated: boolean;
-  filesIndex: number;
-  filesMilestones: Array<number>;
-  walletDecryptionActivated: boolean;
-  walletsDecrypted: number;
-  walletsBricked: number;
-  walletDecryptionCost: number;
-  walletDecryptionIndex: number;
-  fractionalMemoryShards: number;
-  memoryShardsProbability: number;
-  memoryShardIndex: number;
-  timeElapsed: number;
-  logMessages: Array<string>;
-  gameOver: boolean;
-}
-
-interface Config {
-  algorithmCostBase: number;
-  algorithmCostRateGrowth: number;
-  executablesCostBase: number;
-  processingCoreProductionBase: number;
-  dataProductionBase: number;
-}
+import { GameState, Config } from './types';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
@@ -187,7 +131,7 @@ const App: React.FC = () => {
     const saveIntervalID = setInterval(() => {
       setGameState((prevGameState) => {
         saveGameStateToLocal(prevGameState);
-        logSavedGame();
+        logSavedGame(setGameState);
         return prevGameState;
       });
     }, 120000);

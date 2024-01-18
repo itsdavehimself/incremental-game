@@ -5,7 +5,7 @@ import styles from './FooterNav.module.scss';
 import UpgradeIcon from '../icons/UpgradeIcon';
 import DecryptIcon from '../icons/DecryptIcon';
 import AlertIcon from '../icons/AlertIcon';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import { useState, useEffect, useRef } from 'react';
 import isUpgradeAvailable from './FooterNavHelpers';
 

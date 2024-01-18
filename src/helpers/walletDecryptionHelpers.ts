@@ -1,4 +1,4 @@
-import { GameState } from '../App';
+import { GameState } from '../types';
 import { CostBreakdown } from '../data/upgrades';
 import { getUpgradeCost } from './costHelpers';
 

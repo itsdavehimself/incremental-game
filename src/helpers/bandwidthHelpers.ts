@@ -1,6 +1,6 @@
 import { getUpgradeCost } from './costHelpers';
 import { CostBreakdown } from '../data/upgrades';
-import { GameState } from '../App';
+import { GameState } from '../types';
 import { bandwidthReplenishmentCost } from './costHelpers';
 
 const upgradeBandwidthReplenishment = (

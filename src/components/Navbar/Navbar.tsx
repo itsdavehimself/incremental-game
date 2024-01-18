@@ -1,5 +1,5 @@
 import styles from './Navbar.module.scss';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import { formatData } from '../../helpers/formatHelpers';
 import SaveGameIcon from '../icons/SaveGameIcon';
 import Logo from '../icons/Logo';

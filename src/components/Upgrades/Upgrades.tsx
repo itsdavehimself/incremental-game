@@ -1,6 +1,6 @@
 import UpgradeButton from '../UpgradeButton/UpgradeButton';
 import upgrades, { Upgrade } from '../../data/upgrades';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import styles from './Upgrades.module.scss';
 
 interface UpgradesProps {

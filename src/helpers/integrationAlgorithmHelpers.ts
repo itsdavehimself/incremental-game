@@ -1,6 +1,6 @@
 import { getUpgradeCost } from './costHelpers';
 import { CostBreakdown } from '../data/upgrades';
-import { Config, GameState } from '../App';
+import { Config, GameState } from '../types';
 import { newAlgorithmCost } from './costHelpers';
 
 const upgradeIntegrationAlgorithm = (

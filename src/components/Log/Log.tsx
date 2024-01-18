@@ -1,4 +1,4 @@
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import styles from './Log.module.scss';
 import { useEffect, useRef } from 'react';
 

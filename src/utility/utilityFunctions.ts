@@ -1,5 +1,5 @@
 import { Upgrade } from '../data/upgrades';
-import { GameState } from '../App';
+import { GameState } from '../types';
 import { upgradeIntegrationAlgorithm } from '../helpers/integrationAlgorithmHelpers';
 import {
   replenishBandwidth,

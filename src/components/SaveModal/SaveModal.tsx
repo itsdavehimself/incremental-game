@@ -1,7 +1,7 @@
 import styles from './SaveModal.module.scss';
 import { saveGameState } from '../../helpers/saveGameHelpers';
 import { handleLoadButtonClick } from '../../utility/utilityFunctions';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import CloseIcon from '../icons/CloseIcon';
 import { useState, useRef } from 'react';
 

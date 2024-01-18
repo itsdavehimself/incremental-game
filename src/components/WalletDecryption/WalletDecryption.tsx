@@ -1,6 +1,6 @@
 import styles from './WalletDecryption.module.scss';
 import { useState, useEffect } from 'react';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import { BtnColors, logWinnings } from './walletHelpers';
 import DecryptionButton from '../DecryptionButton/DecryptionButton';
 import * as utilityFunctions from './walletUtilityFunctions';

@@ -1,4 +1,4 @@
-import { GameState } from '../App';
+import { GameState } from '../types';
 
 const encodeGameState = (state: GameState): string => {
   const jsonString = JSON.stringify(state);

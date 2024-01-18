@@ -1,4 +1,4 @@
-import { GameState } from '../App';
+import { GameState } from '../types';
 
 const createFileLogMessages = (
   setGameState: React.Dispatch<React.SetStateAction<GameState>>,

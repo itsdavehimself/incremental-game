@@ -1,4 +1,4 @@
-import { Config, GameState } from '../App';
+import { Config, GameState } from '../types';
 import { formatData, formatTimeElapsed } from './formatHelpers';
 import { failedReplenishment } from './networkHelpers';
 

@@ -1,5 +1,5 @@
 import { formatData } from '../../helpers/formatHelpers';
-import { GameState } from '../../App';
+import { GameState } from '../../types';
 import styles from './ResourceDisplay.module.scss';
 import { useState, useEffect } from 'react';
 import generateRandomText from './ResourceHelpers';

@@ -1,6 +1,6 @@
 import { CostBreakdown } from '../data/upgrades';
-import { Config } from '../App';
-import { GameState } from '../App';
+import { Config } from '../types';
+import { GameState } from '../types';
 
 const getUpgradeCost = (currency: string, costs: CostBreakdown[]) => {
   const costObject = costs.find((cost) => cost.currency === currency);
