@@ -84,7 +84,7 @@ const App: React.FC = () => {
     memoryShardIndex: 0,
     timeElapsed: 0,
     logMessages: [],
-    gameOver: true,
+    gameOver: false,
   });
 
   const [currentView, setCurrentView] = useState<
