@@ -65,6 +65,7 @@ const handleStartButtonClick = (
     if (gameState.walletsDecrypted > 14) {
       generateMemoryShards(gameState, setMemoryShardsPrize);
     }
+    purchaseWalletDecryption(setGameState, gameState);
     autoDecryption(setPlayerSequence, gameState, setGameSequence);
   } else {
     startRound(
