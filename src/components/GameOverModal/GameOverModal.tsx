@@ -1,8 +1,12 @@
 import styles from './GameOverModal.module.scss';
+import resetGame from './GameOverHelpers';
+import { GameState } from '../../types';
 
-interface GameOverModalProps {}
+interface GameOverModalProps {
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>;
+}
 
-const GameOverModal: React.FC<GameOverModalProps> = () => {
+const GameOverModal: React.FC<GameOverModalProps> = ({ setGameState }) => {
   return (
     <div className={styles['game-over-modal']}>
       <div className={styles['game-over-message']}>
@@ -29,6 +33,13 @@ const GameOverModal: React.FC<GameOverModalProps> = () => {
             GITHUB REPOSITORY
           </button>
         </a>
+        <button
+          onClick={() => resetGame(setGameState)}
+          className={styles['game-over-button']}
+        >
+          PLAY AGAIN
+        </button>
+
         <h3>Thanks for playing re:member.</h3>
       </div>
     </div>

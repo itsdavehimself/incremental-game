@@ -84,7 +84,7 @@ const App: React.FC = () => {
     memoryShardIndex: 0,
     timeElapsed: 0,
     logMessages: [],
-    gameOver: false,
+    gameOver: true,
   });
 
   const [currentView, setCurrentView] = useState<
@@ -158,7 +158,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      {gameState.gameOver && <GameOverModal />}
+      {gameState.gameOver && <GameOverModal setGameState={setGameState} />}
       {isShowingSaveModal && (
         <SaveModal
           gameState={gameState}
