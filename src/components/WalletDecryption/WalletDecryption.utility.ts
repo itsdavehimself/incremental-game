@@ -1,12 +1,12 @@
 import { GameState } from '../../App';
-import { BtnColors } from './walletHelpers';
+import { BtnColors } from './WalletDecryption.helpers';
 import {
   createSequence,
   generatePrize,
   generateMemoryShards,
   playSequence,
   autoDecryption,
-} from './walletHelpers';
+} from './WalletDecryption.helpers';
 import { purchaseWalletDecryption } from '../../helpers/walletDecryptionHelpers';
 
 const startRound = (
