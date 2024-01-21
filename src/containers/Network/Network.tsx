@@ -1,4 +1,4 @@
-import Button from '../Button/Button';
+import Button from '../../components/Button/Button';
 import { formatData } from '../../helpers/formatHelpers';
 import styles from './Network.module.scss';
 

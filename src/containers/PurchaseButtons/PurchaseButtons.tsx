@@ -1,5 +1,5 @@
-import Arrow from '../icons/Arrow';
-import Button from '../Button/Button';
+import Arrow from '../../components/icons/Arrow';
+import Button from '../../components/Button/Button';
 import { GameState } from '../../types';
 import { Config } from '../../App';
 import { synthesizeAlgorithm } from '../../helpers/integrationAlgorithmHelpers';

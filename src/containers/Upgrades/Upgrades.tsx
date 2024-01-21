@@ -1,4 +1,4 @@
-import UpgradeButton from '../UpgradeButton/UpgradeButton';
+import UpgradeButton from '../../components/UpgradeButton/UpgradeButton';
 import upgrades, { Upgrade } from '../../data/upgrades';
 import { GameState } from '../../types';
 import styles from './Upgrades.module.scss';

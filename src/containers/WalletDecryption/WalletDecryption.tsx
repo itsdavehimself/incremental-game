@@ -2,9 +2,9 @@ import styles from './WalletDecryption.module.scss';
 import { useState, useEffect } from 'react';
 import { GameState } from '../../types';
 import { BtnColors, logWinnings } from './WalletDecryption.helpers';
-import DecryptionButton from '../DecryptionButton/DecryptionButton';
-import * as utilityFunctions from './walletUtilityFunctions';
-import Button from '../Button/Button';
+import DecryptionButton from '../../components/DecryptionButton/DecryptionButton';
+import * as utilityFunctions from './WalletDecryption.utility';
+import Button from '../../components/Button/Button';
 
 interface WalletDecryptionProps {
   gameState: GameState;
