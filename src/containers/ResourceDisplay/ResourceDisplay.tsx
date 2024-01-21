@@ -2,7 +2,7 @@ import { formatData } from '../../helpers/formatHelpers';
 import { GameState } from '../../types';
 import styles from './ResourceDisplay.module.scss';
 import { useState, useEffect } from 'react';
-import generateRandomText from './ResourceHelpers';
+import generateRandomText from './ResourceDisplay.helpers';
 
 interface ResourceDisplayProps {
   gameState: GameState;

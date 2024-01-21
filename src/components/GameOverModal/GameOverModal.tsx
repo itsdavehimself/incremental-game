@@ -1,5 +1,5 @@
 import styles from './GameOverModal.module.scss';
-import resetGame from './GameOverHelpers';
+import resetGame from './GameOverModal.helpers';
 import { GameState } from '../../types';
 
 interface GameOverModalProps {

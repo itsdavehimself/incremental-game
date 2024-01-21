@@ -7,7 +7,7 @@ import DecryptIcon from '../icons/DecryptIcon';
 import AlertIcon from '../icons/AlertIcon';
 import { GameState } from '../../types';
 import { useState, useEffect, useRef } from 'react';
-import isUpgradeAvailable from './FooterNavHelpers';
+import isUpgradeAvailable from './FooterNav.helpers';
 
 interface FooterNavProps {
   currentView: string;
