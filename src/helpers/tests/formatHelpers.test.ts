@@ -15,10 +15,6 @@ describe('#formatData', () => {
     expect(formatData(2580000)).toBe('2.46 MB');
   });
 
-  it('returns string: 2.46 MB', () => {
-    expect(formatData(2580000)).toBe('2.46 MB');
-  });
-
   it('returns string: 5.00 GB', () => {
     expect(formatData(5370000000)).toBe('5.00 GB');
   });
