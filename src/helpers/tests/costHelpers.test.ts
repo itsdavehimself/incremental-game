@@ -2,6 +2,7 @@ import { getUpgradeCost } from '../costHelpers';
 import { newAlgorithmCost } from '../costHelpers';
 import { bandwidthReplenishmentCost } from '../costHelpers';
 import { GameState } from '../../types';
+import config from '../../data/config';
 
 describe('#getUpgradeCost', () => {
   const mockedCostBreakdown = [
@@ -33,32 +34,24 @@ describe('#getUpgradeCost', () => {
 });
 
 describe('#newAlgorithmCost', () => {
-  const mockedConfig = {
-    algorithmCostBase: 6,
-    algorithmCostRateGrowth: 1.07,
-    executablesCostBase: 10000,
-    processingCoreProductionBase: 1.2 / 750,
-    dataProductionBase: 1691 / 100,
-  };
-
-  it('returns 6', () => {
-    expect(newAlgorithmCost(0, mockedConfig)).toBe(6);
+  it('returns 6 when current number of algorithms is 0', () => {
+    expect(newAlgorithmCost(0, config)).toBe(6);
   });
 
-  it('returns 7', () => {
-    expect(newAlgorithmCost(1, mockedConfig)).toBe(7);
+  it('returns 7 when current number of algorithms is 1', () => {
+    expect(newAlgorithmCost(1, config)).toBe(7);
   });
 
-  it('returns 65', () => {
-    expect(newAlgorithmCost(35, mockedConfig)).toBe(65);
+  it('returns 65 when current number of algorithms is 65', () => {
+    expect(newAlgorithmCost(35, config)).toBe(65);
   });
 
-  it('returns 784', () => {
-    expect(newAlgorithmCost(72, mockedConfig)).toBe(784);
+  it('returns 784 when current number of algorithms is 72', () => {
+    expect(newAlgorithmCost(72, config)).toBe(784);
   });
 
-  it('returns 26409', () => {
-    expect(newAlgorithmCost(124, mockedConfig)).toBe(26409);
+  it('returns 26409 when current number of algorithms is 124', () => {
+    expect(newAlgorithmCost(124, config)).toBe(26409);
   });
 });
 
