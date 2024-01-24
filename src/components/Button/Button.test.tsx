@@ -6,7 +6,7 @@ const upgradeName = 'SYNTHESIZE ALGORITHM';
 const upgradeCost = '10 Processing Cores';
 const onClickMock = jest.fn();
 
-describe('#renderButton', () => {
+describe('#RenderButton', () => {
   beforeEach(() => {
     onClickMock.mockClear();
   });
