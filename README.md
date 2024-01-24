@@ -2,9 +2,9 @@
 
 ## Project Description/Objectives
 
-Inspired by games like Universal Paperclips and A Dark Room, Re:member is a product of my curiosity-driven exploration of game design, aiming to construct an engaging experience where various components intricately depend on each other, offering users meaningful choices. The project is specifically crafted to deepen my understanding of TypeScript within the React framework and to master the use of Sass for CSS styling. In addition to learning more about Typescript & Sass, this project also served as a valuable opportunity for me to enhance my proficiency in testing using Vitest and Jest, adding another layer to my skill set.
+Inspired by games like Universal Paperclips and A Dark Room, Re:member is my exploration of game design, crafting an engaging experience where components intricately depend on each other, offering meaningful choices. The project deepens my understanding of TypeScript in React and mastery of Sass for CSS styling. Alongside this, it enhances my proficiency in testing using Vitest and Jest.
 
-While the game currently has a defined endpoint, I have exciting plans for the future, including expanding the narrative and introducing new game mechanics to keep the experience dynamic and engaging.
+While the game has a defined endpoint, future plans include expanding the narrative and introducing new mechanics for a dynamic experience.
 
 ### Key Features:
 
