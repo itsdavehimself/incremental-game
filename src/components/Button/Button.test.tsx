@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import Button from './Button';
 import jest from 'jest-mock';
 
@@ -7,7 +8,7 @@ const upgradeCost = '10 Processing Cores';
 const onClickMock = jest.fn();
 
 describe('#RenderButton', () => {
-  beforeEach(() => {
+  afterEach(() => {
     onClickMock.mockClear();
   });
 
@@ -28,7 +29,7 @@ describe('#RenderButton', () => {
     expect(buttonElement).toHaveTextContent(upgradeCost);
     expect(buttonElement).toBeEnabled();
 
-    fireEvent.click(buttonElement);
+    await userEvent.click(buttonElement);
     expect(onClickMock).toHaveBeenCalled();
   });
 
@@ -49,7 +50,7 @@ describe('#RenderButton', () => {
     expect(buttonElement).toHaveTextContent(upgradeCost);
     expect(buttonElement).toBeDisabled();
 
-    fireEvent.click(buttonElement);
+    await userEvent.click(buttonElement);
     expect(onClickMock).not.toHaveBeenCalled();
   });
 });
