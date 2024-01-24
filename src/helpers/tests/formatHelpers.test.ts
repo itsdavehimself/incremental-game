@@ -1,6 +1,5 @@
 import { formatData } from '../formatHelpers';
 import { formatTimeElapsed } from '../formatHelpers';
-import { describe, expect, it } from 'vitest';
 
 describe('#formatData', () => {
   it('returns string: 100 B', () => {
