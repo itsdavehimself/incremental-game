@@ -12,13 +12,13 @@ import * as walletDecryptionHelpers from './helpers/walletDecryptionHelpers';
 import * as utilityFunctions from './utility/utilityFunctions';
 import { updateGameState } from './utility/gameController';
 import { saveGameStateToLocal, logSavedGame } from './helpers/saveGameHelpers';
-import { useMemo } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import FooterNav from './components/FooterNav/FooterNav';
 import PurchaseButtons from './containers/PurchaseButtons/PurchaseButtons';
 import SaveModal from './components/SaveModal/SaveModal';
 import GameOverModal from './components/GameOverModal/GameOverModal';
 import { GameState, Config } from './types';
+import config from './data/config';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
@@ -96,17 +96,6 @@ const App: React.FC = () => {
   const [isLoadingSavedGame, setIsLoadingSavedGame] = useState(false);
   const isMobileView = window.innerWidth <= 1023;
 
-  const config = useMemo<Config>(
-    () => ({
-      algorithmCostBase: 6,
-      algorithmCostRateGrowth: 1.07,
-      executablesCostBase: 10000,
-      processingCoreProductionBase: 1.2 / 750,
-      dataProductionBase: 1691 / 100,
-    }),
-    [],
-  );
-
   const allocateToGPU = networkHelpers.allocateToGPU;
 
   const allocateToStorage = networkHelpers.allocateToStorage;
@@ -154,7 +143,7 @@ const App: React.FC = () => {
       clearInterval(saveIntervalID);
       clearInterval(gameUpdateIntervalID);
     };
-  }, [config]);
+  }, []);
 
   return (
     <div className="app">
