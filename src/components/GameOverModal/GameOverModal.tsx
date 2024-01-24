@@ -7,6 +7,14 @@ interface GameOverModalProps {
 }
 
 const GameOverModal: React.FC<GameOverModalProps> = ({ setGameState }) => {
+  const handlePlayAgainClick = () => {
+    const defaultGameState = resetGame();
+    setGameState((prevGameState) => ({
+      ...prevGameState,
+      ...defaultGameState,
+    }));
+  };
+
   return (
     <div className={styles['game-over-modal']}>
       <div className={styles['game-over-message']}>
@@ -34,7 +42,7 @@ const GameOverModal: React.FC<GameOverModalProps> = ({ setGameState }) => {
           </button>
         </a>
         <button
-          onClick={() => resetGame(setGameState)}
+          onClick={handlePlayAgainClick}
           className={styles['game-over-button']}
         >
           PLAY AGAIN
