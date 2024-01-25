@@ -1,6 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import jest from 'jest-mock';
 import App from './App';
 
 describe('#RenderButton', () => {
