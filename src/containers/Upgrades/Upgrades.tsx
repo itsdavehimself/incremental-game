@@ -81,75 +81,89 @@ const Upgrades: React.FC<UpgradesProps> = ({
   };
 
   return (
-    <div>
+    <>
       {gameState.networksActivated && (
-        <div className={styles.upgrades}>
-          {upgrades.integrationAlgorithms
-            .filter(
-              (upgrade, index) =>
-                !upgrade.purchased &&
-                index === gameState.integrationAlgorithmIndex,
-            )
-            .map((upgrade, index) =>
-              renderUpgradeButton(upgrade, 'integration', index),
-            )}
-
-          {upgrades.bandwidth
-            .filter(
-              (upgrade, index) =>
-                !upgrade.purchased && index === gameState.bandwidthIndex,
-            )
-            .map((upgrade, index) =>
-              renderUpgradeButton(upgrade, 'bandwidth', index),
-            )}
-
-          {upgrades.network
-            .filter(
-              (upgrade, index) =>
-                !upgrade.purchased && index === gameState.networksIndex,
-            )
-            .map((upgrade, index) =>
-              renderUpgradeButton(upgrade, 'networks', index),
-            )}
-
-          {gameState.executables > 0 &&
-            upgrades.executables
-              .filter(
-                (upgrade, index) =>
-                  !upgrade.purchased && index === gameState.executablesIndex,
-              )
-              .map((upgrade, index) =>
-                renderUpgradeButton(upgrade, 'executables', index),
-              )}
-
-          {gameState.nodesTotal >= 10000 &&
-            upgrades.wallets
+        <div className={styles['upgrades-container']}>
+          <div className={styles['upgrades-header']}>
+            UPGRADES<div className={styles.square}></div>
+          </div>
+          <div className={styles['upgrades-list']}>
+            {upgrades.integrationAlgorithms
               .filter(
                 (upgrade, index) =>
                   !upgrade.purchased &&
-                  index === gameState.walletDecryptionIndex,
+                  index === gameState.integrationAlgorithmIndex,
               )
               .map((upgrade, index) =>
-                renderUpgradeButton(upgrade, 'wallets', index),
+                renderUpgradeButton(upgrade, 'integration', index),
               )}
-
-          {gameState.walletsDecrypted >= 15 &&
-            upgrades.shards
+            {upgrades.integrationAlgorithms
               .filter(
                 (upgrade, index) =>
-                  !upgrade.purchased && index === gameState.memoryShardIndex,
+                  !upgrade.purchased &&
+                  index === gameState.integrationAlgorithmIndex,
               )
               .map((upgrade, index) =>
-                renderUpgradeButton(upgrade, 'shards', index),
+                renderUpgradeButton(upgrade, 'integration', index),
               )}
 
-          {gameState.replenishmentFailed &&
-            upgrades.compromise.map((upgrade, index) =>
-              renderUpgradeButton(upgrade, 'compromise', index),
-            )}
+            {upgrades.bandwidth
+              .filter(
+                (upgrade, index) =>
+                  !upgrade.purchased && index === gameState.bandwidthIndex,
+              )
+              .map((upgrade, index) =>
+                renderUpgradeButton(upgrade, 'bandwidth', index),
+              )}
+
+            {upgrades.network
+              .filter(
+                (upgrade, index) =>
+                  !upgrade.purchased && index === gameState.networksIndex,
+              )
+              .map((upgrade, index) =>
+                renderUpgradeButton(upgrade, 'networks', index),
+              )}
+
+            {gameState.executables > 0 &&
+              upgrades.executables
+                .filter(
+                  (upgrade, index) =>
+                    !upgrade.purchased && index === gameState.executablesIndex,
+                )
+                .map((upgrade, index) =>
+                  renderUpgradeButton(upgrade, 'executables', index),
+                )}
+
+            {gameState.nodesTotal >= 10000 &&
+              upgrades.wallets
+                .filter(
+                  (upgrade, index) =>
+                    !upgrade.purchased &&
+                    index === gameState.walletDecryptionIndex,
+                )
+                .map((upgrade, index) =>
+                  renderUpgradeButton(upgrade, 'wallets', index),
+                )}
+
+            {gameState.walletsDecrypted >= 15 &&
+              upgrades.shards
+                .filter(
+                  (upgrade, index) =>
+                    !upgrade.purchased && index === gameState.memoryShardIndex,
+                )
+                .map((upgrade, index) =>
+                  renderUpgradeButton(upgrade, 'shards', index),
+                )}
+
+            {gameState.replenishmentFailed &&
+              upgrades.compromise.map((upgrade, index) =>
+                renderUpgradeButton(upgrade, 'compromise', index),
+              )}
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

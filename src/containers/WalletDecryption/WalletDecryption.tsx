@@ -128,17 +128,15 @@ const WalletDecryption: React.FC<WalletDecryptionProps> = ({
           )}
         </div>
       </div>
-      {gameState.walletDecryptionIndex === 3 && (
-        <div className={styles['solution-container']}>
-          {isShowingSolution && (
-            <div className={styles['solution']}>
-              {gameSequence.map((btn, index) => (
-                <span key={index}>{ButtonMapping[btn]} </span>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <div className={styles['solution-container']}>
+        {isShowingSolution && (
+          <div className={styles['solution']}>
+            {gameSequence.map((btn, index) => (
+              <span key={index}>{ButtonMapping[btn]} </span>
+            ))}
+          </div>
+        )}
+      </div>
       <div className={styles['wallet-buttons']}>
         <DecryptionButton
           onClick={() =>
