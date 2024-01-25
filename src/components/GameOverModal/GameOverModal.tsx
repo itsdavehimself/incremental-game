@@ -1,6 +1,6 @@
 import styles from './GameOverModal.module.scss';
-import resetGame from './GameOverModal.helpers';
 import { GameState } from '../../types';
+import defaultGameState from './GameOverModal.data';
 
 interface GameOverModalProps {
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
@@ -8,11 +8,7 @@ interface GameOverModalProps {
 
 const GameOverModal: React.FC<GameOverModalProps> = ({ setGameState }) => {
   const handlePlayAgainClick = () => {
-    const defaultGameState = resetGame();
-    setGameState((prevGameState) => ({
-      ...prevGameState,
-      ...defaultGameState,
-    }));
+    setGameState(defaultGameState);
   };
 
   return (
