@@ -1,9 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import jest from 'jest-mock';
 import GameOverModal from './GameOverModal';
 
 describe('#GameOverModal', () => {
-  it('renders game over modal', () => {
+  it('renders the game over modal', async () => {
     render(<GameOverModal setGameState={() => {}} />);
 
     const headerElement = screen.getByText('DATA INTEGRATED: 1TB');
@@ -17,18 +18,38 @@ describe('#GameOverModal', () => {
       `I plan to expand the game and the lore over time and would love to hear from you!`,
     );
 
+    const playAgainButton = screen.getByRole('button', { name: 'PLAY AGAIN' });
+
+    const thanksForPlayingElement = screen.getByText(
+      'Thanks for playing re:member.',
+    );
+
     expect(headerElement).toBeInTheDocument();
     expect(congratsElement).toBeInTheDocument();
     expect(descriptionElement).toBeInTheDocument();
     expect(hearFromYouElement).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'LEAVE FEEDBACK' }),
+    ).toHaveAttribute('href', 'https://forms.gle/eesju1KKNqSLET1c7');
+    expect(
+      screen.getByRole('link', { name: 'GITHUB REPOSITORY' }),
+    ).toHaveAttribute(
+      'href',
+      'https://github.com/itsdavehimself/incremental-game',
+    );
+    expect(playAgainButton).toBeInTheDocument();
+    expect(thanksForPlayingElement).toBeInTheDocument;
   });
 
-  it('calls resetGame when play again button is clicked', () => {
-    render(<GameOverModal setGameState={() => {}} />);
-    const setResetGameMock = jest.fn();
+  it('clicks the play again button and calls setter prop function', async () => {
+    const mockSetGameState = jest.fn();
+    render(<GameOverModal setGameState={mockSetGameState} />);
 
-    const playAgainButton = screen.getByText('PLAY AGAIN');
-    fireEvent.click(playAgainButton);
-    expect(setResetGameMock).toHaveBeenCalled();
+    const playAgainButton = screen.getByRole('button', {
+      name: 'PLAY AGAIN',
+    });
+    expect(playAgainButton).toBeInTheDocument();
+    await userEvent.click(playAgainButton);
+    expect(mockSetGameState).toHaveBeenCalled();
   });
 });
