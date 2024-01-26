@@ -1,6 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import App from './App';
+import jest from 'jest-mock';
+import { GameState } from './App';
+import * as gameState from './gameState';
 
 describe('#RenderButton', () => {
   it('renders the initial state of the app', () => {
@@ -106,7 +109,7 @@ describe('#RenderButton', () => {
     });
   });
 
-  it('reveal navbar and main game buttons after 11 clicks', async () => {
+  it('reveals navbar and main game buttons after 11 clicks', async () => {
     render(<App />);
     const integrateButton = screen.getByRole('button');
 
@@ -132,6 +135,29 @@ describe('#RenderButton', () => {
       expect(replenishButton).toBeInTheDocument();
       expect(exeButton).toBeInTheDocument();
       expect(navbar).toBeInTheDocument();
+    });
+  });
+
+  it('reveals message container with messages when gameState.filesActivated is true', async () => {
+    const PartialGameState: Partial<GameState> = {
+      totalData: 15360,
+      logMessages: ['Message 1', 'Message 2'],
+      algorithms: 1,
+      processingCores: 0,
+      algorithmCost: 6,
+      executablesCost: 100000,
+      filesActivated: true,
+    };
+
+    jest.spyOn(gameState, 'useGameState').mockReturnValue({
+      gameState: PartialGameState as GameState,
+      setGameState: jest.fn(),
+    });
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('FILE EXPLORER')).toBeInTheDocument();
     });
   });
 });
