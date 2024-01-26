@@ -97,16 +97,6 @@ const Upgrades: React.FC<UpgradesProps> = ({
               .map((upgrade, index) =>
                 renderUpgradeButton(upgrade, 'integration', index),
               )}
-            {upgrades.integrationAlgorithms
-              .filter(
-                (upgrade, index) =>
-                  !upgrade.purchased &&
-                  index === gameState.integrationAlgorithmIndex,
-              )
-              .map((upgrade, index) =>
-                renderUpgradeButton(upgrade, 'integration', index),
-              )}
-
             {upgrades.bandwidth
               .filter(
                 (upgrade, index) =>
