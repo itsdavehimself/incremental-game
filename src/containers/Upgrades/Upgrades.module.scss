@@ -5,6 +5,7 @@
   border: 1.5px app.$white solid;
   margin: 0;
   height: fit-content;
+  margin: 1rem 0 0;
 }
 
 .upgrades-header {
@@ -21,7 +22,7 @@
 }
 
 @media only screen and (min-width: 1024px) {
-  .upgrades {
+  .upgrades-container {
     margin: 0;
   }
 }
