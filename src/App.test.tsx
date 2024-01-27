@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import App from './App';
 import jest from 'jest-mock';
@@ -212,5 +212,67 @@ describe('#RenderButton', () => {
         ),
       ).not.toBeInTheDocument();
     });
+  });
+
+  it('updates gameState when player clicks synthesize algorithm button when player accumulates 6 processing cores', async () => {
+    const setGameStateMock = jest.fn();
+    const PartialGameState: Partial<GameState> = {
+      totalData: 20000,
+      filesIndex: 1,
+      filesMilestones: [15360, 81920, 758291, 1672864, 2097152],
+      logMessages: ['Message 1', 'Message 2'],
+      algorithms: 1,
+      processingCores: 6,
+      algorithmCost: 6,
+      executablesCost: 100000,
+      filesActivated: true,
+    };
+
+    jest.spyOn(gameState, 'useGameState').mockReturnValue({
+      gameState: PartialGameState as GameState,
+      setGameState: setGameStateMock,
+    });
+
+    render(<App />);
+
+    const synthesizeButton = screen.getByRole('button', {
+      name: 'SYNTHESIZE ALGORITHM (6 Processing Cores)',
+    });
+
+    await userEvent.click(synthesizeButton);
+    await waitFor(() => {
+      expect(setGameStateMock).toHaveBeenCalled();
+    });
+  });
+
+  it('does not update gameState when player clicks synthesize algorithm button when player has not accumulated 6 processing cores', async () => {
+    const setGameStateMock = jest.fn();
+    const PartialGameState: Partial<GameState> = {
+      totalData: 20000,
+      filesIndex: 1,
+      filesMilestones: [15360, 81920, 758291, 1672864, 2097152],
+      logMessages: ['Message 1', 'Message 2'],
+      algorithms: 1,
+      processingCores: 5,
+      algorithmCost: 6,
+      executablesCost: 100000,
+      filesActivated: true,
+    };
+
+    jest.spyOn(gameState, 'useGameState').mockReturnValue({
+      gameState: PartialGameState as GameState,
+      setGameState: setGameStateMock,
+    });
+
+    render(<App />);
+
+    const synthesizeButton = screen.getByRole('button', {
+      name: 'SYNTHESIZE ALGORITHM (6 Processing Cores)',
+    });
+
+    expect(synthesizeButton).toBeDisabled();
+
+    fireEvent.click(synthesizeButton);
+    expect(setGameStateMock).not.toHaveBeenCalled();
   });
 });
