@@ -138,7 +138,7 @@ describe('#RenderButton', () => {
     });
   });
 
-  it('reveals message container with messages when gameState.filesActivated is true', async () => {
+  it('reveals message container with two messages when gameState.filesActivated is true', async () => {
     const PartialGameState: Partial<GameState> = {
       totalData: 15360,
       logMessages: ['Message 1', 'Message 2'],
@@ -158,6 +158,59 @@ describe('#RenderButton', () => {
 
     await waitFor(() => {
       expect(screen.getByText('FILE EXPLORER')).toBeInTheDocument();
+      expect(
+        screen.getByText('futureForge87_12-03-2091.txt'),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('virtualBl4ze95_1-07-2092.txt'),
+      ).toBeInTheDocument();
+    });
+  });
+
+  it('shows message contents when message to futureForge87 is clicked and then hides message when close message button is clicked', async () => {
+    const PartialGameState: Partial<GameState> = {
+      totalData: 15360,
+      filesIndex: 1,
+      filesMilestones: [15360, 81920, 758291, 1672864, 2097152],
+      logMessages: ['Message 1', 'Message 2'],
+      algorithms: 1,
+      processingCores: 0,
+      algorithmCost: 6,
+      executablesCost: 100000,
+      filesActivated: true,
+    };
+
+    jest.spyOn(gameState, 'useGameState').mockReturnValue({
+      gameState: PartialGameState as GameState,
+      setGameState: jest.fn(),
+    });
+
+    render(<App />);
+
+    const firstMessageDiv = screen
+      .getByText('futureForge87_12-03-2091.txt')
+      .closest('li');
+
+    await userEvent.click(firstMessageDiv!);
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          `it's so close to being done... let you know when it's ready. can't wait to watch it devour the data. lots to do... talk soon.`,
+        ),
+      ).toBeInTheDocument();
+    });
+
+    const closeMessageButton = screen.getByRole('button', {
+      name: 'Close Message',
+    });
+
+    await userEvent.click(closeMessageButton);
+    await waitFor(() => {
+      expect(
+        screen.queryByText(
+          `it's so close to being done... let you know when it's ready. can't wait to watch it devour the data. lots to do... talk soon.`,
+        ),
+      ).not.toBeInTheDocument();
     });
   });
 });
